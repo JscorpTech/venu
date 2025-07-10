@@ -12,6 +12,7 @@ class BtsService
     private string $inn;
     private string $base_url;
     private string|null $token = null;
+    private int $is_test;
 
     public function __construct()
     {
@@ -19,6 +20,7 @@ class BtsService
         $this->password = env('BTS_PASSWORD');
         $this->inn = env('BTS_INN');
         $this->base_url = env('BTS_URL');
+        $this->is_test = env("BTS_TEST") ?? 1;
         if ($this->token === null) {
             $this->token = $this->get_token();
         }
@@ -73,7 +75,7 @@ class BtsService
             "receiverAddress" => $receiverAddress,
             "receiverCityId" => $receiverCityId,
             "receiverPhone" => $receiverPhone,
-            "is_test" => 1,
+            "is_test" => $this->is_test,
             ...$options
         ];
         $response = $this->request("post", "v1/order/add", $payload);
