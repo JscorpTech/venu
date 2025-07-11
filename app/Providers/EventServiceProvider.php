@@ -33,6 +33,7 @@ use App\Listeners\MaintenanceModeNotificationListener;
 use App\Listeners\OrderPlacedListener;
 use App\Listeners\PasswordResetListener;
 use App\Listeners\ChattingListener;
+use App\Listeners\OrderDeliveryListener;
 use App\Listeners\OrderStatusListener;
 use App\Listeners\ProductRequestStatusUpdateListener;
 use App\Listeners\RefundListener;
@@ -70,6 +71,7 @@ class EventServiceProvider extends ServiceProvider
         ],
         OrderStatusEvent::class => [
             OrderStatusListener::class,
+            OrderDeliveryListener::class,
         ],
         ChattingEvent::class => [
             ChattingListener::class,
