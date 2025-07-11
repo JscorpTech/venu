@@ -21,6 +21,10 @@ class OrderDeliveryListener
      */
     public function handle(OrderStatusEvent $event): void
     {
-        dd($event);
+        if ($event->type == "delivery_man") {
+            $order = $event->order;
+            $deliveryMan = $order->deliveryMan;
+            dd($deliveryMan);
+        }
     }
 }
