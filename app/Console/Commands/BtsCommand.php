@@ -27,6 +27,6 @@ class BtsCommand extends Command
     public function handle()
     {
         $service = new BtsService();
-        $service->create_order(1, 'test', 1, 9, 1, 'test', 'test', 1, 'test', []);
+        $service->create_order(1, 1, 'test', 1, 9, 1, 'test', 'test', 1, 'test', []);
     }
 }

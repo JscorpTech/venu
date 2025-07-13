@@ -2,6 +2,8 @@
 
 namespace App\Services;
 
+use App\Enums\BtsOrderStatus;
+use App\Models\Bts;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Redis;
 
@@ -61,7 +63,7 @@ class BtsService
         return $token;
     }
 
-    public function create_order(int $senderCityId, string $senderAddress, float $weight, int $packageId, int $postTypeId, string $receiver, string $receiverAddress, int $receiverCityId, string $receiverPhone, array $options)
+    public function create_order(int $orderId, int $senderCityId, string $senderAddress, float $weight, int $packageId, int $postTypeId, string $receiver, string $receiverAddress, int $receiverCityId, string $receiverPhone, array $options)
     {
         $payload = [
             "senderCityId" => $senderCityId,
@@ -79,7 +81,12 @@ class BtsService
             ...$options
         ];
         $response = $this->request("post", "v1/order/add", $payload);
-        dd($response);
+        Bts::query()->create([
+            "bts_order_id"=>$response->json()['orderId'],
+            "order_id"=>$orderId,
+            "status"=>BtsOrderStatus::CREATED,
+        ]);
+        return $response;
     }
 }
 

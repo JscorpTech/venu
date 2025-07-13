@@ -1,6 +1,7 @@
-(<?php
+<?php
 
-    use Illuminate\Database\Migrations\Migration;
+use App\Enums\BtsOrderStatus;
+use Illuminate\Database\Migrations\Migration;
     use Illuminate\Database\Schema\Blueprint;
     use Illuminate\Support\Facades\Schema;
 
@@ -15,6 +16,7 @@
                 $table->id();
                 $table->integer('bts_order_id')->unique();
                 $table->integer("order_id");
+                $table->char("status", 100);
                 $table->timestamps();
             });
         }
