@@ -1,0 +1,28 @@
+<?php
+
+return [
+	"want_to_remove_country_name?" => "Want to remove country name ",
+	"want_to_clear_all_stock_clearance_products?" => "Want to clear all stock clearance products ",
+	"here_you_can_upload_addons_for_customer_website_to_give_customer_better_visual" => "Here you can upload addons for customer website to give customer better visual",
+	"123412" => "123412",
+	"all_category" => "All category",
+	"once_you_have_downloaded_and_filled_the_format_file" => "Once you have downloaded and filled the format file",
+	"yetkazib berish narxi talab qilinadi!" => "Yetkazib berish narxi talab qilinadi!",
+	"name_field_is_required" => "Name field is required",
+	"The code field is required." => "The code field is required.",
+	"discount_can_not_be_more_or_equal_to_the_price" => "Discount can not be more or equal to the price",
+	"brand_is_required" => "Brand is required",
+	"average_Product_Value" => "Average Product Value",
+	"excel" => "Excel",
+	"no_coupon_found" => "No coupon found",
+	"from_date" => "From date",
+	"click_on_continue" => "Click on continue",
+	"upload_Addons" => "Upload Addons",
+	"select_at_least_one__gateway_that_support_O‘zbekiston so‘mi_to_digital_payment_work_properly." => "Select at least one  gateway that support O‘zbekiston so‘mi to digital payment work properly.",
+	"all_changes_will_be_saved_and_applied_after_you_click_the_save_information_button." => "All changes will be saved and applied after you click the save information button.",
+	"the_highest_amount_a_customer_can_add_in_one_transaction_or_within_a_set_time." => "The highest amount a customer can add in one transaction or within a set time.",
+	"no_zip_code_found" => "No zip code found",
+	"The_phone_number_must_be_at_least_4_characters" => "The phone number must be at least 4 characters",
+	"00000000000000" => "00000000000000",
+	"environment_variables_updated_successfully" => "Environment variables updated successfully",
+];
