@@ -2,7 +2,6 @@
 
 use App\Http\Controllers\RestAPI\v2\delivery_man\auth\LoginController;
 use App\Http\Controllers\RestAPI\v2\delivery_man\ChatController as DeliveryChatController;
-use App\Http\Controllers\RestAPI\v2\Seller\ChatController as VendorChatController;
 use App\Http\Controllers\RestAPI\v2\delivery_man\DeliveryManController;
 use App\Http\Controllers\RestAPI\v2\delivery_man\WithdrawController;
 use App\Http\Controllers\RestAPI\v2\seller\BrandController;
@@ -102,7 +101,7 @@ Route::group(['namespace' => 'RestAPI\v2', 'prefix' => 'v2', 'middleware' => ['a
         });
 
         Route::group(['prefix' => 'messages'], function () {
-            Route::controller(VendorChatController::class)->group(function () {
+            Route::controller("ChatController")->group(function () {
                 Route::get('list/{type}', 'list');
                 Route::get('get-message/{type}/{id}', 'get_message');
                 Route::post('send/{type}', 'send_message');

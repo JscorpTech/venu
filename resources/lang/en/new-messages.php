@@ -1818,4 +1818,6 @@ return [
 	"nid" => "Nid",
 	"Out_For_Delivery" => "Out For Delivery",
 	"create_blog" => "Create blog",
+	"Your existing session token does not authorize you any more" => "Your existing session token does not authorize you any more",
+	"Please update product code!" => "Please update product code!",
 ];
