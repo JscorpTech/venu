@@ -2,10 +2,9 @@
 
 namespace App\Enums;
 
-
 enum BtsOrderStatus: string
 {
-    const CREATED = "created";
-    const SUCCESS = "success";
-    const CANCELED = "canceled";
+    case CREATED = "created";
+    case SUCCESS = "success";
+    case CANCELED = "canceled";
 }

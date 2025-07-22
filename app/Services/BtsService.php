@@ -13,6 +13,7 @@ class BtsService
     private string $password;
     private string $inn;
     private string $base_url;
+    private string $phone;
     private string|null $token = null;
     private int $is_test;
 
@@ -21,8 +22,9 @@ class BtsService
         $this->username = env('BTS_USERNAME');
         $this->password = env('BTS_PASSWORD');
         $this->inn = env('BTS_INN');
+        $this->phone = env("BTS_PHONE");
         $this->base_url = env('BTS_URL');
-        $this->is_test = env("BTS_TEST") ?? 1;
+        $this->is_test = env("BTS_TEST") ?? 0;
         if ($this->token === null) {
             $this->token = $this->get_token();
         }
@@ -63,13 +65,24 @@ class BtsService
         return $token;
     }
 
-    public function create_order(int $orderId, int $senderCityId, string $senderAddress, float $weight, int $packageId, int $postTypeId, string $receiver, string $receiverAddress, int $receiverCityId, string $receiverPhone, array $options)
-    {
+    public function create_order(
+        int $orderId,
+        int $senderCityId,
+        string $senderAddress,
+        float $weight,
+        int $packageId,
+        int $postTypeId,
+        string $receiver,
+        string $receiverAddress,
+        string $receiverCityId,
+        string $receiverPhone,
+        array $options = []
+    ) {
         $payload = [
             "senderCityId" => $senderCityId,
             "senderAddress" => $senderAddress,
             "senderReal" => "VENU",
-            "senderPhone" => "+998999999999",
+            "senderPhone" => $this->phone,
             "weight" => $weight,
             "packageId" => $packageId,
             "postTypeId" => $postTypeId,
@@ -80,13 +93,17 @@ class BtsService
             "is_test" => $this->is_test,
             ...$options
         ];
+        $instance = Bts::query()->where(['order_id' => $orderId]);
+        if ($instance->count() >= 1) {
+            return $instance->first();
+        }
         $response = $this->request("post", "v1/order/add", $payload);
-        Bts::query()->create([
-            "bts_order_id"=>$response->json()['orderId'],
-            "order_id"=>$orderId,
-            "status"=>BtsOrderStatus::CREATED,
+        $instance = Bts::query()->create([
+            "bts_order_id" => $response['orderId'],
+            "order_id" => $orderId,
+            "status" => BtsOrderStatus::CREATED->value,
         ]);
-        return $response;
+        return $instance;
     }
 }
 
