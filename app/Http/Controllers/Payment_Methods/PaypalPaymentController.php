@@ -73,7 +73,6 @@ class PaypalPaymentController extends Controller
         if ($validator->fails()) {
             return response()->json($this->response_formatter(GATEWAYS_DEFAULT_400, null, $this->error_processor($validator)), 400);
         }
-
         $data = $this->payment::where(['id' => $request['payment_id']])->where(['is_paid' => 0])->first();
         if (!isset($data)) {
             return response()->json($this->response_formatter(GATEWAYS_DEFAULT_204), 200);

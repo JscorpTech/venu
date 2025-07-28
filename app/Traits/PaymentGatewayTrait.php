@@ -18,6 +18,10 @@ trait PaymentGatewayTrait
                 "NZD" => "New Zealand Dollar",
                 "CAD" => "Canadian Dollar"
             ],
+            "payme" => [
+                "USD" => "United States Dollar",
+                "UZS" => "O'zbek so'm"
+            ],
             "bkash" => [
                 "BDT" => "Bangladeshi Taka"
             ],
@@ -442,7 +446,7 @@ trait PaymentGatewayTrait
         $getSupportedCurrencies = $this->getPaymentGatewaySupportedCurrencies(key: $key);
         if ($currentCurrency && array_key_exists($currentCurrency, $getSupportedCurrencies) && Currency::where(['code' => $currentCurrency, 'status' => 1])->first()) {
             return $currentCurrency;
-        } else if (count($getSupportedCurrencies) == 1) {
+        } elseif (count($getSupportedCurrencies) == 1) {
             $currencyCode = array_key_first($getSupportedCurrencies);
             if (Currency::where(['code' => $currencyCode, 'status' => 1])->first()) {
                 return $currencyCode;

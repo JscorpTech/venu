@@ -31,8 +31,7 @@ class PaymentMethodController extends BaseController
         private readonly SettingService                          $settingService,
         private readonly CurrencyRepositoryInterface             $currencyRepo,
         private readonly OfflinePaymentMethodRepositoryInterface $offlinePaymentMethodRepo,
-    )
-    {
+    ) {
     }
 
     /**
@@ -81,7 +80,7 @@ class PaymentMethodController extends BaseController
         ]);
     }
 
-    function checkPaymentGatewaySupportedCurrencies($gateway, $currencyCodes, $paymentGateways): array
+    public function checkPaymentGatewaySupportedCurrencies($gateway, $currencyCodes, $paymentGateways): array
     {
         $getPaymentGatewaySupportedCurrencies = $this->getPaymentGatewaySupportedCurrencies(key: $gateway->key_name);
         $isEnabledToUse = 0;
@@ -138,13 +137,13 @@ class PaymentMethodController extends BaseController
                     'status' => 'warning',
                     'error_type' => 'digital-payment-status-required',
                     'title' => translate('you_must_need_active_digital_payment_method'),
-                    'message' => translate('you_need_to_activate_a_digital_payment_method_first.').' '.translate('after_that_you_can_enable_the_offline_payment_method_status.'),
+                    'message' => translate('you_need_to_activate_a_digital_payment_method_first.') . ' ' . translate('after_that_you_can_enable_the_offline_payment_method_status.'),
                 ]);
             }
 
             ToastMagic::warning(translate('you_must_need_active_digital_payment_method'));
             return back();
-        } else if ($request['offline_payment'] == 1 && $this->offlinePaymentMethodRepo->getListWhere(filters: ['status' => 'active'])->count() <= 0) {
+        } elseif ($request['offline_payment'] == 1 && $this->offlinePaymentMethodRepo->getListWhere(filters: ['status' => 'active'])->count() <= 0) {
             if ($request->ajax()) {
                 return response()->json([
                     'status' => 'warning',
@@ -194,7 +193,7 @@ class PaymentMethodController extends BaseController
 
     public function UpdatePaymentConfig(PaymentMethodUpdateRequest $request): RedirectResponse
     {
-        collect(['status'])->each(fn($item, $key) => $request[$item] = $request->has($item) ? (int)$request[$item] : 0);
+        collect(['status'])->each(fn ($item, $key) => $request[$item] = $request->has($item) ? (int)$request[$item] : 0);
         $settings = $this->settingRepo->getFirstWhere(params: ['key_name' => $request['gateway'], 'settings_type' => 'payment_config']);
         $additionalDataImage = $settings['additional_data'] != null ? json_decode($settings['additional_data']) : null;
         if ($request->has('gateway_image')) {

@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Models;
+
 use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -61,7 +62,6 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Order extends Model
 {
-
     protected $fillable = [
         'id',
         'customer_id',
@@ -162,7 +162,9 @@ class Order extends Model
     ];
 
 
-    public function details() : HasMany
+
+
+    public function details(): HasMany
     {
         return $this->hasMany(OrderDetail::class)->orderBy('seller_id', 'ASC');
     }
@@ -172,7 +174,7 @@ class Order extends Model
         return $this->belongsTo(Seller::class);
     }
 
-    public function sellerName() : HasOne
+    public function sellerName(): HasOne
     {
         return $this->hasOne(OrderDetail::class);
     }
@@ -198,38 +200,38 @@ class Order extends Model
 
     public function deliveryMan(): BelongsTo
     {
-        return $this->belongsTo(DeliveryMan::class,'delivery_man_id');
+        return $this->belongsTo(DeliveryMan::class, 'delivery_man_id');
     }
     /* delivery_man_review -> deliveryManReview */
-    public function deliveryManReview():HasOne
+    public function deliveryManReview(): HasOne
     {
-        return $this->hasOne(Review::class,'order_id')->whereNotNull('delivery_man_id');
+        return $this->hasOne(Review::class, 'order_id')->whereNotNull('delivery_man_id');
     }
     /* order_transaction -> orderTransaction */
-    public function orderTransaction() : HasOne
+    public function orderTransaction(): HasOne
     {
         return $this->hasOne(OrderTransaction::class, 'order_id');
     }
 
-    public function coupon():BelongsTo
+    public function coupon(): BelongsTo
     {
         return $this->belongsTo(Coupon::class, 'coupon_code', 'code');
     }
 
     /* order_status_history -> orderStatusHistory */
-    public function orderStatusHistory():HasMany
+    public function orderStatusHistory(): HasMany
     {
         return $this->hasMany(OrderStatusHistory::class);
     }
 
     /* order_details -> orderDetails */
-    public function orderDetails() : HasMany
+    public function orderDetails(): HasMany
     {
         return $this->hasMany(OrderDetail::class, 'order_id');
     }
 
     /* offline_payments -> offlinePayments */
-    public function offlinePayments() : BelongsTo
+    public function offlinePayments(): BelongsTo
     {
         return $this->belongsTo(OfflinePayments::class, 'id', 'order_id');
     }
@@ -237,7 +239,7 @@ class Order extends Model
     /* verification_images -> verificationImages */
     public function verificationImages(): HasMany
     {
-        return $this->hasMany(OrderDeliveryVerification::class,'order_id');
+        return $this->hasMany(OrderDeliveryVerification::class, 'order_id');
     }
 
 

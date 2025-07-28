@@ -12,4 +12,11 @@ class PaymentRequest extends Model
     use HasFactory;
 
     protected $table = 'payment_requests';
+
+
+
+    public function getAmountAttribute()
+    {
+        return $this->payment_amount;
+    }
 }

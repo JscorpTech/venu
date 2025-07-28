@@ -4,9 +4,8 @@ namespace App\Enums;
 
 enum GlobalConstant
 {
-
     //countries
-    const COUNTRIES = [
+    public const COUNTRIES = [
         ["name" => 'Afghanistan', "code" => 'AF'],
         ["name" => 'Åland Islands', "code" => 'AX'],
         ["name" => 'Albania', "code" => 'AL'],
@@ -253,7 +252,7 @@ enum GlobalConstant
     ];
 
     //telephone code country wise
-    const TELEPHONE_CODES = [
+    public const TELEPHONE_CODES = [
         ["name" => 'UK (+44)', "code" => '44'],
         ["name" => 'USA (+1)', "code" => '1'],
         ["name" => 'Algeria (+213)', "code" => '213'],
@@ -469,7 +468,7 @@ enum GlobalConstant
         ["name" => 'Zimbabwe (+263)', "code" => '263'],
     ];
 
-    const THEME_RATIO = [
+    public const THEME_RATIO = [
         'default' => [
             'Main Banner' => '(2400 x 996 px)',
             'Footer Banner' => 'Ratio 2:1 (2000 x 1000 px)',
@@ -526,7 +525,7 @@ enum GlobalConstant
     ];
 
     //payment methods
-    const GATEWAYS_PAYMENT_METHODS = [
+    public const GATEWAYS_PAYMENT_METHODS = [
         ['key' => 'ssl_commerz', 'value' => 'SSLCOMMERZ'],
         ['key' => 'stripe', 'value' => 'Stripe'],
         ['key' => 'paypal', 'value' => 'PayPal'],
@@ -535,6 +534,7 @@ enum GlobalConstant
         ['key' => 'senang_pay', 'value' => 'Senang Pay'],
         ['key' => 'paymob_accept', 'value' => 'Paymob Accept'],
         ['key' => 'flutterwave', 'value' => 'Flutter Wave'],
+        ['key' => 'payme', 'value' => 'Payme'],
         ['key' => 'paytm', 'value' => 'Paytm'],
         ['key' => 'paytabs', 'value' => 'Pay Tabs'],
         ['key' => 'liqpay', 'value' => 'Liq Pay'],
@@ -563,7 +563,7 @@ enum GlobalConstant
     ];
 
     //currencies
-    const GATEWAYS_CURRENCIES = [
+    public const GATEWAYS_CURRENCIES = [
         ["code" => "AED", "symbol" => "د.إ", "name" => "UAE dirham"],
         ["code" => "AFN", "symbol" => "Afs", "name" => "Afghan afghani"],
         ["code" => "ALL", "symbol" => "L", "name" => "Albanian lek"],
@@ -723,7 +723,7 @@ enum GlobalConstant
     ];
 
     //countries
-    const GATEWAYS_COUNTRIES = [
+    public const GATEWAYS_COUNTRIES = [
         ["name" => 'Afghanistan', "code" => 'AF'],
         ["name" => 'Åland Islands', "code" => 'AX'],
         ["name" => 'Albania', "code" => 'AL'],
@@ -970,7 +970,7 @@ enum GlobalConstant
     ];
 
     //languages
-    const GATEWAYS_LANGUAGES = [
+    public const GATEWAYS_LANGUAGES = [
         ["code" => "ab", "name" => "Abkhaz", "nativeName" => "аҧсуа"],
         ["code" => "aa", "name" => "Afar", "nativeName" => "Afaraf"],
         ["code" => "af", "name" => "Afrikaans", "nativeName" => "Afrikaans"],
@@ -1155,19 +1155,20 @@ enum GlobalConstant
         ["code" => "za", "name" => "Zhuang, Chuang", "nativeName" => "Saɯ cueŋƅ, Saw cuengh"]
     ];
 
-    const FILE_PATH = [
+    public const FILE_PATH = [
         'product' => [
             'thumbnail' => 'storage/app/public/product/thumbnail',
         ],
     ];
 
-    const THEME_DEFAULT = "default";
-    const THEME_ASTER = "theme_aster";
-    const THEME_LIFESTYLE = "theme_fashion";
+    public const THEME_DEFAULT = "default";
+    public const THEME_ASTER = "theme_aster";
+    public const THEME_LIFESTYLE = "theme_fashion";
 
-    const DEFAULT_PAYMENT_GATEWAYS = [
+    public const DEFAULT_PAYMENT_GATEWAYS = [
         'ssl_commerz',
         'paypal',
+        'payme',
         'stripe',
         'razor_pay',
         'paystack',
@@ -1181,7 +1182,7 @@ enum GlobalConstant
         'bkash'
     ];
 
-    const DEFAULT_SMS_GATEWAYS = [
+    public const DEFAULT_SMS_GATEWAYS = [
         'twilio',
         'nexmo',
         '2factor',
@@ -1191,7 +1192,7 @@ enum GlobalConstant
     ];
 
 
-    const TIMEZONE_ARRAY = [
+    public const TIMEZONE_ARRAY = [
         ["value" => "UTC", "name" => "UTC"],
         ["value" => "Etc/GMT+12", "name" => "(GMT-12:00) International Date Line West"],
         ["value" => "Pacific/Midway", "name" => "(GMT-11:00) Midway Island, Samoa"],
@@ -1277,20 +1278,77 @@ enum GlobalConstant
     ];
 
 
-    const DOCUMENT_EXTENSION = [
-        '.doc', '.docx', '.txt', '.csv', '.xls', '.xlsx', '.rar', '.tar', '.tar.gz', '.zip', '.pdf'
+    public const DOCUMENT_EXTENSION = [
+        '.doc',
+        '.docx',
+        '.txt',
+        '.csv',
+        '.xls',
+        '.xlsx',
+        '.rar',
+        '.tar',
+        '.tar.gz',
+        '.zip',
+        '.pdf'
     ];
-    const IMAGE_EXTENSION = [
-        '.jpg', '.jpeg', '.jpe', '.jif', '.jfif', '.jfi', '.png', '.gif', '.webp', '.tiff', '.tif', '.bmp', '.svg',
+    public const IMAGE_EXTENSION = [
+        '.jpg',
+        '.jpeg',
+        '.jpe',
+        '.jif',
+        '.jfif',
+        '.jfi',
+        '.png',
+        '.gif',
+        '.webp',
+        '.tiff',
+        '.tif',
+        '.bmp',
+        '.svg',
     ];
-    const VIDEO_EXTENSION = [
-        '.mp4', '.mkv', '.avi', '.mov', '.wmv', '.flv', '.webm', '.mpeg', '.mpg', '.m4v', '.3gp', '.ogv'
+    public const VIDEO_EXTENSION = [
+        '.mp4',
+        '.mkv',
+        '.avi',
+        '.mov',
+        '.wmv',
+        '.flv',
+        '.webm',
+        '.mpeg',
+        '.mpg',
+        '.m4v',
+        '.3gp',
+        '.ogv'
     ];
-    const MEDIA_EXTENSION = [
-        '.jpg', '.jpeg', '.jpe', '.jif', '.jfif', '.jfi', '.png', '.gif', '.webp', '.tiff', '.tif', '.bmp', '.svg', '.mp4', '.mkv', '.avi', '.mov', '.wmv', '.flv', '.webm', '.mpeg', '.mpg', '.m4v', '.3gp', '.ogv'
+    public const MEDIA_EXTENSION = [
+        '.jpg',
+        '.jpeg',
+        '.jpe',
+        '.jif',
+        '.jfif',
+        '.jfi',
+        '.png',
+        '.gif',
+        '.webp',
+        '.tiff',
+        '.tif',
+        '.bmp',
+        '.svg',
+        '.mp4',
+        '.mkv',
+        '.avi',
+        '.mov',
+        '.wmv',
+        '.flv',
+        '.webm',
+        '.mpeg',
+        '.mpg',
+        '.m4v',
+        '.3gp',
+        '.ogv'
     ];
 
-    const EMPLOYEE_ROLE_MODULE_PERMISSION = [
+    public const EMPLOYEE_ROLE_MODULE_PERMISSION = [
         'dashboard' => 'dashboard',
         'pos_management' => 'pos_management',
         'order_management' => 'order_management',
@@ -1305,6 +1363,4 @@ enum GlobalConstant
         '3rd_party_setup' => '3rd_party_setup',
         'themes_and_addons' => 'themes_and_addons',
     ];
-
-
 }

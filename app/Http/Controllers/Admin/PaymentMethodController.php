@@ -32,6 +32,7 @@ class PaymentMethodController extends Controller
         $desiredName = 'payment_setup';
         $payment_url = '';
 
+
         foreach ($routes as $routeArray) {
             foreach ($routeArray as $route) {
                 if ($route['name'] === $desiredName) {
@@ -41,8 +42,10 @@ class PaymentMethodController extends Controller
             }
         }
 
-        return view('admin-views.business-settings.payment-method.index',
-            compact('payment_gateways', 'paymentGatewayPublishedStatus', 'payment_url'));
+        return view(
+            'admin-views.business-settings.payment-method.index',
+            compact('payment_gateways', 'paymentGatewayPublishedStatus', 'payment_url')
+        );
     }
 
     public function update(Request $request)
@@ -75,9 +78,9 @@ class PaymentMethodController extends Controller
      */
     public function payment_config_set(Request $request)
     {
-        collect(['status'])->each(fn($item, $key) => $request[$item] = $request->has($item) ? (int)$request[$item] : 0);
+        collect(['status'])->each(fn ($item, $key) => $request[$item] = $request->has($item) ? (int)$request[$item] : 0);
         $validation = [
-            'gateway' => 'required|in:ssl_commerz,sixcash,worldpay,payfast,swish,esewa,maxicash,hubtel,viva_wallet,tap,thawani,moncash,pvit,ccavenue,foloosi,iyzi_pay,xendit,fatoorah,hyper_pay,amazon_pay,paypal,stripe,razor_pay,senang_pay,paytabs,paystack,paymob_accept,paytm,flutterwave,liqpay,bkash,mercadopago,cash_after_service,digital_payment,momo',
+            'gateway' => 'required|in:ssl_commerz,payme,sixcash,worldpay,payfast,swish,esewa,maxicash,hubtel,viva_wallet,tap,thawani,moncash,pvit,ccavenue,foloosi,iyzi_pay,xendit,fatoorah,hyper_pay,amazon_pay,paypal,stripe,razor_pay,senang_pay,paytabs,paystack,paymob_accept,paytm,flutterwave,liqpay,bkash,mercadopago,cash_after_service,digital_payment,momo',
             'mode' => 'required|in:live,test'
         ];
 
@@ -88,6 +91,12 @@ class PaymentMethodController extends Controller
                 'status' => 'required|in:1,0',
                 'store_id' => 'required',
                 'store_password' => 'required'
+            ];
+        } elseif ($request['gateway'] == "payme") {
+            $additional_data = [
+                "status" => ['required', "in:1,0"],
+                "store_id" => "required",
+                "store_password" => "required",
             ];
         } elseif ($request['gateway'] == 'paypal') {
             $additional_data = [
@@ -313,7 +322,7 @@ class PaymentMethodController extends Controller
 
         $additional_data_image = $settings['additional_data'] != null ? json_decode($settings['additional_data']) : null;
 
-        if( !$additional_data_image || !isset($additional_data_image->gateway_image) || (isset($additional_data_image->gateway_image) && $additional_data_image->gateway_image == '') || (isset($additional_data_image->gateway_image) && !file_exists(base_path("storage/app/public/payment_modules/gateway_image/".$additional_data_image->gateway_image)))){
+        if (!$additional_data_image || !isset($additional_data_image->gateway_image) || (isset($additional_data_image->gateway_image) && $additional_data_image->gateway_image == '') || (isset($additional_data_image->gateway_image) && !file_exists(base_path("storage/app/public/payment_modules/gateway_image/" . $additional_data_image->gateway_image)))) {
             $request->validate([
                 'gateway_image' => 'required',
             ]);

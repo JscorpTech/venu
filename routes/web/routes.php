@@ -1,7 +1,7 @@
 <?php
 
-use App\Enums\ViewPaths\Web\Chatting;
 use App\Enums\ViewPaths\Web\ProductCompare;
+use App\Http\Controllers\Payment_Methods\PaymeController;
 use App\Enums\ViewPaths\Web\ShopFollower;
 use App\Http\Controllers\Customer\Auth\CustomerAuthController;
 use App\Http\Controllers\Customer\Auth\ForgotPasswordController;
@@ -25,7 +25,6 @@ use App\Http\Controllers\Web\UserWalletController;
 use App\Http\Controllers\Web\WebController;
 use Illuminate\Support\Facades\Route;
 use App\Enums\ViewPaths\Web\Review;
-use App\Enums\ViewPaths\Web\UserLoyalty;
 use App\Http\Controllers\Web\CurrencyController;
 use App\Http\Controllers\Web\PageController;
 use App\Http\Controllers\Web\ReviewController;
@@ -43,7 +42,6 @@ use App\Http\Controllers\Payment_Methods\SenangPayController;
 use App\Http\Controllers\Payment_Methods\MercadoPagoController;
 use App\Http\Controllers\Payment_Methods\BkashPaymentController;
 use App\Http\Controllers\Payment_Methods\PaystackController;
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -56,6 +54,7 @@ use App\Http\Controllers\Payment_Methods\PaystackController;
 */
 
 use Illuminate\Support\Facades\Log;
+use JscorpTech\Payme\Views\PaymeApiView;
 
 Route::get('/test-log', function () {
     info('Testing Slack logging from Laravel!');
@@ -490,6 +489,13 @@ if (!$isGatewayPublished) {
             Route::any('pay', [PaytabsController::class, 'payment'])->name('pay');
             Route::any('callback', [PaytabsController::class, 'callback'])->name('callback');
             Route::any('response', [PaytabsController::class, 'response'])->name('response');
+        });
+
+        //PAYME
+        Route::group(['prefix' => 'payme', 'as' => 'payme.'], function () {
+            /* Route::post("merchant", PaymeApiView::class); */
+            Route::get("webhook", [PaymeController::class, "index"])->name("index");
+            Route::get("pay", [PaymeController::class, "pay"])->name("pay");
         });
     });
 }

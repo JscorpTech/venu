@@ -63,6 +63,7 @@ trait Payment
             'hyper_pay' => 'payment/hyperpay/pay',
             'foloosi' => 'payment/foloosi/pay',
             'ccavenue' => 'payment/ccavenue/pay',
+            'payme' => 'payment/payme/pay',
             'pvit' => 'payment/pvit/pay',
             'moncash' => 'payment/moncash/pay',
             'thawani' => 'payment/thawani/pay',

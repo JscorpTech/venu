@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Admin\Auth;
 
 use App\Enums\SessionKey;
 use App\Enums\UserRole;
-use App\Enums\ViewPaths\Admin\Auth;
 use App\Http\Controllers\BaseController;
 use App\Http\Requests\Admin\LoginRequest;
 use App\Models\Admin;
@@ -81,7 +80,7 @@ class LoginController extends BaseController
                     },
                 ],
             ]);
-        } else if (strtolower(session(SessionKey::ADMIN_RECAPTCHA_KEY)) != strtolower($request['default_captcha_value'])) {
+        } elseif (strtolower(session(SessionKey::ADMIN_RECAPTCHA_KEY)) != strtolower($request['default_captcha_value'])) {
             ToastMagic::error(translate('ReCAPTCHA_Failed'));
             return back();
         }
@@ -118,5 +117,4 @@ class LoginController extends BaseController
             return redirect('login/' . getWebConfig(name: 'admin_login_url'));
         }
     }
-
 }

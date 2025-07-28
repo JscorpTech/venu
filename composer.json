@@ -28,6 +28,8 @@
         "guzzlehttp/guzzle": "^7.2",
         "intervention/image": "^2.7",
         "iyzico/iyzipay-php": "^2.0",
+        "jscorptech/atmospay": "*",
+        "jscorptech/payme": "^0.5.0",
         "knuckleswtf/scribe": "^5.2",
         "kreait/firebase-php": "^7.0",
         "laravel/framework": "^10.10",

@@ -115,7 +115,6 @@ if (!function_exists('digital_payment_success')) {
 if (!function_exists('digital_payment_fail')) {
     function digital_payment_fail($payment_data)
     {
-
     }
 }
 
@@ -152,7 +151,6 @@ if (!function_exists('add_fund_to_wallet_success')) {
 if (!function_exists('add_fund_to_wallet_fail')) {
     function add_fund_to_wallet_fail($payment_data)
     {
-
     }
 }
 
