@@ -42,8 +42,7 @@ class RegisterController extends Controller
         private readonly LoginSetupRepositoryInterface               $loginSetupRepo,
         private readonly CustomerAuthService                         $customerAuthService,
         private readonly FirebaseService                             $firebaseService,
-    )
-    {
+    ) {
         $this->middleware('guest:customer', ['except' => ['logout']]);
     }
 
@@ -68,7 +67,7 @@ class RegisterController extends Controller
                 return response()->json([
                     'redirect_url' => route('customer.auth.check-verification', ['identity' => base64_encode($user['phone']), 'type' => base64_encode('phone_verification')]),
                 ]);
-            } else if ($emailVerification && !$user->is_email_verified) {
+            } elseif ($emailVerification && !$user->is_email_verified) {
                 $this->phoneOrEmailVerificationRepo->delete(params: ['phone_or_email' => $user?->email]);
                 $this->getCustomerVerificationCheck($user, 'email');
                 return response()->json([
@@ -110,22 +109,26 @@ class RegisterController extends Controller
         $firebaseOTPVerification = getWebConfig(name: 'firebase_otp_verification') ?? [];
 
         if ($phoneVerification && !$user['is_phone_verified'] && $firebaseOTPVerification && $firebaseOTPVerification['status']) {
+            dd(1);
             $response = $this->firebaseService->sendOtp($user['phone']);
             if ($response['status'] == 'error') {
                 Toastr::error(translate(strtolower($response['errors'])));
                 return back();
             }
             $token = $response['sessionInfo'];
-        } else if ($phoneVerification && !$user['is_phone_verified']) {
+        } elseif ($phoneVerification && !$user['is_phone_verified']) {
+            dd(2);
             $response = $this->customerAuthService->sendCustomerPhoneVerificationToken($user['phone'], $token);
             Toastr::success($response['message']);
-        } else if ($emailVerification && !$user['is_email_verified']) {
+        } elseif ($emailVerification && !$user['is_email_verified']) {
+            dd(3);
             $response = $this->customerAuthService->sendCustomerEmailVerificationToken($user, $token);
             if ($response['status'] == 'error') {
                 Toastr::error($response['message']);
                 return back();
             }
         }
+        dd(4);
         $this->phoneOrEmailVerificationRepo->add(data: [
             'phone_or_email' => $type == 'email' ? $user['email'] : $user['phone'],
             'token' => $token,
@@ -148,7 +151,7 @@ class RegisterController extends Controller
         if ($phoneVerification && !$user['is_phone_verified']) {
             $userVerify = 0;
             $verifyType = 'phone';
-        } else if ($emailVerification && !$user['is_email_verified']) {
+        } elseif ($emailVerification && !$user['is_email_verified']) {
             $userVerify = 0;
             $verifyType = 'email';
         }
@@ -190,7 +193,7 @@ class RegisterController extends Controller
         }
 
         $maxOTPHit = getWebConfig(name: 'maximum_otp_hit') ?? 5;
-        $maxOTPHitTime = getWebConfig(name: 'otp_resend_time') ?? 60;// seconds
+        $maxOTPHitTime = getWebConfig(name: 'otp_resend_time') ?? 60; // seconds
         $tempBlockTime = getWebConfig(name: 'temporary_block_time') ?? 600; // seconds
         $tempBlockTime = getWebConfig(name: 'temporary_block_time') ?? 5;
 
@@ -235,7 +238,7 @@ class RegisterController extends Controller
 
             if ($identityType == 'phone' && $firebaseOTPVerification && $firebaseOTPVerification['status']) {
                 $firebaseVerify = $this->firebaseService->verifyOtp($getToken['token'], $getToken['phone_or_email'], $request['token']);
-                $tokenVerifyStatus = (boolean)($firebaseVerify['status'] == 'success');
+                $tokenVerifyStatus = (bool)($firebaseVerify['status'] == 'success');
                 if (!$tokenVerifyStatus) {
                     $this->phoneOrEmailVerificationRepo->updateOrCreate(params: ['phone_or_email' => $identity], value: [
                         'otp_hit_count' => ($getToken['otp_hit_count'] + 1),
@@ -247,7 +250,7 @@ class RegisterController extends Controller
                 }
             } else {
                 $tokenVerify = $this->phoneOrEmailVerificationRepo->getFirstWhere(params: ['phone_or_email' => $identity, 'token' => $request['token']]);
-                $tokenVerifyStatus = (boolean)$tokenVerify;
+                $tokenVerifyStatus = (bool)$tokenVerify;
             }
 
             if ($tokenVerifyStatus) {
@@ -390,7 +393,6 @@ class RegisterController extends Controller
 
                     $verify_status = 'error';
                     $message = translate('please_try_again_after_') . CarbonInterval::seconds($time)->cascade()->forHumans();
-
                 } elseif ($verification->is_temp_blocked == 1 && isset($verification->created_at) && Carbon::parse($verification->created_at)->diffInSeconds() >= $temp_block_time) {
                     $verification->otp_hit_count = 1;
                     $verification->is_temp_blocked = 0;
@@ -400,7 +402,6 @@ class RegisterController extends Controller
 
                     $verify_status = 'error';
                     $message = translate('Verification_OTP_mismatched');
-
                 } elseif ($verification->otp_hit_count >= $maxOTPHit && $verification->is_temp_blocked == 0) {
                     $verification->is_temp_blocked = 1;
                     $verification->temp_block_time = now();
@@ -410,7 +411,6 @@ class RegisterController extends Controller
                     $time = $temp_block_time - Carbon::parse($verification->temp_block_time)->diffInSeconds();
                     $verify_status = 'error';
                     $message = translate('too_many_attempts. please_try_again_after_') . CarbonInterval::seconds($time)->cascade()->forHumans();
-
                 } else {
                     $verification->otp_hit_count += 1;
                     $verification->save();
@@ -455,7 +455,7 @@ class RegisterController extends Controller
         }
 
         $maxOTPHit = getWebConfig(name: 'maximum_otp_hit') ?? 5;
-        $maxOTPHitTime = getWebConfig(name: 'otp_resend_time') ?? 60;// seconds
+        $maxOTPHitTime = getWebConfig(name: 'otp_resend_time') ?? 60; // seconds
         $tempBlockTime = getWebConfig(name: 'temporary_block_time') ?? 600; // seconds
         $tempBlockTime = getWebConfig(name: 'temporary_block_time') ?? 5;
         $phoneVerification = getLoginConfig(key: 'phone_verification');
@@ -474,10 +474,10 @@ class RegisterController extends Controller
             $identityType = 'phone';
             $phoneVerification = 1;
             $customer = [
-              'phone' => $identity,
-              'email' => $identity,
-              'is_phone_verified' => 0,
-              'is_email_verified' => 0,
+                'phone' => $identity,
+                'email' => $identity,
+                'is_phone_verified' => 0,
+                'is_email_verified' => 0,
             ];
         }
 
@@ -495,7 +495,7 @@ class RegisterController extends Controller
             if ($identityType == 'phone') {
                 $this->getCustomerVerificationCheck($customer, 'phone', ['phone_verification' => $phoneVerification]);
                 return redirect()->back();
-            } else if ($identityType == 'email') {
+            } elseif ($identityType == 'email') {
                 $this->getCustomerVerificationCheck($customer, 'email');
                 return redirect()->back();
             }
@@ -503,5 +503,4 @@ class RegisterController extends Controller
             return redirect(route('customer.auth.login'));
         }
     }
-
 }
