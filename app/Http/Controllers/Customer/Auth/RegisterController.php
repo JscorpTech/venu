@@ -125,7 +125,6 @@ class RegisterController extends Controller
                 return back();
             }
         }
-        dd(4);
         $this->phoneOrEmailVerificationRepo->add(data: [
             'phone_or_email' => $type == 'email' ? $user['email'] : $user['phone'],
             'token' => $token,
