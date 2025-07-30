@@ -3,19 +3,16 @@
 namespace App\Utils;
 
 use Illuminate\Support\Env;
-use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Jscorptech\JstEskiz;
 use Twilio\Rest\Client;
-use Modules\Gateways\Traits\SmsGateway;
 
 class SMSModule
 {
     public static function sendCentralizedSMS($phone, $token)
     {
-        $paymentPublishedStatus = config('get_payment_publish_status') ?? 0;
-        return $paymentPublishedStatus == 1 ? SmsGateway::send($phone, $token) : SMSModule::send($phone, $token);
+        return SMSModule::send($phone, $token);
     }
 
 
