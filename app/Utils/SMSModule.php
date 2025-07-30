@@ -23,8 +23,10 @@ class SMSModule
             $message = "venu.uz sayti va mobil ilovasiga ro'yxatdan o'tish uchun tasdiqlash kodi: $otp";
             $service->sendSms($receiver, $message);
             Log::info([$receiver, $message]);
+            return "success";
         } catch (\Exception $e) {
             Log::error($e);
+            return "error";
         }
     }
 
