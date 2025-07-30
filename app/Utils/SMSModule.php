@@ -2,9 +2,11 @@
 
 namespace App\Utils;
 
+use Illuminate\Support\Env;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
-use Nexmo\Laravel\Facade\Nexmo;
+use Illuminate\Support\Facades\Log;
+use Jscorptech\JstEskiz;
 use Twilio\Rest\Client;
 use Modules\Gateways\Traits\SmsGateway;
 
@@ -16,8 +18,19 @@ class SMSModule
         return $paymentPublishedStatus == 1 ? SmsGateway::send($phone, $token) : SMSModule::send($phone, $token);
     }
 
+
+    public static function eskiz($receiver, $otp)
+    {
+        $service = new JstEskiz(Env::get("ESKIZ_EMAIL"), Env::get("ESKIZ_PASSWORD"));
+        $message = "venu.uz sayti va mobil ilovasiga ro'yxatdan o'tish uchun tasdiqlash kodi: $otp";
+        $service->sendSms($receiver, $message);
+        Log::info($receiver, $message);
+    }
+
     public static function send($receiver, $otp)
     {
+        return self::eskiz($receiver, $otp);
+        // INFO: bu yerdan pastga tushgani yo'q default eskiz yoqilgan
         $config = self::get_settings('twilio');
         if (isset($config) && $config['status'] == 1) {
             return self::twilio($receiver, $otp);
@@ -62,7 +75,8 @@ class SMSModule
             try {
                 $twilio = new Client($sid, $token);
                 $twilio->messages
-                    ->create($receiver, // to
+                    ->create(
+                        $receiver, // to
                         array(
                             "messagingServiceSid" => $config['messaging_service_sid'],
                             "body" => $message
@@ -202,7 +216,6 @@ class SMSModule
             } catch (\Exception $exception) {
                 $response = 'error';
             }
-
         }
         return $response;
     }

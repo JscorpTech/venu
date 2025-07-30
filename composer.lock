@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "285aeb967aecff933a0e5ca7ea17c782",
+    "content-hash": "ffc687b7e18da849618fda3f710212ac",
     "packages": [
         {
             "name": "aws/aws-crt-php",
@@ -3489,6 +3489,42 @@
                 "source": "https://github.com/JscorpTech/jst-atmospay/tree/v1.0"
             },
             "time": "2024-11-28T07:00:37+00:00"
+        },
+        {
+            "name": "jscorptech/jst-eskiz",
+            "version": "V0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/JscorpTech/jst-eskiz-php.git",
+                "reference": "62201bf3233ea5cfc0d7e9c6e63a5aa2a7ca9f96"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/JscorpTech/jst-eskiz-php/zipball/62201bf3233ea5cfc0d7e9c6e63a5aa2a7ca9f96",
+                "reference": "62201bf3233ea5cfc0d7e9c6e63a5aa2a7ca9f96",
+                "shasum": ""
+            },
+            "require": {
+                "guzzlehttp/guzzle": "^7.9"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Jscorptech\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "authors": [
+                {
+                    "name": "A'zamov Samandar",
+                    "email": "JscorpTech@gmail.com"
+                }
+            ],
+            "support": {
+                "issues": "https://github.com/JscorpTech/jst-eskiz-php/issues",
+                "source": "https://github.com/JscorpTech/jst-eskiz-php/tree/V0.1"
+            },
+            "time": "2024-11-12T09:59:50+00:00"
         },
         {
             "name": "jscorptech/payme",
