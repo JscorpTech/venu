@@ -18,10 +18,14 @@ class SMSModule
 
     public static function eskiz($receiver, $otp)
     {
-        $service = new JstEskiz(Env::get("ESKIZ_EMAIL"), Env::get("ESKIZ_PASSWORD"));
-        $message = "venu.uz sayti va mobil ilovasiga ro'yxatdan o'tish uchun tasdiqlash kodi: $otp";
-        $service->sendSms($receiver, $message);
-        Log::info($receiver, $message);
+        try {
+            $service = new JstEskiz(Env::get("ESKIZ_EMAIL"), Env::get("ESKIZ_PASSWORD"));
+            $message = "venu.uz sayti va mobil ilovasiga ro'yxatdan o'tish uchun tasdiqlash kodi: $otp";
+            $service->sendSms($receiver, $message);
+            Log::info($receiver, $message);
+        } catch (\Exception $e) {
+            Log::error($e);
+        }
     }
 
     public static function send($receiver, $otp)
