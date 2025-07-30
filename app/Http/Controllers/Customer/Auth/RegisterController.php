@@ -109,7 +109,6 @@ class RegisterController extends Controller
         $firebaseOTPVerification = getWebConfig(name: 'firebase_otp_verification') ?? [];
 
         if ($phoneVerification && !$user['is_phone_verified'] && $firebaseOTPVerification && $firebaseOTPVerification['status']) {
-            dd(1);
             $response = $this->firebaseService->sendOtp($user['phone']);
             if ($response['status'] == 'error') {
                 Toastr::error(translate(strtolower($response['errors'])));
@@ -117,11 +116,9 @@ class RegisterController extends Controller
             }
             $token = $response['sessionInfo'];
         } elseif ($phoneVerification && !$user['is_phone_verified']) {
-            dd(2);
             $response = $this->customerAuthService->sendCustomerPhoneVerificationToken($user['phone'], $token);
             Toastr::success($response['message']);
         } elseif ($emailVerification && !$user['is_email_verified']) {
-            dd(3);
             $response = $this->customerAuthService->sendCustomerEmailVerificationToken($user, $token);
             if ($response['status'] == 'error') {
                 Toastr::error($response['message']);
