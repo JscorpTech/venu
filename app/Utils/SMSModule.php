@@ -33,38 +33,39 @@ class SMSModule
     public static function send($receiver, $otp)
     {
         return self::eskiz($receiver, $otp);
-        // INFO: bu yerdan pastga tushgani yo'q default eskiz yoqilgan
-        $config = self::get_settings('twilio');
-        if (isset($config) && $config['status'] == 1) {
-            return self::twilio($receiver, $otp);
-        }
 
-        $config = self::get_settings('nexmo');
-        if (isset($config) && $config['status'] == 1) {
-            return self::nexmo($receiver, $otp);
-        }
-
-        $config = self::get_settings('2factor');
-        if (isset($config) && $config['status'] == 1) {
-            return self::two_factor($receiver, $otp);
-        }
-
-        $config = self::get_settings('msg91');
-        if (isset($config) && $config['status'] == 1) {
-            return self::msg_91($receiver, $otp);
-        }
-
-        $config = self::get_settings('releans');
-        if (isset($config) && $config['status'] == 1) {
-            return self::releans($receiver, $otp);
-        }
-
-        $config = self::get_settings('alphanet_sms');
-        if (isset($config) && $config['status'] == 1) {
-            return self::alphanet_sms($receiver, $otp);
-        }
-
-        return 'not_found';
+        /**/
+        /* $config = self::get_settings('twilio'); */
+        /* if (isset($config) && $config['status'] == 1) { */
+        /*     return self::twilio($receiver, $otp); */
+        /* } */
+        /**/
+        /* $config = self::get_settings('nexmo'); */
+        /* if (isset($config) && $config['status'] == 1) { */
+        /*     return self::nexmo($receiver, $otp); */
+        /* } */
+        /**/
+        /* $config = self::get_settings('2factor'); */
+        /* if (isset($config) && $config['status'] == 1) { */
+        /*     return self::two_factor($receiver, $otp); */
+        /* } */
+        /**/
+        /* $config = self::get_settings('msg91'); */
+        /* if (isset($config) && $config['status'] == 1) { */
+        /*     return self::msg_91($receiver, $otp); */
+        /* } */
+        /**/
+        /* $config = self::get_settings('releans'); */
+        /* if (isset($config) && $config['status'] == 1) { */
+        /*     return self::releans($receiver, $otp); */
+        /* } */
+        /**/
+        /* $config = self::get_settings('alphanet_sms'); */
+        /* if (isset($config) && $config['status'] == 1) { */
+        /*     return self::alphanet_sms($receiver, $otp); */
+        /* } */
+        /**/
+        /* return 'not_found'; */
     }
 
     public static function twilio($receiver, $otp)

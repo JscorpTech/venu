@@ -62,9 +62,11 @@ use Illuminate\Support\Facades\DB;
  */
 class Product extends Model
 {
-    use StorageTrait, CacheManagerTrait;
+    use StorageTrait;
+    use CacheManagerTrait;
 
     protected $fillable = [
+        "mxik",
         'user_id',
         'added_by',
         'name',
@@ -317,7 +319,6 @@ class Product extends Model
     {
         return $this->hasMany(OrderDetail::class, 'product_id')
             ->where('delivery_status', 'delivered');
-
     }
 
     //old relation: wish_list

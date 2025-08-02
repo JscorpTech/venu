@@ -9,7 +9,8 @@ use Illuminate\Validation\Validator;
 
 class ProductAddRequest extends Request
 {
-    use CalculatorTrait, ResponseHandler;
+    use CalculatorTrait;
+    use ResponseHandler;
 
     protected $stopOnFirstFailure = true;
 
@@ -31,6 +32,7 @@ class ProductAddRequest extends Request
     public function rules(): array
     {
         $rules = [
+            "mxik" => ['required'],
             'name' => 'required',
             'category_id' => 'required',
             'product_type' => 'required',
@@ -76,31 +78,36 @@ class ProductAddRequest extends Request
             function (Validator $validator) {
                 if ($this['tax'] < 0) {
                     $validator->errors()->add(
-                        'tax', translate('tax_can_not_be_less_than_zero') . '!'
+                        'tax',
+                        translate('tax_can_not_be_less_than_zero') . '!'
                     );
                 }
 
                 if (!$this->has('colors_active') && !$this->file('images') && !$this->has('existing_images')) {
                     $validator->errors()->add(
-                        'images', translate('product_images_is_required') . '!'
+                        'images',
+                        translate('product_images_is_required') . '!'
                     );
                 }
 
                 if (getWebConfig(name: 'product_brand') && empty($this->brand_id) && $this['product_type'] == 'physical') {
                     $validator->errors()->add(
-                        'brand_id', translate('brand_is_required') . '!'
+                        'brand_id',
+                        translate('brand_is_required') . '!'
                     );
                 }
 
                 if ($this['product_type'] == 'physical' && $this['unit_price'] <= $this->getDiscountAmount(price: $this['unit_price'] ?? 0, discount: $this['discount'], discountType: $this['discount_type'])) {
                     $validator->errors()->add(
-                        'unit_price', translate('discount_can_not_be_more_or_equal_to_the_price') . '!'
+                        'unit_price',
+                        translate('discount_can_not_be_more_or_equal_to_the_price') . '!'
                     );
                 }
 
                 if (is_null($this['name'][array_search('EN', $this['lang'])])) {
                     $validator->errors()->add(
-                        'name', translate('name_field_is_required') . '!'
+                        'name',
+                        translate('name_field_is_required') . '!'
                     );
                 }
 
@@ -111,14 +118,14 @@ class ProductAddRequest extends Request
                         $image = 'color_image_' . $color_;
                         if ($this->file($image)) {
                             $productImagesCount++;
-                        } else if ($this->has($image)) {
+                        } elseif ($this->has($image)) {
                             $productImagesCount++;
                         }
-
                     }
                     if ($productImagesCount != count($this['colors'])) {
                         $validator->errors()->add(
-                            'images', translate('color_images_is_required') . '!'
+                            'images',
+                            translate('color_images_is_required') . '!'
                         );
                     }
                 }
@@ -128,7 +135,8 @@ class ProductAddRequest extends Request
                         if (str_contains($requestKey, 'sku_')) {
                             if (empty($this[$requestKey])) {
                                 $validator->errors()->add(
-                                    'sku_error', translate('Variation_SKU_are_required') . '!'
+                                    'sku_error',
+                                    translate('Variation_SKU_are_required') . '!'
                                 );
                             }
                         }
@@ -136,11 +144,13 @@ class ProductAddRequest extends Request
                         if (str_contains($requestKey, 'price_')) {
                             if (empty($this[$requestKey]) || $this[$requestKey] < 0) {
                                 $validator->errors()->add(
-                                    'variation_price', translate('Variation_price_are_required') . '!'
+                                    'variation_price',
+                                    translate('Variation_price_are_required') . '!'
                                 );
-                            } else if ($this[$requestKey] <= $this->getDiscountAmount(price: $this[$requestKey] ?? 0, discount: $this['discount'], discountType: $this['discount_type'])) {
+                            } elseif ($this[$requestKey] <= $this->getDiscountAmount(price: $this[$requestKey] ?? 0, discount: $this['discount'], discountType: $this['discount_type'])) {
                                 $validator->errors()->add(
-                                    'variation_price', translate('discount_can_not_be_more_or_equal_to_the_variation_price') . '!'
+                                    'variation_price',
+                                    translate('discount_can_not_be_more_or_equal_to_the_variation_price') . '!'
                                 );
                             }
                         }
@@ -167,40 +177,45 @@ class ProductAddRequest extends Request
 
                         if ($digitalProductVariationCount == 0) {
                             $validator->errors()->add(
-                                'variation_error', translate('Digital_Product_variations_are_required') . '!'
+                                'variation_error',
+                                translate('Digital_Product_variations_are_required') . '!'
                             );
                         }
 
                         if ($this['digital_product_type'] == 'ready_product' && empty($this['digital_files'])) {
                             $validator->errors()->add(
-                                'files', translate('Digital_files_are_required') . '!'
+                                'files',
+                                translate('Digital_files_are_required') . '!'
                             );
                         }
 
                         if ($this['digital_files'] && $digitalProductVariationCount != count($this['digital_files'])) {
                             $validator->errors()->add(
-                                'files', translate('Digital_files_are_required') . '!'
+                                'files',
+                                translate('Digital_files_are_required') . '!'
                             );
                         }
 
                         if ($this->has('digital_product_sku') && empty($this['digital_product_sku'])) {
                             $validator->errors()->add(
-                                'sku_error', translate('Digital_SKU_are_required') . '!'
+                                'sku_error',
+                                translate('Digital_SKU_are_required') . '!'
                             );
                         } elseif ($this->has('digital_product_sku') && !empty($this['digital_product_sku'])) {
                             foreach ($this['digital_product_sku'] as $digitalSKU) {
                                 if (empty($digitalSKU)) {
                                     $validator->errors()->add(
-                                        'sku_error', translate('Digital_SKU_are_required') . '!'
+                                        'sku_error',
+                                        translate('Digital_SKU_are_required') . '!'
                                     );
                                 }
                             }
                         }
-
                     } else {
                         if ($this['digital_product_type'] == 'ready_product' && empty($this['digital_file_ready'])) {
                             $validator->errors()->add(
-                                'files', translate('Digital_files_are_required') . '!'
+                                'files',
+                                translate('Digital_files_are_required') . '!'
                             );
                         }
                     }
@@ -209,11 +224,13 @@ class ProductAddRequest extends Request
                         foreach ($this['digital_product_price'] as $digitalPrice) {
                             if (empty($digitalPrice) || $digitalPrice < 0) {
                                 $validator->errors()->add(
-                                    'variation_price', translate('Digital_variation_price_are_required') . '!'
+                                    'variation_price',
+                                    translate('Digital_variation_price_are_required') . '!'
                                 );
-                            } else if ($digitalPrice <= $this->getDiscountAmount(price: $digitalPrice, discount: $this['discount'], discountType: $this['discount_type'])) {
+                            } elseif ($digitalPrice <= $this->getDiscountAmount(price: $digitalPrice, discount: $this['discount'], discountType: $this['discount_type'])) {
                                 $validator->errors()->add(
-                                    'variation_price', translate('discount_can_not_be_more_or_equal_to_the_digital_variation_price') . '!'
+                                    'variation_price',
+                                    translate('discount_can_not_be_more_or_equal_to_the_digital_variation_price') . '!'
                                 );
                             }
                         }
@@ -228,11 +245,13 @@ class ProductAddRequest extends Request
 
                     if ($fileSize > $maxFileSize) {
                         $validator->errors()->add(
-                            'files', translate('File_size_exceeds_the_maximum_limit_of_10MB') . '!'
+                            'files',
+                            translate('File_size_exceeds_the_maximum_limit_of_10MB') . '!'
                         );
                     } elseif (in_array($extension, $disallowedExtensions)) {
                         $validator->errors()->add(
-                            'files', translate('Files_with_extensions_like') . (' .php,.java,.js,.html,.exe,.sh ') . translate('are_not_supported') . '!'
+                            'files',
+                            translate('Files_with_extensions_like') . (' .php,.java,.js,.html,.exe,.sh ') . translate('are_not_supported') . '!'
                         );
                     }
                 }

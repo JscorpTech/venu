@@ -10,6 +10,7 @@ use App\Traits\FileManagerTrait;
 use Illuminate\Support\Str;
 use phpDocumentor\Reflection\Types\Boolean;
 use Rap2hpoutre\FastExcel\FastExcel;
+
 use function App\Utils\currency_converter;
 use function Aws\map;
 use function React\Promise\all;
@@ -18,9 +19,7 @@ class ProductService
 {
     use FileManagerTrait;
 
-    public function __construct(private readonly Color $color)
-    {
-    }
+    public function __construct(private readonly Color $color) {}
 
     public function getProcessedImages(object $request): array
     {
@@ -42,7 +41,7 @@ class ProductService
                         'image_name' => $image,
                         'storage' => $storage,
                     ];
-                } else if ($request->has($img)) {
+                } elseif ($request->has($img)) {
                     $image = $request->$img[0];
                     $colorImageSerial[] = [
                         'color' => $color_,
@@ -90,7 +89,6 @@ class ProductService
             'image_names' => $imageNames ?? [],
             'colored_image_names' => $colorImageSerial ?? []
         ];
-
     }
 
     public function getProcessedUpdateImages(object $request, object $product): array
@@ -145,7 +143,7 @@ class ProductService
                         ];
                         $colorImageArray[] = $colorImages;
                     }
-                } else if ($dbColorImage && in_array($color, $dbColorImageFinal) && $request->has($image) && $request->file($image)) {
+                } elseif ($dbColorImage && in_array($color, $dbColorImageFinal) && $request->has($image) && $request->file($image)) {
                     $dbColorFilterImages = [];
                     foreach ($dbColorImage as $colorImage) {
                         if ($colorImage['color'] == $color) {
@@ -466,7 +464,7 @@ class ProductService
         $processedImages = $this->getProcessedImages(request: $request); //once the images are processed do not call this function again just use the variable
         $combinations = $this->getCombinations($this->getOptions(request: $request));
         $variations = $this->getVariations(request: $request, combinations: $combinations);
-        $stockCount = isset($combinations[0]) && count($combinations[0]) > 0 ? $this->getTotalQuantity(variations: $variations) : (integer)$request['current_stock'];
+        $stockCount = isset($combinations[0]) && count($combinations[0]) > 0 ? $this->getTotalQuantity(variations: $variations) : (int)$request['current_stock'];
 
         $digitalFile = '';
         if ($request['product_type'] == 'digital' && $request['digital_product_type'] == 'ready_product' && $request['digital_file_ready']) {
@@ -482,6 +480,7 @@ class ProductService
         $digitalFileCombinations = $this->getDigitalVariationCombinations(arrays: $digitalFileOptions);
 
         return [
+            "mxik" => $request['mxik'],
             'added_by' => $addedBy,
             'user_id' => $addedBy == 'admin' ? auth('admin')->id() : auth('seller')->id(),
             'name' => $request['name'][array_search('en', $request['lang'])],
@@ -537,7 +536,7 @@ class ProductService
         $processedImages = $this->getProcessedUpdateImages(request: $request, product: $product);
         $combinations = $this->getCombinations($this->getOptions(request: $request));
         $variations = $this->getVariations(request: $request, combinations: $combinations);
-        $stockCount = isset($combinations[0]) && count($combinations[0]) > 0 ? $this->getTotalQuantity(variations: $variations) : (integer)$request['current_stock'];
+        $stockCount = isset($combinations[0]) && count($combinations[0]) > 0 ? $this->getTotalQuantity(variations: $variations) : (int)$request['current_stock'];
 
         if ($request->has('extensions_type') && $request->has('digital_product_variant_key')) {
             $digitalFile = null;
@@ -560,6 +559,7 @@ class ProductService
         $digitalFileCombinations = $this->getDigitalVariationCombinations(arrays: $digitalFileOptions);
 
         $dataArray = [
+            "mxik" => $request['mxik'],
             'name' => $request['name'][array_search('en', $request['lang'])],
             'code' => $request['code'],
             'product_type' => $request['product_type'],
@@ -646,7 +646,7 @@ class ProductService
     public function getImportBulkProductData(object $request, string $addedBy): array
     {
         try {
-            $collections = (new FastExcel)->import($request->file('products_file'));
+            $collections = (new FastExcel())->import($request->file('products_file'));
         } catch (\Exception $exception) {
             return [
                 'status' => false,
@@ -660,13 +660,14 @@ class ProductService
             'category_id',
             'sub_category_id',
             'sub_sub_category_id',
-            'brand_id', 'unit',
+            'brand_id',
+            'unit',
             'minimum_order_qty',
             'status',
             'refundable',
             'youtube_video_url',
             'unit_price',
-//            'purchase_price',
+            //            'purchase_price',
             'tax',
             'discount',
             'discount_type',

@@ -14,11 +14,9 @@
                         <span class="input-required-icon">*</span>
                     </label>
                     <select class="custom-select action-get-request-onchange" name="category_id"
-                            data-url-prefix="{{ url('/admin/products/get-categories?parent_id=') }}"
-                            data-element-id="sub-category-select"
-                            data-element-type="select"
-                            data-placeholder="{{ translate('select_category') }}"
-                            required>
+                        data-url-prefix="{{ url('/admin/products/get-categories?parent_id=') }}"
+                        data-element-id="sub-category-select" data-element-type="select"
+                        data-placeholder="{{ translate('select_category') }}" required>
                         <option value="{{ old('category_id') }}" selected disabled>
                             {{ translate('select_category') }}
                         </option>
@@ -35,12 +33,10 @@
                 <div class="form-group">
                     <label for="name" class="form-label">{{ translate('sub_Category') }}</label>
                     <select class="custom-select action-get-request-onchange" name="sub_category_id"
-                            id="sub-category-select"
-                            data-url-prefix="{{ url('/admin/products/get-categories?parent_id=') }}"
-                            data-element-id="sub-sub-category-select"
-                            data-element-type="select"
-                            data-placeholder="{{ translate('select_Sub_Category') }}"
-                    >
+                        id="sub-category-select"
+                        data-url-prefix="{{ url('/admin/products/get-categories?parent_id=') }}"
+                        data-element-id="sub-sub-category-select" data-element-type="select"
+                        data-placeholder="{{ translate('select_Sub_Category') }}">
                         <option value="{{ null }}" selected disabled>
                             {{ translate('select_Sub_Category') }}
                         </option>
@@ -50,17 +46,15 @@
             <div class="col-md-6 col-lg-4 col-xl-3">
                 <div class="form-group">
                     <label for="name" class="form-label">{{ translate('sub_Sub_Category') }}</label>
-                    <select class="custom-select" name="sub_sub_category_id"
-                            id="sub-sub-category-select"
-                            data-placeholder="{{ translate('select_Sub_Sub_Category') }}"
-                    >
+                    <select class="custom-select" name="sub_sub_category_id" id="sub-sub-category-select"
+                        data-placeholder="{{ translate('select_Sub_Sub_Category') }}">
                         <option value="{{ null }}" selected disabled>
                             {{ translate('select_Sub_Sub_Category') }}
                         </option>
                     </select>
                 </div>
             </div>
-            @if($brandSetting)
+            @if ($brandSetting)
                 <div class="col-md-6 col-lg-4 col-xl-3 show-for-physical-product">
                     <div class="form-group">
                         <label class="form-label">
@@ -88,7 +82,7 @@
                     <div class="select-wrapper">
                         <select name="product_type" id="product_type" class="form-select" required>
                             <option value="physical" selected>{{ translate('physical') }}</option>
-                            @if($digitalProductSetting)
+                            @if ($digitalProductSetting)
                                 <option value="digital">{{ translate('digital') }}</option>
                             @endif
                         </select>
@@ -99,10 +93,10 @@
             <div class="col-md-6 col-lg-4 col-xl-3 show-for-digital-product">
                 <div class="form-group">
                     <label class="form-label">
-                        {{ translate("Author") }}/{{ translate("Creator") }}/{{ translate("Artist") }}
+                        {{ translate('Author') }}/{{ translate('Creator') }}/{{ translate('Artist') }}
                     </label>
                     <select class="custom-select tags" name="authors[]" multiple="multiple" id="mySelect">
-                        @foreach($digitalProductAuthors as $authors)
+                        @foreach ($digitalProductAuthors as $authors)
                             <option value="{{ $authors['name'] }}">{{ $authors['name'] }}</option>
                         @endforeach
                     </select>
@@ -111,10 +105,10 @@
 
             <div class="col-md-6 col-lg-4 col-xl-3 show-for-digital-product">
                 <div class="form-group">
-                    <label class="form-label">{{ translate("Publishing_House") }}</label>
+                    <label class="form-label">{{ translate('Publishing_House') }}</label>
                     <select class="custom-select tags" name="publishing_house[]" multiple="multiple">
 
-                        @foreach($publishingHouseList as $publishingHouse)
+                        @foreach ($publishingHouseList as $publishingHouse)
                             <option value="{{ $publishingHouse['name'] }}">
                                 {{ $publishingHouse['name'] }}
                             </option>
@@ -126,23 +120,31 @@
             <div class="col-md-6 col-lg-4 col-xl-3 show-for-digital-product">
                 <div class="form-group">
                     <label for="digital-product-type-input" class="form-label">
-                        {{ translate("delivery_type") }}
+                        {{ translate('delivery_type') }}
                         <span class="input-required-icon">*</span>
                         <span class="tooltip-icon cursor-pointer" data-bs-toggle="tooltip"
-                              aria-label="{{
-                                        translate('for_Ready_Product_deliveries,_customers_can_pay_&_instantly_download_pre-uploaded_digital_products').' '.
-                                        translate('For_Ready_After_Sale_deliveries,_customers_pay_first_then_admin_uploads_the_digital_products_that_become_available_to_customers_for_download') }}"
-                              data-bs-title="{{
-                                        translate('for_Ready_Product_deliveries,_customers_can_pay_&_instantly_download_pre-uploaded_digital_products').' '.
-                                        translate('For_Ready_After_Sale_deliveries,_customers_pay_first_then_admin_uploads_the_digital_products_that_become_available_to_customers_for_download') }}">
-                                        <i class="fi fi-sr-info"></i>
-                                    </span>
+                            aria-label="{{ translate(
+                                'for_Ready_Product_deliveries,_customers_can_pay_&_instantly_download_pre-uploaded_digital_products',
+                            ) .
+                                ' ' .
+                                translate(
+                                    'For_Ready_After_Sale_deliveries,_customers_pay_first_then_admin_uploads_the_digital_products_that_become_available_to_customers_for_download',
+                                ) }}"
+                            data-bs-title="{{ translate(
+                                'for_Ready_Product_deliveries,_customers_can_pay_&_instantly_download_pre-uploaded_digital_products',
+                            ) .
+                                ' ' .
+                                translate(
+                                    'For_Ready_After_Sale_deliveries,_customers_pay_first_then_admin_uploads_the_digital_products_that_become_available_to_customers_for_download',
+                                ) }}">
+                            <i class="fi fi-sr-info"></i>
+                        </span>
                     </label>
                     <div class="select-wrapper">
                         <select name="digital_product_type" id="digital-product-type-input" class="form-select"
-                                required>
-                            <option value="ready_after_sell">{{ translate("ready_After_Sell") }}</option>
-                            <option value="ready_product">{{ translate("ready_Product") }}</option>
+                            required>
+                            <option value="ready_after_sell">{{ translate('ready_After_Sell') }}</option>
+                            <option value="ready_product">{{ translate('ready_Product') }}</option>
                         </select>
                     </div>
                 </div>
@@ -155,8 +157,8 @@
                             {{ translate('product_SKU') }}
                             <span class="input-required-icon">*</span>
                             <span class="tooltip-icon cursor-pointer" data-bs-toggle="tooltip"
-                                  aria-label="{{ translate('create_a_unique_product_code_by_clicking_on_the_Generate_Code_button') }}"
-                                  data-bs-title="{{ translate('create_a_unique_product_code_by_clicking_on_the_Generate_Code_button') }}">
+                                aria-label="{{ translate('create_a_unique_product_code_by_clicking_on_the_Generate_Code_button') }}"
+                                data-bs-title="{{ translate('create_a_unique_product_code_by_clicking_on_the_Generate_Code_button') }}">
                                 <i class="fi fi-sr-info"></i>
                             </span>
                         </span>
@@ -166,9 +168,8 @@
                             {{ translate('generate_code') }}
                         </span>
                     </label>
-                    <input type="text" minlength="6" id="generate-sku-code" name="code"
-                           class="form-control" value="{{ old('code') }}"
-                           placeholder="{{ translate('ex').': 161183'}}" required>
+                    <input type="text" minlength="6" id="generate-sku-code" name="code" class="form-control"
+                        value="{{ old('code') }}" placeholder="{{ translate('ex') . ': 161183' }}" required>
                 </div>
             </div>
             <div class="col-md-6 col-lg-4 col-xl-3 show-for-physical-product">
@@ -187,18 +188,33 @@
                     </div>
                 </div>
             </div>
+            <div class="col-md-6 col-lg-4 col-xl-3">
+                <div class="form-group">
+                    <label class="form-label d-flex justify-content-between gap-2">
+                        <span class="d-flex align-items-center gap-2">
+                            {{ translate('mxik') }}
+                            <span class="input-required-icon">*</span>
+                        </span>
+                    </label>
+                    <input type="text" id="mxik" name="mxik" class="form-control"
+                        value="{{ old('mxik') }}" placeholder="{{ translate('ex') . ': 161183' }}" required>
+                </div>
+            </div>
+
+
+
             <div class="col-md-9">
                 <div class="form-group">
                     <label class="form-label d-flex align-items-center gap-2">
                         {{ translate('search_tags') }}
                         <span class="tooltip-icon cursor-pointer" data-bs-toggle="tooltip"
-                              aria-label="{{ translate('add_the_product_search_tag_for_this_product_that_customers_can_use_to_search_quickly') }}"
-                              data-bs-title="{{ translate('add_the_product_search_tag_for_this_product_that_customers_can_use_to_search_quickly') }}">
-                              <i class="fi fi-sr-info"></i>
+                            aria-label="{{ translate('add_the_product_search_tag_for_this_product_that_customers_can_use_to_search_quickly') }}"
+                            data-bs-title="{{ translate('add_the_product_search_tag_for_this_product_that_customers_can_use_to_search_quickly') }}">
+                            <i class="fi fi-sr-info"></i>
                         </span>
                     </label>
                     <input type="text" class="form-control" placeholder="{{ translate('enter_tag') }}"
-                           name="tags" data-role="tagsinput">
+                        name="tags" data-role="tagsinput">
                 </div>
             </div>
         </div>

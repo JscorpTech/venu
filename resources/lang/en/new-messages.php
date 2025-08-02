@@ -1843,4 +1843,7 @@ return [
 	"want_to_turn_Off_payme_as_the_Digital_Payment_method" => "Want to turn Off payme as the Digital Payment method",
 	"pay_via_online" => "Pay via online",
 	"choose_Payment_Method" => "Choose Payment Method",
+	"mxik" => "Mxik",
+	"The unit price field is required." => "The unit price field is required.",
+	"name_field_is_required" => "Name field is required",
 ];
