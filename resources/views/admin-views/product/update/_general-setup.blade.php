@@ -214,6 +214,20 @@
                 </div>
             </div>
 
+
+            <div class="col-md-6 col-lg-4 col-xl-3">
+                <div class="form-group">
+                    <label class="form-label d-flex justify-content-between gap-2">
+                        <span class="d-flex align-items-center gap-2">
+                            {{ translate('weight') }}
+                            <span class="input-required-icon">*</span>
+                        </span>
+                    </label>
+                    <input type="text" id="weight" name="weight" class="form-control"
+                        value="{{ $product->weight }}" placeholder="12" required>
+                </div>
+            </div>
+
             <div class="col-md-9">
                 <div class="form-group">
                     <label class="form-label d-flex align-items-center gap-2">

@@ -38,7 +38,8 @@ use Illuminate\Support\Facades\DB;
  */
 class Seller extends Authenticatable
 {
-    use Notifiable, StorageTrait;
+    use Notifiable;
+    use StorageTrait;
 
     protected $fillable = [
         'f_name',
@@ -150,5 +151,4 @@ class Seller extends Authenticatable
             cacheRemoveByType(type: 'sellers');
         });
     }
-
 }

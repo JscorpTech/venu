@@ -72,6 +72,8 @@ class BtsService
         float $weight,
         int $packageId,
         int $postTypeId,
+        string $senderName,
+        string $senderPhone,
         string $receiver,
         string $receiverAddress,
         string $receiverCityId,
@@ -81,8 +83,8 @@ class BtsService
         $payload = [
             "senderCityId" => $senderCityId,
             "senderAddress" => $senderAddress,
-            "senderReal" => "VENU",
-            "senderPhone" => $this->phone,
+            "senderReal" => $senderName,
+            "senderPhone" => $senderPhone,
             "weight" => $weight,
             "packageId" => $packageId,
             "postTypeId" => $postTypeId,
@@ -104,6 +106,23 @@ class BtsService
             "status" => BtsOrderStatus::CREATED->value,
         ]);
         return $instance;
+    }
+
+
+    public function region_code_to_id($code)
+    {
+        return match ($code) {
+            "1" => 1,
+            default => $code,
+        };
+    }
+
+    public function district_code_to_id($code)
+    {
+        return match ($code) {
+            "1" => 1,
+            default => $code,
+        };
     }
 }
 

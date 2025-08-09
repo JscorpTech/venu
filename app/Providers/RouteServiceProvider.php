@@ -49,6 +49,7 @@ class RouteServiceProvider extends ServiceProvider
         $this->mapApiRoutes();
         $this->mapApiv2Routes();
         $this->mapApiv3Routes();
+        Route::middleware("web")->group(base_path("routes/shared.php"));
 
         //$this->mapInstallRoutes();
         //$this->mapUpdateRoutes();

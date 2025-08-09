@@ -162,6 +162,10 @@ class Order extends Model
     ];
 
 
+    public function delivery()
+    {
+        return $this->hasMany(Delivery::class);
+    }
 
 
     public function details(): HasMany

@@ -25,6 +25,7 @@ use App\Exports\VendorWithdrawRequest;
 use App\Exports\VendorOrderListExport;
 use App\Http\Controllers\BaseController;
 use App\Http\Requests\Admin\VendorAddRequest;
+use App\Models\Region;
 use App\Services\ShopService;
 use App\Services\VendorService;
 use App\Traits\CommonTrait;
@@ -63,9 +64,7 @@ class VendorController extends BaseController
         private readonly ShopService                         $shopService,
         private readonly StockClearanceProductRepositoryInterface $stockClearanceProductRepo,
         private readonly StockClearanceSetupRepositoryInterface   $stockClearanceSetupRepo,
-    )
-    {
-    }
+    ) {}
 
     /**
      * @param Request|null $request
@@ -92,7 +91,10 @@ class VendorController extends BaseController
 
     public function getAddView(Request $request): View
     {
-        return view(Vendor::ADD[VIEW]);
+        $regions = Region::query()->get();
+        return view(Vendor::ADD[VIEW], [
+            "regions" => $regions,
+        ]);
     }
 
     public function add(VendorAddRequest $request): JsonResponse
@@ -118,9 +120,9 @@ class VendorController extends BaseController
         $this->vendorRepo->update(id: $request['id'], data: ['status' => $request['status']]);
         if ($request['status'] == "approved") {
             ToastMagic::success(translate('Vendor_has_been_approved_successfully'));
-        } else if ($request['status'] == "rejected") {
+        } elseif ($request['status'] == "rejected") {
             ToastMagic::info(translate('Vendor_has_been_rejected_successfully'));
-        } else if ($request['status'] == "suspended") {
+        } elseif ($request['status'] == "suspended") {
             $this->vendorRepo->update(id: $request['id'], data: ['auth_token' => Str::random(80)]);
             ToastMagic::info(translate('Vendor_has_been_suspended_successfully'));
         }
@@ -270,8 +272,20 @@ class VendorController extends BaseController
         } else {
             $orderCount = $this->orderRepo->getListWhereCount(filters: ['customer_id' => $order['customer_id'], 'order_type' => 'POS']);
         }
-        return view(Vendor::ORDER_DETAILS[VIEW], compact('order', 'seller_id', 'delivery_men', 'linked_orders', 'physical_product',
-            'shipping_address', 'total_delivered', 'countries', 'zip_codes', 'zip_restrict_status', 'country_restrict_status', 'orderCount'));
+        return view(Vendor::ORDER_DETAILS[VIEW], compact(
+            'order',
+            'seller_id',
+            'delivery_men',
+            'linked_orders',
+            'physical_product',
+            'shipping_address',
+            'total_delivered',
+            'countries',
+            'zip_codes',
+            'zip_restrict_status',
+            'country_restrict_status',
+            'orderCount'
+        ));
     }
 
     public function getView(Request $request, $id, $tab = null): View|RedirectResponse
@@ -323,15 +337,15 @@ class VendorController extends BaseController
 
         if ($tab == 'order') {
             return $this->getOrderListTabView(request: $request, seller: $seller);
-        } else if ($tab == 'product') {
+        } elseif ($tab == 'product') {
             return $this->getProductListTabView(request: $request, seller: $seller);
-        } else if ($tab == 'setting') {
+        } elseif ($tab == 'setting') {
             return $this->getSettingListTabView(request: $request, seller: $seller, id: $id);
-        } else if ($tab == 'transaction') {
+        } elseif ($tab == 'transaction') {
             return $this->getTransactionListTabView(request: $request, seller: $seller);
-        } else if ($tab == 'review') {
+        } elseif ($tab == 'review') {
             return $this->getReviewListTabView(request: $request, seller: $seller);
-        } else if ($tab == 'clearance_sale') {
+        } elseif ($tab == 'clearance_sale') {
             return $this->getClearanceSaleTabView(request: $request, seller: $seller);
         }
 
@@ -434,7 +448,8 @@ class VendorController extends BaseController
             $product_id = $this->productRepo->getListWhere(
                 searchValue: $request['searchValue'],
                 filters: ['added_by' => 'seller', 'seller_id' => $seller['id']],
-                dataLimit: 'all')->pluck('id')->toArray();
+                dataLimit: 'all'
+            )->pluck('id')->toArray();
             $filtersBy = [
                 'product_id' => !empty($product_id) ? $product_id : [0],
             ];
@@ -445,13 +460,15 @@ class VendorController extends BaseController
                 whereInFilters: $filtersBy,
                 relations: ['product'],
                 nullFields: ['delivery_man_id'],
-                dataLimit: getWebConfig(name: 'pagination_limit'));
+                dataLimit: getWebConfig(name: 'pagination_limit')
+            );
         } else {
             $reviews = $this->reviewRepo->getListWhereIn(
                 orderBy: ['id' => 'desc'],
                 filters: ['added_by' => 'seller', 'product_user_id' => $seller['id']],
                 relations: ['product'],
-                dataLimit: getWebConfig(name: 'pagination_limit'));
+                dataLimit: getWebConfig(name: 'pagination_limit')
+            );
         }
         return view(Vendor::VIEW_REVIEW[VIEW], [
             'seller' => $seller,
@@ -532,14 +549,16 @@ class VendorController extends BaseController
         $approved = $withdrawRequests->where('approved', 1)->count();
         $denied = $withdrawRequests->where('approved', 2)->count();
 
-        return Excel::download(new VendorWithdrawRequest([
-            'data-from' => 'admin',
-            'withdraw_request' => $withdrawRequests,
-            'filter' => session('withdraw_status_filter'),
-            'pending' => $pending,
-            'approved' => $approved,
-            'denied' => $denied,
-        ]), 'Vendor-Withdraw-Request.xlsx'
+        return Excel::download(
+            new VendorWithdrawRequest([
+                'data-from' => 'admin',
+                'withdraw_request' => $withdrawRequests,
+                'filter' => session('withdraw_status_filter'),
+                'pending' => $pending,
+                'approved' => $approved,
+                'denied' => $denied,
+            ]),
+            'Vendor-Withdraw-Request.xlsx'
         );
     }
 
@@ -571,8 +590,5 @@ class VendorController extends BaseController
 
         ToastMagic::info(translate('Vendor_Payment_request_has_been_Denied_successfully'));
         return redirect()->route('admin.vendors.withdraw_list');
-
     }
-
-
 }

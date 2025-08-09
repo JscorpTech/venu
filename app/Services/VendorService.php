@@ -51,7 +51,7 @@ class VendorService
      * @param object $request
      * @return array
      */
-    public function getFreeDeliveryOverAmountData(object $request):array
+    public function getFreeDeliveryOverAmountData(object $request): array
     {
         return [
             'free_delivery_status' => $request['free_delivery_status'] == 'on' ? 1 : 0,
@@ -62,7 +62,7 @@ class VendorService
     /**
      * @return array[minimum_order_amount: float|int]
      */
-    public function getMinimumOrderAmount(object $request) :array
+    public function getMinimumOrderAmount(object $request): array
     {
         return [
             'minimum_order_amount' => currencyConverter($request['minimum_order_amount'], 'usd')
@@ -74,7 +74,7 @@ class VendorService
      * @param object $vendor
      * @return array
      */
-    public function getVendorDataForUpdate(object $request, object $vendor):array
+    public function getVendorDataForUpdate(object $request, object $vendor): array
     {
         $image = $request['image'] ? $this->update(dir: 'seller/', oldImage: $vendor['image'], format: 'webp', image: $request->file('image')) : $vendor['image'];
         return [
@@ -88,7 +88,7 @@ class VendorService
     /**
      * @return array[password: string]
      */
-    public function getVendorPasswordData(object $request):array
+    public function getVendorPasswordData(object $request): array
     {
         return [
             'password' => bcrypt($request['password']),
@@ -99,7 +99,7 @@ class VendorService
      * @param object $request
      * @return array
      */
-    public function getVendorBankInfoData(object $request):array
+    public function getVendorBankInfoData(object $request): array
     {
         return [
             'bank_name' => $request['bank_name'],
@@ -108,7 +108,7 @@ class VendorService
             'account_no' => $request['account_no'],
         ];
     }
-    public function getAddData(object $request):array
+    public function getAddData(object $request): array
     {
         return [
             'f_name' => $request['f_name'],

@@ -128,7 +128,6 @@ use App\Http\Controllers\Admin\Settings\StorageConnectionSettingsController;
 use App\Http\Controllers\Admin\Settings\VendorRegistrationSettingController;
 use App\Http\Controllers\Admin\Notification\PushNotificationSettingsController;
 
-
 Route::controller(SharedController::class)->group(function () {
     Route::post('change-language', 'changeLanguage')->name('change-language');
     Route::post('get-session-recaptcha-code', 'getSessionRecaptchaCode')->name('get-session-recaptcha-code');
@@ -249,7 +248,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['admin']],
             Route::get('export-excel/{status}', 'exportList')->name('export-excel');
             Route::get('generate-invoice/{id}', 'generateInvoice')->name('generate-invoice')->withoutMiddleware(['module:order_management']);
             Route::get('details/{id}', 'getView')->name('details');
-            Route::post('address-update', 'updateAddress')->name('address-update');// update address from order details
+            Route::post('address-update', 'updateAddress')->name('address-update'); // update address from order details
             Route::post('update-deliver-info', 'updateDeliverInfo')->name('update-deliver-info');
             Route::get('add-delivery-man/{order_id}/{d_man_id}', 'addDeliveryMan')->name('add-delivery-man');
             Route::post('amount-date-update', 'updateAmountDate')->name('amount-date-update');
@@ -258,6 +257,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['admin']],
             Route::get('inhouse-order-filter', 'filterInHouseOrder')->name('inhouse-order-filter');
             Route::post('digital-file-upload-after-sell', 'uploadDigitalFileAfterSell')->name('digital-file-upload-after-sell');
             Route::post('status', 'updateStatus')->name('status');
+            Route::post('delivery', 'updateDelivery')->name("delivery-status");
         });
     });
 
@@ -296,7 +296,6 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['admin']],
             Route::post(Category::DELETE[URI], 'delete')->name('delete');
             Route::post(Category::STATUS[URI], 'updateStatus')->name('status');
             Route::get(Category::EXPORT[URI], 'getExportList')->name('export');
-
         });
     });
 
@@ -372,7 +371,6 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['admin']],
                 Route::get(Customer::LOYALTY_EXPORT[URI], 'exportList')->name('export');
             });
         });
-
     });
 
     Route::group(['prefix' => 'report', 'as' => 'report.', 'middleware' => ['module:report']], function () {
@@ -687,7 +685,6 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['admin']],
                 Route::delete(EmergencyContact::DELETE[URI], 'delete')->name('destroy');
             });
         });
-
     });
 
     Route::group(['prefix' => 'most-demanded', 'as' => 'most-demanded.', 'middleware' => ['module:promotion_management']], function () {
@@ -1014,7 +1011,6 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['admin']],
                 });
             });
         });
-
     });
 
     Route::group(['prefix' => 'business-settings', 'as' => 'business-settings.'], function () {
@@ -1029,7 +1025,6 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['admin']],
                 Route::get('inhouse-shop/setup', 'getSetupView')->name('inhouse-shop-setup');
                 Route::post('inhouse-shop/setup', 'updateSetup');
             });
-
         });
 
         Route::group(['prefix' => 'priority-setup', 'as' => 'priority-setup.'], function () {
@@ -1167,5 +1162,4 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['admin']],
             });
         });
     });
-
 });

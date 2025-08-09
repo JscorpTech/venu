@@ -35,7 +35,8 @@ use Illuminate\Support\Facades\DB;
  */
 class Shop extends Model
 {
-    use StorageTrait, CacheManagerTrait;
+    use StorageTrait;
+    use CacheManagerTrait;
 
     /**
      * The attributes that are mass assignable.
@@ -45,6 +46,10 @@ class Shop extends Model
     protected $fillable = [
         'seller_id',
         'name',
+        "long",
+        "lat",
+        "region_id",
+        "district_id",
         'slug',
         'address',
         'contact',
@@ -73,6 +78,17 @@ class Shop extends Model
         'vacation_status' => 'boolean',
         'temporary_close' => 'boolean',
     ];
+
+
+    public function region()
+    {
+        return $this->belongsTo(Region::class);
+    }
+
+    public function district()
+    {
+        return $this->belongsTo(District::class);
+    }
 
     public function seller(): BelongsTo
     {

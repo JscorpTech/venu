@@ -3,69 +3,68 @@
 @section('title', translate('add_new_Vendor'))
 
 @section('content')
-    <div class="content container-fluid main-card {{Session::get('direction') }}">
+    <div class="content container-fluid main-card {{ Session::get('direction') }}">
         <div class="mb-4">
             <h2 class="h1 mb-0 text-capitalize d-flex align-items-center gap-2">
-                <img src="{{ dynamicAsset(path: 'public/assets/back-end/img/add-new-seller.png') }}" class="mb-1" alt="">
+                <img src="{{ dynamicAsset(path: 'public/assets/back-end/img/add-new-seller.png') }}" class="mb-1"
+                    alt="">
                 {{ translate('add_new_Vendor') }}
             </h2>
         </div>
 
-        <form action="{{ route('admin.vendors.add') }}" method="post" enctype="multipart/form-data"
-              id="add-vendor-form" data-message="{{ translate('want_to_add_this_vendor').'?'}}"
-              data-redirect-route="{{ route('admin.vendors.vendor-list') }}">
+        <form action="{{ route('admin.vendors.add') }}" method="post" enctype="multipart/form-data" id="add-vendor-form"
+            data-message="{{ translate('want_to_add_this_vendor') . '?' }}"
+            data-redirect-route="{{ route('admin.vendors.vendor-list') }}">
             @csrf
             <div class="card">
                 <div class="card-body">
                     <input type="hidden" name="status" value="approved">
                     <h3 class="mb-0 text-capitalize d-flex align-items-center gap-2 border-bottom pb-3 mb-4 pl-4">
                         <img src="{{ dynamicAsset(path: 'public/assets/back-end/img/vendor-information.png') }}"
-                             class="mb-1" alt="">
+                            class="mb-1" alt="">
                         {{ translate('vendor_information') }}
                     </h3>
                     <div class="row align-items-center">
                         <div class="col-lg-6 mb-4 mb-lg-0">
                             <div class="form-group">
                                 <label for="exampleFirstName"
-                                       class="mb-2 d-flex gap-1 align-items-center">{{ translate('first_name') }}</label>
+                                    class="mb-2 d-flex gap-1 align-items-center">{{ translate('first_name') }}</label>
                                 <input type="text" class="form-control form-control-user" id="exampleFirstName"
-                                       name="f_name" value="{{ old('f_name') }}" placeholder="{{ translate('ex') }}: Jhone"
-                                       required>
+                                    name="f_name" value="{{ old('f_name') }}" placeholder="{{ translate('ex') }}: Jhone"
+                                    required>
                             </div>
                             <div class="form-group">
                                 <label for="exampleLastName"
-                                       class="mb-2 d-flex gap-1 align-items-center">{{ translate('last_name') }}</label>
+                                    class="mb-2 d-flex gap-1 align-items-center">{{ translate('last_name') }}</label>
                                 <input type="text" class="form-control form-control-user" id="exampleLastName"
-                                       name="l_name" value="{{ old('l_name') }}" placeholder="{{ translate('ex') }}: Doe"
-                                       required>
+                                    name="l_name" value="{{ old('l_name') }}" placeholder="{{ translate('ex') }}: Doe"
+                                    required>
                             </div>
                             <div class="form-group mb-3">
-                                <label for="phone_number"
-                                       class=" mb-2">{{translate('phone_number')}}</label>
-                                <input class="form-control form-control-user"
-                                       type="tel" value=""
-                                       placeholder="{{ translate('ex').': 017xxxxxxxx' }}" name="phone" required>
+                                <label for="phone_number" class=" mb-2">{{ translate('phone_number') }}</label>
+                                <input class="form-control form-control-user" type="tel" value=""
+                                    placeholder="{{ translate('ex') . ': 017xxxxxxxx' }}" name="phone" required>
                             </div>
                         </div>
                         <div class="col-lg-6">
                             <div class="form-group">
                                 <div class="d-flex justify-content-center">
                                     <img class="upload-img-view" id="viewer"
-                                         src="{{ dynamicAsset(path: 'public/assets/back-end/img/400x400/img2.jpg') }}"
-                                         alt="{{ translate('banner_image') }}"/>
+                                        src="{{ dynamicAsset(path: 'public/assets/back-end/img/400x400/img2.jpg') }}"
+                                        alt="{{ translate('banner_image') }}" />
                                 </div>
                             </div>
                             <div class="form-group">
                                 <div class="mb-2 d-flex gap-1 align-items-center">{{ translate('vendor_Image') }} <span
-                                        class="text-info">({{ translate('ratio') }} {{ translate('1') }}:{{ translate('1') }})</span>
+                                        class="text-info">({{ translate('ratio') }}
+                                        {{ translate('1') }}:{{ translate('1') }})</span>
                                 </div>
                                 <div class="custom-file text-left">
                                     <input type="file" name="image" id="custom-file-upload"
-                                           class="custom-file-input image-input"
-                                           data-image-id="viewer"
-                                           accept=".jpg, .png, .jpeg, .gif, .bmp, .tif, .tiff|image/*">
+                                        class="custom-file-input image-input" data-image-id="viewer"
+                                        accept=".jpg, .png, .jpeg, .gif, .bmp, .tif, .tiff|image/*">
                                     <label class="custom-file-label"
-                                           for="custom-file-upload">{{ translate('upload_image') }}</label>
+                                        for="custom-file-upload">{{ translate('upload_image') }}</label>
                                 </div>
                             </div>
                         </div>
@@ -77,29 +76,29 @@
                     <input type="hidden" name="status" value="approved">
                     <h3 class="mb-0 text-capitalize d-flex align-items-center gap-2 border-bottom pb-3 mb-4 pl-4">
                         <img src="{{ dynamicAsset(path: 'public/assets/back-end/img/vendor-information.png') }}"
-                             class="mb-1" alt="">
+                            class="mb-1" alt="">
                         {{ translate('account_information') }}
                     </h3>
                     <div class="row">
                         <div class="col-lg-4 form-group">
                             <label for="exampleInputEmail"
-                                   class="mb-2 d-flex gap-1 align-items-center">{{ translate('email') }}</label>
+                                class="mb-2 d-flex gap-1 align-items-center">{{ translate('email') }}</label>
                             <input type="email" class="form-control form-control-user" id="exampleInputEmail"
-                                   name="email" value="{{ old('email') }}"
-                                   placeholder="{{ translate('ex').':'.'Jhone@company.com'}}" required>
+                                name="email" value="{{ old('email') }}"
+                                placeholder="{{ translate('ex') . ':' . 'Jhone@company.com' }}" required>
                         </div>
                         <div class="col-lg-4 form-group">
                             <label for="user_password" class="mb-2 d-flex gap-1 align-items-center">
                                 {{ translate('password') }}
                                 <span class="input-label-secondary cursor-pointer d-flex" data-bs-toggle="tooltip"
-                                      data-bs-title="{{ translate('The_password_must_be_at_least_8_characters_long_and_contain_at_least_one_uppercase_letter').','.translate('_one_lowercase_letter').','.translate('_one_digit_').','.translate('_one_special_character').','.translate('_and_no_spaces').'.'}}">
-                                <i class="fi fi-rr-info"></i>
-                            </span>
+                                    data-bs-title="{{ translate('The_password_must_be_at_least_8_characters_long_and_contain_at_least_one_uppercase_letter') . ',' . translate('_one_lowercase_letter') . ',' . translate('_one_digit_') . ',' . translate('_one_special_character') . ',' . translate('_and_no_spaces') . '.' }}">
+                                    <i class="fi fi-rr-info"></i>
+                                </span>
                             </label>
                             <div class="input-group">
                                 <input type="password" class="js-toggle-password form-control password-check"
-                                       name="password" required id="user_password" minlength="8"
-                                       placeholder="{{ translate('password_minimum_8_characters') }}">
+                                    name="password" required id="user_password" minlength="8"
+                                    placeholder="{{ translate('password_minimum_8_characters') }}">
                                 <div id="changePassTarget" class="input-group-append changePassTarget">
                                     <a class="text-body-light" href="javascript:">
                                         <i id="changePassIcon" class="fi fi-rr-eye"></i>
@@ -110,17 +109,17 @@
                         </div>
                         <div class="col-lg-4 form-group">
                             <label for="confirm_password"
-                                   class="mb-2 d-flex gap-1 align-items-center">{{ translate('confirm_password') }}</label>
+                                class="mb-2 d-flex gap-1 align-items-center">{{ translate('confirm_password') }}</label>
                             <div class="input-group">
                                 <input type="password" class="js-toggle-password form-control" name="confirm_password"
-                                       required id="confirm_password" placeholder="{{ translate('confirm_password') }}">
+                                    required id="confirm_password" placeholder="{{ translate('confirm_password') }}">
                                 <div id="changeConfirmPassTarget" class="input-group-append changePassTarget">
                                     <a class="text-body-light" href="javascript:">
                                         <i id="changeConfirmPassIcon" class="fi fi-rr-eye"></i>
                                     </a>
                                 </div>
                             </div>
-                            <div class="pass invalid-feedback">{{ translate('repeat_password_not_match').'.'}}</div>
+                            <div class="pass invalid-feedback">{{ translate('repeat_password_not_match') . '.' }}</div>
                         </div>
                     </div>
                 </div>
@@ -130,52 +129,95 @@
                 <div class="card-body">
                     <h3 class="mb-0 text-capitalize d-flex align-items-center gap-2 border-bottom pb-3 mb-4 pl-4">
                         <img src="{{ dynamicAsset(path: 'public/assets/back-end/img/vendor-information.png') }}"
-                             class="mb-1" alt="">
+                            class="mb-1" alt="">
                         {{ translate('shop_information') }}
                     </h3>
 
                     <div class="row">
+
+                        <div class="col-lg-6 form-group">
+                            <label for="long" class="mb-2 d-flex gap-1 align-items-center">{{ translate('long') }}
+                                <span class="text-danger">*</span>
+                            </label>
+                            <input type="text" class="form-control form-control-user" id="long" name="long"
+                                placeholder="42.423432432" value="{{ old('long') }}" required>
+                        </div>
+
+                        <div class="col-lg-6 form-group">
+                            <label for="lat" class="mb-2 d-flex gap-1 align-items-center">{{ translate('lat') }}
+                                <span class="text-danger">*</span>
+                            </label>
+                            <input type="text" class="form-control form-control-user" id="lat" name="lat"
+                                placeholder="63.42332432" value="{{ old('lat') }}" required>
+                        </div>
+
+                        <!-- Address region and district  -->
+                        <div class="col-lg-6 form-group">
+                            <select class="custom-select action-get-request-onchange" name="region_id"
+                                data-url-prefix="{{ url('/address/districts/?region_id=') }}"
+                                data-element-id="district-select" data-element-type="select"
+                                data-placeholder="{{ translate('select_region') }}" required>
+                                <option value="{{ old('region_id') }}" selected disabled>
+                                    {{ translate('select_region') }}
+                                </option>
+                                @foreach ($regions as $region)
+                                    <option value="{{ $region->id }}">
+                                        {{ $region->name }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <div class="col-lg-6 form-group">
+                            <select class="custom-select" name="district_id" id="district-select"
+                                data-placeholder="{{ translate('select_district') }}" required>
+                                <option value="{{ old('district_id') }}" selected disabled>
+                                    {{ translate('select_district') }}
+                                </option>
+                            </select>
+                        </div>
+
+
                         <div class="col-lg-6 form-group">
                             <label for="shop_name"
-                                   class="mb-2 d-flex gap-1 align-items-center">{{ translate('shop_name') }}</label>
+                                class="mb-2 d-flex gap-1 align-items-center">{{ translate('shop_name') }}</label>
                             <input type="text" class="form-control form-control-user" id="shop_name" name="shop_name"
-                                   placeholder="{{ translate('ex').':'.translate('Jhon') }}" value="{{ old('shop_name') }}"
-                                   required>
+                                placeholder="{{ translate('ex') . ':' . translate('Jhon') }}"
+                                value="{{ old('shop_name') }}" required>
                         </div>
                         <div class="col-lg-6 form-group">
                             <label for="shop_address"
-                                   class="mb-2 d-flex gap-1 align-items-center">{{ translate('shop_address') }}</label>
+                                class="mb-2 d-flex gap-1 align-items-center">{{ translate('shop_address') }}</label>
                             <textarea name="shop_address" class="form-control text-area-max" id="shop_address" rows="1"
-                                      placeholder="{{ translate('ex').':'.translate('doe') }}">{{ old('shop_address') }}</textarea>
+                                placeholder="{{ translate('ex') . ':' . translate('doe') }}">{{ old('shop_address') }}</textarea>
                         </div>
                         <div class="col-lg-6 form-group">
                             <div class="d-flex justify-content-center">
                                 <img class="upload-img-view" id="viewerLogo"
-                                     src="{{ dynamicAsset(path: 'public/assets/back-end/img/400x400/img2.jpg') }}"
-                                     alt="{{ translate('banner_image') }}"/>
+                                    src="{{ dynamicAsset(path: 'public/assets/back-end/img/400x400/img2.jpg') }}"
+                                    alt="{{ translate('banner_image') }}" />
                             </div>
 
                             <div class="mt-4">
                                 <div class="d-flex gap-1 align-items-center mb-2">
                                     {{ translate('shop_logo') }}
-                                    <span class="text-info">({{ translate('ratio').' '.'1:1'}})</span>
+                                    <span class="text-info">({{ translate('ratio') . ' ' . '1:1' }})</span>
                                 </div>
 
                                 <div class="custom-file">
                                     <input type="file" name="logo" id="logo-upload"
-                                           class="custom-file-input image-input"
-                                           data-image-id="viewerLogo"
-                                           accept=".jpg, .png, .jpeg, .gif, .bmp, .tif, .tiff|image/*">
+                                        class="custom-file-input image-input" data-image-id="viewerLogo"
+                                        accept=".jpg, .png, .jpeg, .gif, .bmp, .tif, .tiff|image/*">
                                     <label class="custom-file-label"
-                                           for="logo-upload">{{ translate('upload_logo') }}</label>
+                                        for="logo-upload">{{ translate('upload_logo') }}</label>
                                 </div>
                             </div>
                         </div>
                         <div class="col-lg-6 form-group">
                             <div class="d-flex justify-content-center">
                                 <img class="upload-img-view upload-img-view__banner" id="viewerBanner"
-                                     src="{{ dynamicAsset(path: 'public/assets/back-end/img/400x400/img2.jpg') }}"
-                                     alt="{{ translate('banner_image') }}"/>
+                                    src="{{ dynamicAsset(path: 'public/assets/back-end/img/400x400/img2.jpg') }}"
+                                    alt="{{ translate('banner_image') }}" />
                             </div>
                             <div class="mt-4">
                                 <div class="d-flex gap-1 align-items-center mb-2">
@@ -186,21 +228,20 @@
 
                                 <div class="custom-file">
                                     <input type="file" name="banner" id="banner-upload"
-                                           class="custom-file-input image-input"
-                                           data-image-id="viewerBanner"
-                                           accept=".jpg, .png, .jpeg, .gif, .bmp, .tif, .tiff|image/*">
+                                        class="custom-file-input image-input" data-image-id="viewerBanner"
+                                        accept=".jpg, .png, .jpeg, .gif, .bmp, .tif, .tiff|image/*">
                                     <label class="custom-file-label text-capitalize"
-                                           for="banner-upload">{{ translate('upload_Banner') }}</label>
+                                        for="banner-upload">{{ translate('upload_Banner') }}</label>
                                 </div>
                             </div>
                         </div>
 
-                        @if(theme_root_path() == "theme_aster")
+                        @if (theme_root_path() == 'theme_aster')
                             <div class="col-lg-6 form-group">
                                 <div class="d-flex justify-content-center">
                                     <img class="upload-img-view upload-img-view__banner" id="viewerBottomBanner"
-                                         src="{{ dynamicAsset(path: 'public/assets/back-end/img/400x400/img2.jpg') }}"
-                                         alt="{{ translate('banner_image') }}"/>
+                                        src="{{ dynamicAsset(path: 'public/assets/back-end/img/400x400/img2.jpg') }}"
+                                        alt="{{ translate('banner_image') }}" />
                                 </div>
 
                                 <div class="mt-4">
@@ -212,11 +253,10 @@
 
                                     <div class="custom-file">
                                         <input type="file" name="bottom_banner" id="bottom-banner-upload"
-                                               class="custom-file-input image-input"
-                                               data-image-id="viewerBottomBanner"
-                                               accept=".jpg, .png, .jpeg, .gif, .bmp, .tif, .tiff|image/*">
+                                            class="custom-file-input image-input" data-image-id="viewerBottomBanner"
+                                            accept=".jpg, .png, .jpeg, .gif, .bmp, .tif, .tiff|image/*">
                                         <label class="custom-file-label text-capitalize"
-                                               for="bottom-banner-upload">{{ translate('upload_bottom_banner') }}</label>
+                                            for="bottom-banner-upload">{{ translate('upload_bottom_banner') }}</label>
                                     </div>
                                 </div>
                             </div>

@@ -11,6 +11,7 @@
 |
 */
 
+use App\Http\Controllers\AddressController;
 use Illuminate\Support\Facades\Route;
 
-
+Route::get("address/districts/", [AddressController::class, "districts"]);

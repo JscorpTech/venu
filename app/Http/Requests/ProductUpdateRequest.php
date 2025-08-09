@@ -41,6 +41,7 @@ class ProductUpdateRequest extends FormRequest
         $product = $this->productRepo->getFirstWhere(['id' => $this->route('id')]);
 
         return [
+            "weight" => "required",
             "mxik" => "required",
             'name' => 'required',
             'category_id' => 'required',

@@ -11,8 +11,9 @@ return new class() extends Migration {
     public function up(): void
     {
         Schema::table("products", function (Blueprint $table) {
-            $table->string("mxik")->nullable();
-            $table->string('weight')->nullable();
+            $table->string("height")->nullable();
+            $table->string("width")->nullable();
+            $table->string("length")->nullable();
         });
     }
 
@@ -22,8 +23,9 @@ return new class() extends Migration {
     public function down(): void
     {
         Schema::table("products", function (Blueprint $table) {
-            $table->dropColumn("mxik");
-            $table->dropColumn("weight");
+            $table->dropColumn("height");
+            $table->dropColumn("length");
+            $table->dropColumn("width");
         });
     }
 };

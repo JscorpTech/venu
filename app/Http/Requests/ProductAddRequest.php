@@ -32,7 +32,13 @@ class ProductAddRequest extends Request
     public function rules(): array
     {
         $rules = [
-            "mxik" => ['required'],
+            "weight" => "required",
+            "mxik" => 'required',
+            "height" => ["required", "integer"],
+            "width" => ["required", "integer"],
+            "length" => ["required", "integer"],
+
+
             'name' => 'required',
             'category_id' => 'required',
             'product_type' => 'required',

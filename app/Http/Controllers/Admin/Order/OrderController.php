@@ -22,14 +22,17 @@ use App\Events\OrderStatusEvent;
 use App\Exports\OrderExport;
 use App\Http\Controllers\BaseController;
 use App\Http\Requests\UploadDigitalFileAfterSellRequest;
+use App\Models\Delivery;
 use App\Repositories\DeliveryManRepository;
 use App\Repositories\OrderTransactionRepository;
 use App\Repositories\WalletTransactionRepository;
+use App\Services\BtsService;
 use App\Services\DeliveryCountryCodeService;
 use App\Services\DeliveryManTransactionService;
 use App\Services\DeliveryManWalletService;
 use App\Services\OrderService;
 use App\Services\OrderStatusHistoryService;
+use App\Services\YandexService;
 use App\Traits\CustomerTrait;
 use App\Traits\FileManagerTrait;
 use App\Traits\PdfGenerator;
@@ -72,8 +75,7 @@ class OrderController extends BaseController
         private readonly OrderStatusHistoryRepositoryInterface           $orderStatusHistoryRepo,
         private readonly OrderTransactionRepository                      $orderTransactionRepo,
         private readonly LoyaltyPointTransactionRepositoryInterface      $loyaltyPointTransactionRepo,
-    )
-    {
+    ) {
     }
 
     /**
@@ -85,6 +87,99 @@ class OrderController extends BaseController
     public function index(Request|null $request, $type = 'all'): View|Collection|LengthAwarePaginator|null|callable|RedirectResponse|JsonResponse
     {
         return $this->getListView(request: $request, status: $type);
+    }
+
+
+    public function updateDelivery(Request $request)
+    {
+        $order = $this->orderRepo->getFirstWhere(params: ['id' => $request['id']], relations: ['customer', 'seller.shop', 'deliveryMan']);
+        if ($order->delivery()->exists()) {
+            return [
+                "success" => false,
+                "code" => 1002,
+            ];
+        }
+        $shop = $order->seller->shop;
+        $address = $order->shippingAddress;
+        $lat = $address->latitude;
+        $long = $address->longitude;
+        $delivery_method = $address->delivery_method;
+        $courier_id = null;
+
+        $yandex = new YandexService();
+        $response = $yandex->canculate((float) $shop->long, (float) $shop->lat, $long, $lat);
+
+        if ($delivery_method == "yandex") {
+            $items = [];
+            foreach ($order->details as $detail) {
+                $product = $detail->product;
+                $items[] = [
+                    "cost_currency" => "UZS",
+                    "cost_value" => (string) $product->unit_price,
+                    "droppof_point" => 2,
+                    "pickup_point" => 1,
+                    "quantity" => $order->details()->count(),
+                    "title" => $product->name,
+                    "size" => [
+                        "height" =>  (float) $product->height,
+                        "width" => (float) $product->width,
+                        "length" => (float) $product->length,
+                    ],
+                    "weight" => (float) $product->weight,
+                ];
+            }
+
+            $yandex_res = $yandex->create(
+                $items,
+                $shop->name,
+                $shop->contact,
+                $address->contact_person_name,
+                $address->phone,
+                $shop->address,
+                $shop->long,
+                $shop->lat,
+                $address->address,
+                $long,
+                $lat,
+            );
+            $courier_id = $yandex_res->id;
+            if ($response->zone_id != "tashkent") {
+                return [
+                    "success" => false,
+                    "code" => 1001,
+                ];
+            }
+        } elseif ($delivery_method == "bts") {
+            $bts = new BtsService();
+            $bts_res = $bts->create_order(
+                $order->id,
+                $shop->district->code,
+                $shop->address,
+                1,
+                7,
+                1,
+                $shop->name,
+                $shop->contact,
+                $address->contact_person_name,
+                $address->address,
+                $address->district->code,
+                $address->phone
+            );
+            $courier_id = $bts_res->id;
+        } elseif ($delivery_method == "free") {
+        }
+
+        Delivery::query()->create([
+            "order_id" => $order->id,
+            "delivery_method" => $address->delivery_method,
+            "price" => $response->price,
+            "zone_id" => $response->zone_id,
+            "courier_order_id" => $courier_id,
+        ]);
+        return [
+            "success" => true,
+            "code" => 0,
+        ];
     }
 
     public function getListView(object $request, string $status): View|JsonResponse
@@ -141,7 +236,9 @@ class OrderController extends BaseController
         return view(Order::LIST[VIEW], compact(
             'orders',
             'searchValue',
-            'from', 'to', 'status',
+            'from',
+            'to',
+            'status',
             'filter',
             'sellers',
             'customer',
@@ -199,7 +296,6 @@ class OrderController extends BaseController
                 $order['total_discount'] += $details->discount;
                 $order['total_tax'] += $details->tax_model == 'exclude' ? $details->tax : 0;
             });
-
         });
         /** order status count  */
 
@@ -254,6 +350,12 @@ class OrderController extends BaseController
         $companyName = getWebConfig(name: 'company_name');
         $companyWebLogo = getWebConfig(name: 'company_web_logo');
         $order = $this->orderRepo->getFirstWhere(params: ['id' => $id], relations: ['details.productAllStatus', 'verificationImages', 'shipping', 'seller.shop', 'offlinePayments', 'deliveryMan']);
+        $courier_called = $order->delivery()->exists();
+        if ($courier_called) {
+            $delivery = $order->delivery()->first();
+        } else {
+            $delivery = null;
+        }
 
         if ($order) {
             $physicalProduct = false;
@@ -262,7 +364,7 @@ class OrderController extends BaseController
                     $orderDetailProduct = json_decode($orderDetail?->product_details, true);
                     if (isset($orderDetail?->product?->product_type) && $orderDetail?->product?->product_type == 'physical') {
                         $physicalProduct = true;
-                    } else if ($orderDetailProduct && isset($orderDetailProduct['product_type']) && $orderDetailProduct['product_type'] == 'physical') {
+                    } elseif ($orderDetailProduct && isset($orderDetailProduct['product_type']) && $orderDetailProduct['product_type'] == 'physical') {
                         $physicalProduct = true;
                     }
                 }
@@ -288,9 +390,23 @@ class OrderController extends BaseController
             $isOrderOnlyDigital = $orderService->getCheckIsOrderOnlyDigital(order: $order);
             if ($order['order_type'] == 'default_type') {
                 $orderCount = $this->orderRepo->getListWhereCount(filters: ['customer_id' => $order['customer_id']]);
-                return view(Order::VIEW[VIEW], compact('order', 'linkedOrders',
-                    'deliveryMen', 'totalDelivered', 'companyName', 'companyWebLogo', 'physicalProduct',
-                    'countryRestrictStatus', 'zipRestrictStatus', 'countries', 'zipCodes', 'orderCount', 'isOrderOnlyDigital'));
+                return view(Order::VIEW[VIEW], compact(
+                    'order',
+                    'linkedOrders',
+                    'deliveryMen',
+                    'totalDelivered',
+                    'companyName',
+                    'companyWebLogo',
+                    'physicalProduct',
+                    'countryRestrictStatus',
+                    'zipRestrictStatus',
+                    'countries',
+                    'zipCodes',
+                    'orderCount',
+                    'isOrderOnlyDigital',
+                    "courier_called",
+                    "delivery",
+                ));
             } else {
                 $orderCount = $this->orderRepo->getListWhereCount(filters: ['customer_id' => $order['customer_id'], 'order_type' => 'POS']);
                 return view(Order::VIEW_POS[VIEW], compact('order', 'companyName', 'companyWebLogo', 'orderCount'));
@@ -310,7 +426,8 @@ class OrderController extends BaseController
         $order = $this->orderRepo->getFirstWhere(params: ['id' => $id], relations: ['seller', 'shipping', 'details']);
         $vendor = $this->vendorRepo->getFirstWhere(params: ['id' => $order['details']->first()->seller_id]);
         $invoiceSettings = getWebConfig(name: 'invoice_settings');
-        $mpdfView = PdfView::make('admin-views.order.invoice',
+        $mpdfView = PdfView::make(
+            'admin-views.order.invoice',
             compact('order', 'vendor', 'companyPhone', 'companyEmail', 'companyName', 'companyWebLogo', 'invoiceSettings')
         );
         $this->generatePdf(view: $mpdfView, filePrefix: 'order_invoice_', filePostfix: $order['id'], pdfType: 'invoice');
@@ -321,8 +438,7 @@ class OrderController extends BaseController
         DeliveryManTransactionService $deliveryManTransactionService,
         DeliveryManWalletService      $deliveryManWalletService,
         OrderStatusHistoryService     $orderStatusHistoryService,
-    ): JsonResponse
-    {
+    ): JsonResponse {
         $order = $this->orderRepo->getFirstWhere(params: ['id' => $request['id']], relations: ['customer', 'seller.shop', 'deliveryMan']);
 
         if (!$order['is_guest'] && !isset($order['customer'])) {
@@ -489,7 +605,6 @@ class OrderController extends BaseController
         if ($fieldName == 'expected_delivery_date') {
             OrderStatusEvent::dispatch('expected_delivery_date', 'delivery_man', $order);
             $message = translate("expected_delivery_date_added_successfully");
-
         } elseif ($fieldName == 'deliveryman_charge') {
             OrderStatusEvent::dispatch('delivery_man_charge', 'delivery_man', $order);
             $message = translate("deliveryman_charge_added_successfully");
@@ -540,5 +655,4 @@ class OrderController extends BaseController
         }
         return back();
     }
-
 }

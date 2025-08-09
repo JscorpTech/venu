@@ -32,6 +32,7 @@ use App\Models\DigitalProductOtpVerification;
 use App\Models\Order;
 use App\Models\Product;
 use App\Models\ProductCompare;
+use App\Models\Region;
 use App\Models\Seller;
 use App\Models\Setting;
 use App\Models\Wishlist;
@@ -56,6 +57,7 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
+
 use function App\Utils\payment_gateways;
 
 class WebController extends Controller
@@ -77,9 +79,7 @@ class WebController extends Controller
         private ProductCompare                                $compare,
         private readonly RobotsMetaContentRepositoryInterface $robotsMetaContentRepo,
         private readonly ProductService                       $productService,
-    )
-    {
-
+    ) {
     }
 
     public function maintenance_mode(): View|RedirectResponse
@@ -169,7 +169,7 @@ class WebController extends Controller
         }
     }
 
-    function getPriorityWiseBrandProductsQuery($request, $query)
+    public function getPriorityWiseBrandProductsQuery($request, $query)
     {
         if (theme_root_path() == 'theme_aster') {
             $paginateLimit = 12;
@@ -201,7 +201,6 @@ class WebController extends Controller
         } else {
             return $query->orderBy('name', $orderBy)->latest()->paginate($paginateLimit)->appends(['order_by' => $orderBy, 'search' => $request['search']]);
         }
-
     }
 
     public function getAllVendorsView(Request $request): View|RedirectResponse
@@ -289,15 +288,15 @@ class WebController extends Controller
         if ($request->has('order_by')) {
             if ($request['order_by'] == 'asc') {
                 $vendorsList = $vendorsList->sortBy('name', SORT_NATURAL | SORT_FLAG_CASE);
-            } else if ($request['order_by'] == 'desc') {
+            } elseif ($request['order_by'] == 'desc') {
                 $vendorsList = $vendorsList->sortByDesc('name', SORT_NATURAL | SORT_FLAG_CASE);
-            } else if ($request['order_by'] == 'highest-products') {
+            } elseif ($request['order_by'] == 'highest-products') {
                 $vendorsList = $vendorsList->sortByDesc('products_count');
-            } else if ($request['order_by'] == 'lowest-products') {
+            } elseif ($request['order_by'] == 'lowest-products') {
                 $vendorsList = $vendorsList->sortBy('products_count');
-            } else if ($request['order_by'] == 'rating-high-to-low') {
+            } elseif ($request['order_by'] == 'rating-high-to-low') {
                 $vendorsList = $vendorsList->sortByDesc('average_rating');
-            } else if ($request['order_by'] == 'rating-low-to-high') {
+            } elseif ($request['order_by'] == 'rating-low-to-high') {
                 $vendorsList = $vendorsList->sortBy('average_rating');
             };
         }
@@ -424,6 +423,7 @@ class WebController extends Controller
             'country_restrict_status' => $countryRestrictStatus,
             'zip_restrict_status' => $zipRestrictStatus,
             'countries' => $countries,
+            "regions" => Region::query()->get(),
             'countriesName' => $countriesName,
             'countriesCode' => $countriesCode,
             'billing_input_by_customer' => $billingInputByCustomer,
@@ -655,7 +655,7 @@ class WebController extends Controller
         session()->forget('newCustomerRegister');
         session()->forget('newRegisterCustomerInfo');
 
-        $orderIds = json_decode($request['orderIds'] ?? '',true);
+        $orderIds = json_decode($request['orderIds'] ?? '', true);
 
         return view(VIEW_FILE_NAMES['order_complete'], [
             'order_ids' => $orderIds,
@@ -935,10 +935,26 @@ class WebController extends Controller
         return response()->json([
             'success' => 1,
             'product' => $product,
-            'view' => view(VIEW_FILE_NAMES['product_quick_view_partials'], compact('product', 'countWishlist', 'countOrder',
-                'relatedProducts', 'currentDate', 'seller_vacation_start_date', 'seller_vacation_end_date', 'seller_temporary_close',
-                'productAuthorsInfo', 'productPublishingHouseInfo',
-                'inhouse_vacation_start_date', 'inhouse_vacation_end_date', 'inHouseVacationStatus', 'inhouse_temporary_close', 'wishlist_status', 'overallRating', 'rating', 'firstVariationQuantity'))->render(),
+            'view' => view(VIEW_FILE_NAMES['product_quick_view_partials'], compact(
+                'product',
+                'countWishlist',
+                'countOrder',
+                'relatedProducts',
+                'currentDate',
+                'seller_vacation_start_date',
+                'seller_vacation_end_date',
+                'seller_temporary_close',
+                'productAuthorsInfo',
+                'productPublishingHouseInfo',
+                'inhouse_vacation_start_date',
+                'inhouse_vacation_end_date',
+                'inHouseVacationStatus',
+                'inhouse_temporary_close',
+                'wishlist_status',
+                'overallRating',
+                'rating',
+                'firstVariationQuantity'
+            ))->render(),
         ]);
     }
 
@@ -1066,7 +1082,6 @@ class WebController extends Controller
         }
 
         return view(VIEW_FILE_NAMES['products_view_page'], compact('products', 'data'), $data);
-
     }
 
     public function viewWishlist(Request $request): View
@@ -1120,9 +1135,8 @@ class WebController extends Controller
                         'count' => $countWishlist,
                         'product_count' => $product_count
                     ]);
-
                 } else {
-                    $wishlist = new Wishlist;
+                    $wishlist = new Wishlist();
                     $wishlist->customer_id = auth('customer')->id();
                     $wishlist->product_id = $request->product_id;
                     $wishlist->save();
@@ -1139,12 +1153,12 @@ class WebController extends Controller
 
                     return response()->json([
                         'success' => translate("Product has been added to wishlist"),
-                        'value' => 1, 'count' => $countWishlist,
+                        'value' => 1,
+                        'count' => $countWishlist,
                         'id' => $request->product_id,
                         'product_count' => $product_count
                     ]);
                 }
-
             } else {
                 return response()->json(['error' => translate('please_login_your_account'), 'value' => 0]);
             }
@@ -1219,7 +1233,6 @@ class WebController extends Controller
                         },
                     ],
                 ]);
-
             } catch (\Exception $exception) {
                 return back()->withErrors(translate('Captcha Failed'))->withInput($request->input());
             }
@@ -1254,7 +1267,7 @@ class WebController extends Controller
             ]);
         }
 
-        $contact = new Contact;
+        $contact = new Contact();
         $contact->name = $request['name'];
         $contact->email = $request['email'];
         $contact->mobile_number = $request['mobile_number'];
@@ -1268,7 +1281,7 @@ class WebController extends Controller
     public function captcha($tmp)
     {
 
-        $phrase = new PhraseBuilder;
+        $phrase = new PhraseBuilder();
         $code = $phrase->build(4);
         $builder = new CaptchaBuilder($code, $phrase);
         $builder->setBackgroundColor(220, 210, 230);
@@ -1420,7 +1433,7 @@ class WebController extends Controller
                                     $response['status'] = 0;
                                     $response['redirect'] = route('shop-cart');
                                 }
-                            } else if ($cart->seller_is == 'seller') {
+                            } elseif ($cart->seller_is == 'seller') {
                                 $sellerShippingCount = ShippingMethod::where(['status' => 1])->where(['creator_id' => $cart->seller_id, 'creator_type' => 'seller'])->count();
                                 if ($sellerShippingCount <= 0 && isset($cart->seller->shop)) {
                                     $message[] = translate('shipping_Not_Available_for') . ' ' . $cart->seller->shop->name;
@@ -1613,7 +1626,6 @@ class WebController extends Controller
                     $guestPhone = $orderDetailsData->order->customer->phone;
                 }
             } catch (\Throwable $th) {
-
             }
 
             $verifyData = [
@@ -1660,7 +1672,6 @@ class WebController extends Controller
                 'new_time' => $otpIntervalTime,
                 'message' => ($mailStatus || $smsStatus) ? translate('OTP_sent_successfully') : translate('OTP_sent_fail'),
             ]);
-
         }
     }
 
@@ -1771,7 +1782,7 @@ class WebController extends Controller
         if (isset($subscriptionEmail)) {
             Toastr::info(translate('You_already_subscribed_this_site'));
         } else {
-            $newSubscription = new Subscription;
+            $newSubscription = new Subscription();
             $newSubscription->email = $request['subscription_email'];
             $newSubscription->save();
             Toastr::success(translate('Your_subscription_successfully_done'));
@@ -1834,5 +1845,4 @@ class WebController extends Controller
             'methodHtml' => view(VIEW_FILE_NAMES['pay_offline_method_list_partials'], compact('method'))->render(),
         ]);
     }
-
 }

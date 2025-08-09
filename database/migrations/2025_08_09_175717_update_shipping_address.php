@@ -10,9 +10,8 @@ return new class() extends Migration {
      */
     public function up(): void
     {
-        Schema::table("products", function (Blueprint $table) {
-            $table->string("mxik")->nullable();
-            $table->string('weight')->nullable();
+        Schema::table("shipping_addresses", function (Blueprint $table) {
+            $table->foreignId("district_id")->nullable()->constrained()->nullOnDelete();
         });
     }
 
@@ -21,9 +20,8 @@ return new class() extends Migration {
      */
     public function down(): void
     {
-        Schema::table("products", function (Blueprint $table) {
-            $table->dropColumn("mxik");
-            $table->dropColumn("weight");
+        Schema::table("shipping_addresses", function (Blueprint $table) {
+            $table->dropColumn("district_id");
         });
     }
 };

@@ -52,6 +52,9 @@ class ShippingAddress extends Model
         'latitude',
         'longitude',
         'is_billing',
+        "region_id",
+        "district_id",
+        "delivery_method",
     ];
 
     /**
@@ -63,4 +66,14 @@ class ShippingAddress extends Model
         'is_guest' => 'boolean',
         'is_billing' => 'boolean',
     ];
+
+
+    public function region()
+    {
+        return $this->belongsTo(Region::class);
+    }
+    public function district()
+    {
+        return $this->belongsTo(District::class);
+    }
 }

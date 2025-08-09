@@ -188,6 +188,50 @@
                     </div>
                 </div>
             </div>
+
+
+
+            <!-- o'lchamlari bo'yi eni uzunligi -->
+            <div class="col-md-6 col-lg-4 col-xl-3">
+                <div class="form-group">
+                    <label class="form-label d-flex justify-content-between gap-2">
+                        <span class="d-flex align-items-center gap-2">
+                            {{ translate('height') }}
+                            <span class="input-required-icon">*</span>
+                        </span>
+                    </label>
+                    <input type="text" id="height" name="height" class="form-control"
+                        value="{{ old('height') }}" placeholder="{{ translate('ex') . ': 161183' }}" required>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4 col-xl-3">
+                <div class="form-group">
+                    <label class="form-label d-flex justify-content-between gap-2">
+                        <span class="d-flex align-items-center gap-2">
+                            {{ translate('width') }}
+                            <span class="input-required-icon">*</span>
+                        </span>
+                    </label>
+                    <input type="text" id="width" name="width" class="form-control"
+                        value="{{ old('width') }}" placeholder="{{ translate('ex') . ': 161183' }}" required>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4 col-xl-3">
+                <div class="form-group">
+                    <label class="form-label d-flex justify-content-between gap-2">
+                        <span class="d-flex align-items-center gap-2">
+                            {{ translate('length') }}
+                            <span class="input-required-icon">*</span>
+                        </span>
+                    </label>
+                    <input type="text" id="length" name="length" class="form-control"
+                        value="{{ old('length') }}" placeholder="{{ translate('ex') . ': 161183' }}" required>
+                </div>
+            </div>
+
+
+
+
             <div class="col-md-6 col-lg-4 col-xl-3">
                 <div class="form-group">
                     <label class="form-label d-flex justify-content-between gap-2">
@@ -200,6 +244,21 @@
                         value="{{ old('mxik') }}" placeholder="{{ translate('ex') . ': 161183' }}" required>
                 </div>
             </div>
+
+
+            <div class="col-md-6 col-lg-4 col-xl-3">
+                <div class="form-group">
+                    <label class="form-label d-flex justify-content-between gap-2">
+                        <span class="d-flex align-items-center gap-2">
+                            {{ translate('weight') }}
+                            <span class="input-required-icon">*</span>
+                        </span>
+                    </label>
+                    <input type="text" id="weight" name="weight" class="form-control"
+                        value="{{ old('weight') }}" placeholder="161183" required>
+                </div>
+            </div>
+
 
 
 

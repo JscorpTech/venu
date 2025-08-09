@@ -8,6 +8,8 @@ use App\Http\Controllers\Controller;
 use App\Models\ShippingAddress;
 use App\Models\ShippingMethod;
 use App\Models\CartShipping;
+use App\Models\District;
+use App\Models\Region;
 use App\Traits\CommonTrait;
 use App\Utils\CartManager;
 use Illuminate\Http\JsonResponse;
@@ -297,7 +299,7 @@ class SystemController extends Controller
         $addressId = $shipping['shipping_method_id'] ?? 0;
 
         if (isset($shipping['shipping_method_id'])) {
-            if ($shipping['contact_person_name'] == null || !isset($shipping['address_type']) || $shipping['address'] == null || $shipping['city'] == null || !isset($shipping['country']) || $shipping['country'] == null || $shipping['phone'] == null || ($isGuestCustomer && $shipping['email'] == null)) {
+            if ($shipping['contact_person_name'] == null || !isset($shipping['address_type']) || $shipping['address'] == null || $shipping['city'] == null || !isset($shipping['region']) || $shipping['region'] == null || $shipping['phone'] == null || ($isGuestCustomer && $shipping['email'] == null)) {
                 return response()->json([
                     'errors' => translate('Fill_all_required_fields_of_shipping_address')
                 ], 403);
@@ -307,6 +309,22 @@ class SystemController extends Controller
                 ], 403);
             }
         }
+        $region_instance = Region::query()->where(['id' => $shipping['region']]);
+        $district_instance = District::query()->where(['id' => $shipping['district']]);
+        if (!$region_instance->exists()) {
+            return response()->json([
+                "errors" => translate("region_id_invalid"),
+            ]);
+        }
+        if (!$district_instance->exists()) {
+            return response()->json([
+                "errors" => translate("district_id_invalid"),
+            ]);
+        }
+
+        $region_id = $region_instance->first()->id;
+        $district_id = $district_instance->first()->id;
+
 
         if (isset($shipping['save_address']) && $shipping['save_address'] == 'on') {
             $addressId = ShippingAddress::insertGetId([
@@ -317,7 +335,10 @@ class SystemController extends Controller
                 'address' => $shipping['address'],
                 'city' => $shipping['city'],
                 'zip' => $shipping['zip'] ?? "000000",
-                'country' => $shipping['country'],
+                'country' => "Uzbekistan",
+                "region_id" => $region_id,
+                "district_id" => $district_id,
+                "delivery_method" => $shipping['delivery_method'],
                 'phone' => $shipping['phone'],
                 'latitude' => $shipping['latitude'],
                 'longitude' => $shipping['longitude'],
@@ -325,13 +346,17 @@ class SystemController extends Controller
                 'is_billing' => 0,
             ]);
         } elseif (isset($shipping['update_address']) && $shipping['update_address'] == 'on') {
+
             $getShipping = ShippingAddress::find($addressId);
             $getShipping->contact_person_name = $shipping['contact_person_name'];
             $getShipping->address_type = $shipping['address_type'];
             $getShipping->address = $shipping['address'];
             $getShipping->city = $shipping['city'];
             $getShipping->zip = $shipping['zip'] ?? "000000";
-            $getShipping->country = $shipping['country'];
+            $getShipping->country = "Uzbekistan";
+            $getShipping->region_id = $region_id;
+            $getShipping->district_id = $district_id;
+            $getShipping->delivery_method = $shipping['delivery_method'];
             $getShipping->phone = $shipping['phone'];
             $getShipping->latitude = $shipping['latitude'];
             $getShipping->longitude = $shipping['longitude'];
@@ -345,7 +370,10 @@ class SystemController extends Controller
                 'address' => $shipping['address'],
                 'city' => $shipping['city'],
                 'zip' => $shipping['zip'] ?? "000000",
-                'country' => $shipping['country'],
+                'country' => "Uzbekistan",
+                "region_id" => $region_id,
+                "district_id" => $district_id,
+                "delivery_method" => $shipping['delivery_method'],
                 'phone' => $shipping['phone'],
                 'email' => auth('customer')->check() ? null : $shipping['email'],
                 'latitude' => $shipping['latitude'] ?? '',

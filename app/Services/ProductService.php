@@ -480,7 +480,13 @@ class ProductService
         $digitalFileCombinations = $this->getDigitalVariationCombinations(arrays: $digitalFileOptions);
 
         return [
+            "weight" => $request['weight'],
             "mxik" => $request['mxik'],
+
+            "length" => $request['length'],
+            "height" => $request['height'],
+            "width" => $request['width'],
+
             'added_by' => $addedBy,
             'user_id' => $addedBy == 'admin' ? auth('admin')->id() : auth('seller')->id(),
             'name' => $request['name'][array_search('en', $request['lang'])],
@@ -559,7 +565,14 @@ class ProductService
         $digitalFileCombinations = $this->getDigitalVariationCombinations(arrays: $digitalFileOptions);
 
         $dataArray = [
+            "weight" => $request['weight'],
             "mxik" => $request['mxik'],
+
+            "length" => $request['length'],
+            "height" => $request['height'],
+            "width" => $request['width'],
+
+
             'name' => $request['name'][array_search('en', $request['lang'])],
             'code' => $request['code'],
             'product_type' => $request['product_type'],

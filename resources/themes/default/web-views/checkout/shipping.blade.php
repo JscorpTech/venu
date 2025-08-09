@@ -3,6 +3,8 @@
 @section('title', translate('shipping_Address'))
 
 @push('css_or_js')
+    <link rel="stylesheet" href="{{ dynamicAsset(path: 'public/assets/backend/libs/select2/select2.min.css') }}">
+
     <link rel="stylesheet" href="{{ theme_asset(path: 'public/assets/front-end/css/bootstrap-select.min.css') }}">
     <link rel="stylesheet"
         href="{{ theme_asset(path: 'public/assets/front-end/plugin/intl-tel-input/css/intlTelInput.css') }}">
@@ -126,21 +128,77 @@
                                                                 </select>
                                                             </div>
                                                         </div>
+                                                        <!-- <div class="col-12"> -->
+                                                        <!--     <div class="form-group"> -->
+                                                        <!--         <label>{{ translate('region') }} -->
+                                                        <!--             <span class="text-danger">*</span></label> -->
+                                                        <!--         <select name="region" id="region" -->
+                                                        <!--             class="form-control selectpicker" -->
+                                                        <!--             data-live-search="true" required> -->
+                                                        <!--             @forelse($regions as $region)
+    -->
+                                                        <!--                 <option value="{{ $region->code }}"> -->
+                                                        <!--                     {{ $region->name }}</option> -->
+                                                    <!--             @empty -->
+                                                        <!--                 <option value=""> -->
+                                                        <!--                     {{ translate('no_region_to_deliver') }} -->
+                                                        <!--                 </option> -->
+                                                        <!--
+    @endforelse -->
+                                                        <!--         </select> -->
+                                                        <!--     </div> -->
+                                                        <!-- </div> -->
+
+
+                                                        <!-- Address region and district  -->
+                                                        <div class="col-lg-6 form-group">
+                                                            <label>{{ translate('region') }}
+                                                                <span class="text-danger">*</span></label>
+
+                                                            <select
+                                                                class="form-control custom-select action-get-request-onchange"
+                                                                name="region" id="region"
+                                                                data-url-prefix="{{ url('/address/districts/?region_id=') }}"
+                                                                data-element-id="district-select"
+                                                                data-element-type="select"
+                                                                data-placeholder="{{ translate('select_region') }}"
+                                                                required>
+                                                                <option value="{{ old('region_id') }}" selected disabled>
+                                                                    {{ translate('select_region') }}
+                                                                </option>
+                                                                @foreach ($regions as $region)
+                                                                    <option value="{{ $region->id }}">
+                                                                        {{ $region->name }}
+                                                                    </option>
+                                                                @endforeach
+                                                            </select>
+                                                        </div>
+
+
+                                                        <div class="col-lg-6 form-group">
+                                                            <label>{{ translate('district') }}
+                                                                <span class="text-danger">*</span></label>
+                                                            <select class="custom-select" name="district"
+                                                                id="district-select"
+                                                                data-placeholder="{{ translate('select_district') }}"
+                                                                required>
+                                                                <option value="{{ old('district_id') }}" selected
+                                                                    disabled>
+                                                                    {{ translate('select_district') }}
+                                                                </option>
+                                                            </select>
+                                                        </div>
+
+
+
                                                         <div class="col-12">
                                                             <div class="form-group">
-                                                                <label>{{ translate('country') }}
+                                                                <label>{{ translate('delivery_method') }}
                                                                     <span class="text-danger">*</span></label>
-                                                                <select name="country" id="country"
-                                                                    class="form-control selectpicker"
-                                                                    data-live-search="true" required>
-                                                                    @forelse($countries as $country)
-                                                                        <option value="{{ $country['name'] }}">
-                                                                            {{ $country['name'] }}</option>
-                                                                    @empty
-                                                                        <option value="">
-                                                                            {{ translate('no_country_to_deliver') }}
-                                                                        </option>
-                                                                    @endforelse
+                                                                <select name="delivery_method" id="delivery_method"
+                                                                    class="form-control" required>
+                                                                    <option value="bts">{{ translate('bts_express') }}
+                                                                    </option>
                                                                 </select>
                                                             </div>
                                                         </div>
@@ -303,6 +361,7 @@
 @endsection
 
 @push('script')
+    <script src="{{ theme_asset('public/assets/js/checkout.js') }}"></script>
     <script src="{{ theme_asset(path: 'public/assets/front-end/plugin/intl-tel-input/js/intlTelInput.js') }}"></script>
     <script src="{{ theme_asset(path: 'public/assets/front-end/js/country-picker-init.js') }}"></script>
     <script>
@@ -334,6 +393,7 @@
     <script src="{{ theme_asset(path: 'public/assets/front-end/js/bootstrap-select.min.js') }}"></script>
     <script src="{{ theme_asset(path: 'public/assets/front-end/js/shipping.js') }}"></script>
 
+    @include('layouts.admin.partials._script-partials')
 
 
     @if (getWebConfig('map_api_status') == 1)
