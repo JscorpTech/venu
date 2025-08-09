@@ -23,6 +23,7 @@ use App\Exports\OrderExport;
 use App\Http\Controllers\BaseController;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UploadDigitalFileAfterSellRequest;
+use App\Models\Delivery;
 use App\Repositories\WalletTransactionRepository;
 use App\Services\DeliveryCountryCodeService;
 use App\Services\DeliveryManTransactionService;
@@ -70,7 +71,8 @@ class OrderController extends BaseController
         private readonly OrderTransactionRepositoryInterface        $orderTransactionRepo,
         private readonly LoyaltyPointTransactionRepositoryInterface $loyaltyPointTransactionRepo,
         private readonly BusinessSettingRepositoryInterface              $businessSettingRepo,
-    ) {}
+    ) {
+    }
 
     /**
      * @param Request|null $request
@@ -280,6 +282,9 @@ class OrderController extends BaseController
         $linkedOrders = $this->orderRepo->getListWhereNotIn(filters: ['order_group_id' => $order['order_group_id']], whereNotIn: $whereNotIn, dataLimit: 'all');
         $totalDelivered = $this->orderRepo->getListWhere(filters: ['seller_id' => $order['seller_id'], 'order_status' => 'delivered', 'order_type' => 'default_type'], dataLimit: 'all')->count();
         $shippingMethod = getWebConfig(name: 'shipping_method');
+        $delivery_instance = Delivery::query()->where(['order_id' => $order->id]);
+        $courier_called = $delivery_instance->exists();
+        $delivery = $delivery_instance->first();
 
         $sellerId = 0;
         if ($shippingMethod == 'sellerwise_shipping') {
@@ -294,6 +299,8 @@ class OrderController extends BaseController
         if ($order['order_type'] == 'default_type') {
             $orderCount = $this->orderRepo->getListWhereCount(filters: ['customer_id' => $order['customer_id']]);
             return view(Order::VIEW[VIEW], compact(
+                "courier_called",
+                "delivery",
                 'order',
                 'linkedOrders',
                 'deliveryMen',

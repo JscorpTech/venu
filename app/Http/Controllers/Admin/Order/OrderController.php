@@ -105,9 +105,33 @@ class OrderController extends BaseController
         $long = $address->longitude;
         $delivery_method = $address->delivery_method;
         $courier_id = null;
+        if ($shop->district == null) {
+            return response()->json([
+                "success" => false,
+                "code" => 1000,
+                "message" => "do'kon qaysi tumanda ekanligi kiritilmagan",
+            ]);
+        }
+
+        if ($shop->region == null) {
+            return response()->json([
+                "success" => false,
+                "code" => 1000,
+                "message" => "do'kon qaysi shaharda ekanligi kiritilmagan",
+            ]);
+        }
 
         $yandex = new YandexService();
-        $response = $yandex->canculate((float) $shop->long, (float) $shop->lat, $long, $lat);
+        try {
+
+            $response = $yandex->canculate((float) $shop->long, (float) $shop->lat, $long, $lat);
+        } catch (\Exception $e) {
+            return [
+                "success" => false,
+                "code" => 1000,
+                "message" => $e->getMessage(),
+            ];
+        }
 
         if ($delivery_method == "yandex") {
             $items = [];

@@ -141,8 +141,9 @@ class YandexService
         } catch (RequestException $e) {
             if ($e->hasResponse()) {
                 $response =  $e->getResponse();
-                dd($response->getBody()->getContents());
+                throw new \Exception(json_decode($response->getBody()->getContents())->message);
             }
+            dd($e);
         }
     }
 }

@@ -201,6 +201,89 @@
                     </div>
                 </div>
             </div>
+
+
+
+            <div class="col-md-6 col-lg-4 col-xl-3">
+                <div class="form-group">
+                    <label class="form-label d-flex justify-content-between gap-2">
+                        <span class="d-flex align-items-center gap-2">
+                            {{ translate('width') }}
+                            <span class="input-required-icon">*</span>
+                        </span>
+                    </label>
+                    <input type="text" id="width" name="width" class="form-control"
+                        value="{{ $product->width }}" placeholder="{{ translate('ex') . ': 121212121' }}" required>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4 col-xl-3">
+                <div class="form-group">
+                    <label class="form-label d-flex justify-content-between gap-2">
+                        <span class="d-flex align-items-center gap-2">
+                            {{ translate('height') }}
+                            <span class="input-required-icon">*</span>
+                        </span>
+                    </label>
+                    <input type="text" id="height" name="height" class="form-control"
+                        value="{{ $product->height }}" placeholder="{{ translate('ex') . ': 121212121' }}" required>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4 col-xl-3">
+                <div class="form-group">
+                    <label class="form-label d-flex justify-content-between gap-2">
+                        <span class="d-flex align-items-center gap-2">
+                            {{ translate('length') }}
+                            <span class="input-required-icon">*</span>
+                        </span>
+                    </label>
+                    <input type="text" id="length" name="length" class="form-control"
+                        value="{{ $product->length }}" placeholder="{{ translate('ex') . ': 121212121' }}" required>
+                </div>
+            </div>
+
+
+
+
+            <div class="col-md-6 col-lg-4 col-xl-3">
+                <div class="form-group">
+                    <label class="form-label d-flex justify-content-between gap-2">
+                        <span class="d-flex align-items-center gap-2">
+                            {{ translate('mxik') }}
+                            <span class="input-required-icon">*</span>
+                        </span>
+                    </label>
+                    <input type="text" id="mxik" name="mxik" class="form-control"
+                        value="{{ $product->mxik }}" placeholder="{{ translate('ex') . ': 121212121' }}" required>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4 col-xl-3">
+                <div class="form-group">
+                    <label class="form-label d-flex justify-content-between gap-2">
+                        <span class="d-flex align-items-center gap-2">
+                            {{ translate('mxik') }}
+                            <span class="input-required-icon">*</span>
+                        </span>
+                    </label>
+                    <input type="text" id="mxik" name="mxik" class="form-control"
+                        value="{{ $product->mxik }}" placeholder="{{ translate('ex') . ': 121212121' }}" required>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-lg-4 col-xl-3">
+                <div class="form-group">
+                    <label class="form-label d-flex justify-content-between gap-2">
+                        <span class="d-flex align-items-center gap-2">
+                            {{ translate('mxik') }}
+                            <span class="input-required-icon">*</span>
+                        </span>
+                    </label>
+                    <input type="text" id="mxik" name="mxik" class="form-control"
+                        value="{{ $product->mxik }}" placeholder="{{ translate('ex') . ': 121212121' }}" required>
+                </div>
+            </div>
+
+
+
             <div class="col-md-6 col-lg-4 col-xl-3">
                 <div class="form-group">
                     <label class="form-label d-flex justify-content-between gap-2">

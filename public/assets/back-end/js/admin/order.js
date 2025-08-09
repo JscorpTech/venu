@@ -259,6 +259,9 @@ $("#delivery").on('click', function(e) {
                         if (data.code == 1001) {
                             toastMagic.warning($("#delivery-10001-message").data('text'));
                         }
+                        else if (data.code == 1000) {
+                            alert(data.message);
+                        }
                     }
                 }
             });

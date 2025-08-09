@@ -1927,4 +1927,9 @@ return [
 	"product_Image" => "Product Image",
 	"image_URL" => "Image URL",
 	"sub_Category_Name" => "Sub Category Name",
+	"Code with a minimum length requirement of 6 characters" => "Code with a minimum length requirement of 6 characters",
+	"product_images_is_required" => "Product images is required",
+	"location_data" => "Location data",
+	"order_verification_images" => "Order verification images",
+	"print__Invoice" => "Print  Invoice",
 ];

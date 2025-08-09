@@ -80,8 +80,7 @@ class ProductController extends BaseController
         private readonly DealOfTheDayRepositoryInterface            $dealOfTheDayRepo,
         private readonly VendorRepositoryInterface                  $vendorRepo,
         private readonly ProductService                             $productService,
-    )
-    {
+    ) {
     }
 
     /**
@@ -122,8 +121,16 @@ class ProductController extends BaseController
         $subCategory = $this->categoryRepo->getFirstWhere(params: ['id' => $request['sub_category_id']]);
         $subSubCategory = $this->categoryRepo->getFirstWhere(params: ['id' => $request['sub_sub_category_id']]);
 
-        return view(Product::LIST[VIEW], compact('products', 'type', 'searchValue', 'brands',
-            'categories', 'subCategory', 'subSubCategory', 'filters'));
+        return view(Product::LIST[VIEW], compact(
+            'products',
+            'type',
+            'searchValue',
+            'brands',
+            'categories',
+            'subCategory',
+            'subSubCategory',
+            'filters'
+        ));
     }
 
     public function getRequestRestockListView(Request $request): View|RedirectResponse
@@ -160,8 +167,14 @@ class ProductController extends BaseController
         $categories = $this->categoryRepo->getListWhere(filters: ['position' => 0], dataLimit: 'all');
         $subCategory = $this->categoryRepo->getFirstWhere(params: ['id' => $request['sub_category_id']]);
         $totalRestockProducts = $this->restockProductRepo->getListWhere(filters: $filters, dataLimit: 'all')->count();
-        return view(\App\Enums\ViewPaths\Vendor\Product::REQUEST_RESTOCK_LIST[VIEW], compact('restockProducts', 'brands',
-            'categories', 'subCategory', 'filters', 'totalRestockProducts'));
+        return view(\App\Enums\ViewPaths\Vendor\Product::REQUEST_RESTOCK_LIST[VIEW], compact(
+            'restockProducts',
+            'brands',
+            'categories',
+            'subCategory',
+            'filters',
+            'totalRestockProducts'
+        ));
     }
 
     public function deleteRestock(string|int $id): RedirectResponse
@@ -195,6 +208,7 @@ class ProductController extends BaseController
         if ($request->ajax()) {
             return response()->json([], 200);
         }
+        dd($request->all());
 
         $dataArray = $service->getAddProductData(request: $request, addedBy: 'seller');
         $savedProduct = $this->productRepo->add(data: $dataArray);
@@ -639,7 +653,7 @@ class ProductController extends BaseController
         $orderBy = [];
         if ($sortOrderQty == 'quantity_asc') {
             $orderBy = ['current_stock' => 'asc'];
-        } else if ($sortOrderQty == 'quantity_desc') {
+        } elseif ($sortOrderQty == 'quantity_desc') {
             $orderBy = ['current_stock' => 'desc'];
         } elseif ($sortOrderQty == 'order_asc') {
             $orderBy = ['order_details_count' => 'asc'];
@@ -785,7 +799,6 @@ class ProductController extends BaseController
         $categories = $this->categoryRepo->getListWhere(filters: ['position' => 0], dataLimit: 'all');
 
         return view(Product::PRODUCT_GALLERY[VIEW], compact('products', 'brands', 'categories', 'searchValue'));
-
     }
 
     public function getStockLimitStatus(Request $request): JsonResponse
