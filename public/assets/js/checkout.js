@@ -17,5 +17,8 @@ function regionChangeHandler(event) {
         }
     }
 }
-regionChangeHandler(null);
-region_el.addEventListener("change", regionChangeHandler);
+
+document.addEventListener("DOMContentLoaded", function(e) {
+    let $select = $(".region-select");
+    $select.on("change", regionChangeHandler);
+});

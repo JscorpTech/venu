@@ -156,7 +156,7 @@
                                                                 <span class="text-danger">*</span></label>
 
                                                             <select
-                                                                class="form-control custom-select action-get-request-onchange"
+                                                                class="form-control custom-select region-select action-get-request-onchange"
                                                                 name="region" id="region"
                                                                 data-url-prefix="{{ url('/address/districts/?region_id=') }}"
                                                                 data-element-id="district-select"
@@ -361,7 +361,6 @@
 @endsection
 
 @push('script')
-    <script src="{{ theme_asset('public/assets/js/checkout.js') }}"></script>
     <script src="{{ theme_asset(path: 'public/assets/front-end/plugin/intl-tel-input/js/intlTelInput.js') }}"></script>
     <script src="{{ theme_asset(path: 'public/assets/front-end/js/country-picker-init.js') }}"></script>
     <script>
@@ -394,6 +393,8 @@
     <script src="{{ theme_asset(path: 'public/assets/front-end/js/shipping.js') }}"></script>
 
     @include('layouts.admin.partials._script-partials')
+    <script src="{{ theme_asset('public/assets/js/checkout.js') }}"></script>
+
 
 
     @if (getWebConfig('map_api_status') == 1)

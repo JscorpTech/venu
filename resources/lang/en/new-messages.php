@@ -1932,4 +1932,6 @@ return [
 	"location_data" => "Location data",
 	"order_verification_images" => "Order verification images",
 	"print__Invoice" => "Print  Invoice",
+	"come_back_soon" => "Come back soon",
+	"my_Wishlists" => "My Wishlists",
 ];
