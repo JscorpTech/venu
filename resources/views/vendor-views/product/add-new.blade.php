@@ -123,14 +123,30 @@
                             <div class="form-group">
                                 <label class="form-label d-flex justify-content-between gap-2">
                                     <span class="d-flex align-items-center gap-2">
+                                        {{ translate('package_code') }}
+                                        <span class="input-required-icon">*</span>
+                                    </span>
+                                </label>
+                                <input type="text" id="package_code" name="package_code" class="form-control"
+                                    value="{{ old('package_code') }}"
+                                    placeholder="{{ translate('ex') . ': 161112321383' }}" required>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 col-lg-4 col-xl-3">
+                            <div class="form-group">
+                                <label class="form-label d-flex justify-content-between gap-2">
+                                    <span class="d-flex align-items-center gap-2">
                                         {{ translate('mxik') }}
                                         <span class="input-required-icon">*</span>
                                     </span>
                                 </label>
                                 <input type="text" id="mxik" name="mxik" class="form-control"
-                                    value="{{ old('mxik') }}" placeholder="{{ translate('ex') . ': 161183' }}" required>
+                                    value="{{ old('mxik') }}" placeholder="{{ translate('ex') . ': 161183' }}"
+                                    required>
                             </div>
                         </div>
+
 
                         <div class="col-md-6 col-lg-4 col-xl-3">
                             <div class="form-group">
@@ -345,8 +361,9 @@
                                     </span>
                                 </div>
                                 <input type="number" min="0" step="0.01"
-                                    placeholder="{{ translate('purchase_price') }}" value="{{ old('purchase_price') }}"
-                                    name="purchase_price" class="form-control" required>
+                                    placeholder="{{ translate('purchase_price') }}"
+                                    value="{{ old('purchase_price') }}" name="purchase_price" class="form-control"
+                                    required>
                             </div>
                         </div>
                         <div class="col-md-6 col-lg-4 col-xl-3">

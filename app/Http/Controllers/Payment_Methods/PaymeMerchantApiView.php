@@ -31,11 +31,11 @@ class PaymeMerchantApiView extends PaymeApiView
         foreach ($carts as $cart) {
             $items[] = [
                 "title" => $cart->name,
-                "price" => $cart->price,
+                "price" => $cart->price * $cart->quantity * 100,
                 "count" => $cart->quantity,
                 "code" => $cart->product->mxik,
-                "package_code" => "232",
-                "vat_percent" => 15,
+                "package_code" => $cart->product->package_code,
+                "vat_percent" => 0,
             ];
         }
         return $this->success(["allow" => true, "detail" => [

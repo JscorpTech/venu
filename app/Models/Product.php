@@ -67,12 +67,12 @@ class Product extends Model
 
     protected $fillable = [
         "mxik",
-        "weight",
+        "package_code",
 
+        "weight",
         "height",
         "width",
         "length",
-
 
         'user_id',
         'added_by',
