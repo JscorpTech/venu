@@ -207,7 +207,6 @@ class ProductController extends BaseController
         if ($request->ajax()) {
             return response()->json([], 200);
         }
-        dd($request->all());
 
         $dataArray = $service->getAddProductData(request: $request, addedBy: 'seller');
         $savedProduct = $this->productRepo->add(data: $dataArray);

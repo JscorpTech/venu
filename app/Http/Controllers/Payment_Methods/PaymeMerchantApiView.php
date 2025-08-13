@@ -31,7 +31,7 @@ class PaymeMerchantApiView extends PaymeApiView
         foreach ($carts as $cart) {
             $items[] = [
                 "title" => $cart->name,
-                "price" => $cart->price * $cart->quantity * 100,
+                "price" => $cart->price * 100,
                 "count" => $cart->quantity,
                 "code" => $cart->product->mxik,
                 "package_code" => $cart->product->package_code,
