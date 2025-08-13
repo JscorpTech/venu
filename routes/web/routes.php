@@ -41,7 +41,9 @@ use App\Http\Controllers\Payment_Methods\RazorPayController;
 use App\Http\Controllers\Payment_Methods\SenangPayController;
 use App\Http\Controllers\Payment_Methods\MercadoPagoController;
 use App\Http\Controllers\Payment_Methods\BkashPaymentController;
+use App\Http\Controllers\Payment_Methods\PaymeMerchantApiView;
 use App\Http\Controllers\Payment_Methods\PaystackController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -53,8 +55,6 @@ use App\Http\Controllers\Payment_Methods\PaystackController;
 |
 */
 
-use Illuminate\Support\Facades\Log;
-use JscorpTech\Payme\Views\PaymeApiView;
 
 Route::get('/test-log', function () {
     info('Testing Slack logging from Laravel!');
@@ -493,7 +493,6 @@ if (!$isGatewayPublished) {
 
         //PAYME
         Route::group(['prefix' => 'payme', 'as' => 'payme.'], function () {
-            /* Route::post("merchant", PaymeApiView::class); */
             Route::get("webhook", [PaymeController::class, "index"])->name("index");
             Route::get("pay", [PaymeController::class, "pay"])->name("pay");
         });
