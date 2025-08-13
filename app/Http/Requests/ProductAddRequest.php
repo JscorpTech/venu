@@ -34,6 +34,7 @@ class ProductAddRequest extends Request
         $rules = [
             "weight" => "required",
             "mxik" => 'required',
+            "package_code" => 'required',
             "height" => ["required", "integer"],
             "width" => ["required", "integer"],
             "length" => ["required", "integer"],

@@ -43,6 +43,7 @@ class ProductUpdateRequest extends FormRequest
         return [
             "weight" => "required",
             "mxik" => "required",
+            "package_code" => "required",
             'name' => 'required',
             'category_id' => 'required',
             'product_type' => 'required',

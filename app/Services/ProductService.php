@@ -482,6 +482,7 @@ class ProductService
         return [
             "weight" => $request['weight'],
             "mxik" => $request['mxik'],
+            "package_code" => $request['package_code'],
 
             "length" => $request['length'],
             "height" => $request['height'],
@@ -567,6 +568,7 @@ class ProductService
         $dataArray = [
             "weight" => $request['weight'],
             "mxik" => $request['mxik'],
+            "package_code" => $request['package_code'],
 
             "length" => $request['length'],
             "height" => $request['height'],
