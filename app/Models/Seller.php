@@ -42,6 +42,7 @@ class Seller extends Authenticatable
     use StorageTrait;
 
     protected $fillable = [
+        "vat_percent",
         'f_name',
         'l_name',
         'country_code',

@@ -1934,4 +1934,5 @@ return [
 	"print__Invoice" => "Print  Invoice",
 	"come_back_soon" => "Come back soon",
 	"my_Wishlists" => "My Wishlists",
+	"vat_percent" => "Vat percent",
 ];

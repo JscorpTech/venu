@@ -30,6 +30,7 @@ class VendorAddRequest extends FormRequest
             "region_id" => ['required'],
             "district_id" => ['required'],
             "long" => ['required'],
+            "vat_percent" => ['required'],
             "lat" => ['required'],
             'f_name' => 'required',
             'l_name' => 'required',

@@ -136,6 +136,15 @@
                     <div class="row">
 
                         <div class="col-lg-6 form-group">
+                            <label for="long"
+                                class="mb-2 d-flex gap-1 align-items-center">{{ translate('vat_percent') }}
+                                <span class="text-danger">*</span>
+                            </label>
+                            <input type="text" class="form-control form-control-user" id="vat_percent"
+                                name="vat_percent" placeholder="12" value="{{ old('vat_percent') }}" required>
+                        </div>
+
+                        <div class="col-lg-6 form-group">
                             <label for="long" class="mb-2 d-flex gap-1 align-items-center">{{ translate('long') }}
                                 <span class="text-danger">*</span>
                             </label>

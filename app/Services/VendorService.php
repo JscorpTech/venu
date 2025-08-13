@@ -111,6 +111,7 @@ class VendorService
     public function getAddData(object $request): array
     {
         return [
+            "vat_percent" => $request['vat_percent'],
             'f_name' => $request['f_name'],
             'l_name' => $request['l_name'],
             'phone' => $request['phone'],

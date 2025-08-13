@@ -29,13 +29,15 @@ class PaymeMerchantApiView extends PaymeApiView
         $carts = Cart::where(['customer_id' => $data->customer_id, 'is_checked' => 1])->get();
         $items = [];
         foreach ($carts as $cart) {
+            $product = $cart->product;
+            $vat_percent = $product->seller->vat_percent;
             $items[] = [
                 "title" => $cart->name,
                 "price" => $cart->price * 100,
                 "count" => $cart->quantity,
-                "code" => $cart->product->mxik,
-                "package_code" => $cart->product->package_code,
-                "vat_percent" => 0,
+                "code" => $product->mxik,
+                "package_code" => $product->package_code,
+                "vat_percent" => $vat_percent,
             ];
         }
         return $this->success(["allow" => true, "detail" => [
