@@ -50,7 +50,7 @@ class PaymeController extends Controller
         $payment = $this->payment::where(['id' => $request['payment_id']])->where(['is_paid' => 0])->first();
         $amount =  (int)$payment->payment_amount * 100;
         $order = Order::query()->create([
-            "amount" => $amount,
+            "amount" => usdToDefaultCurrency($amount),
         ]);
         $payment->order_id = $order->id;
         $payment->save();

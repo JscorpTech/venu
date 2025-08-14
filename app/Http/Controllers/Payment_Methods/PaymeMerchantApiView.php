@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Payment_Methods;
 
 use App\Models\Cart;
-use App\Models\Order;
 use App\Models\PaymentRequest;
 use JscorpTech\Payme\Enums\ErrorEnum;
 use JscorpTech\Payme\Exceptions\PaymeException;
@@ -33,7 +32,7 @@ class PaymeMerchantApiView extends PaymeApiView
             $vat_percent = $product->seller->vat_percent;
             $items[] = [
                 "title" => $cart->name,
-                "price" => $cart->price * 100,
+                "price" => usdToDefaultCurrency($cart->price) * 100,
                 "count" => $cart->quantity,
                 "code" => $product->mxik,
                 "package_code" => $product->package_code,
