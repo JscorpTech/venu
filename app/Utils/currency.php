@@ -297,15 +297,15 @@ if (!function_exists('getProductPriceByType')) {
             if ((isset($product['clearanceSale']) && $product['clearanceSale']) || isset($product['clearance_sale']) && $product['clearance_sale']) {
                 $clearanceSale = $product['clearanceSale'] ?? $product['clearance_sale'];
                 if ($clearanceSale['discount_type'] == 'percentage') {
-                    $amount = round($clearanceSale['discount_amount'], (!empty($decimalPointSettings) ? $decimalPointSettings: 0));
-                    return $result == 'value' ? $amount : $amount.'%';
-                } else if ($clearanceSale['discount_type'] =='flat') {
+                    $amount = round($clearanceSale['discount_amount'], (!empty($decimalPointSettings) ? $decimalPointSettings : 0));
+                    return $result == 'value' ? $amount : $amount . '%';
+                } elseif ($clearanceSale['discount_type'] == 'flat') {
                     return $result == 'value' ? $clearanceSale['discount_amount'] : webCurrencyConverter(amount: $clearanceSale['discount_amount']);
                 }
-            } else if ($product['discount_type'] == 'percent') {
-                $amount = round($product['discount'], (!empty($decimalPointSettings) ? $decimalPointSettings: 0));
-                return $result == 'value' ? $amount : $amount.'%';
-            } else if ($product['discount_type'] =='flat') {
+            } elseif ($product['discount_type'] == 'percent') {
+                $amount = round($product['discount'], (!empty($decimalPointSettings) ? $decimalPointSettings : 0));
+                return $result == 'value' ? $amount : $amount . '%';
+            } elseif ($product['discount_type'] == 'flat') {
                 return $result == 'value' ? $product['discount'] : webCurrencyConverter(amount: $product['discount']);
             }
         }
@@ -339,7 +339,7 @@ if (!function_exists('getProductPriceByType')) {
                 $discountAmount = 0;
                 if ($clearanceSale['discount_type'] == 'percentage') {
                     $discountAmount = ($price * getProductPriceByType(product: $product, type: 'discount', result: 'value')) / 100;
-                } else if ($clearanceSale['discount_type'] =='flat') {
+                } elseif ($clearanceSale['discount_type'] == 'flat') {
                     $discountAmount =  $clearanceSale['discount_amount'];
                 }
 
@@ -356,4 +356,3 @@ if (!function_exists('getProductPriceByType')) {
         return 0;
     }
 }
-
