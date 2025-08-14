@@ -32,7 +32,7 @@ class PaymeMerchantApiView extends PaymeApiView
             $vat_percent = $product->seller->vat_percent;
             $items[] = [
                 "title" => $cart->name,
-                "price" => usdToDefaultCurrency($cart->price) * 100,
+                "price" => currencyConverter($cart->price, "uzs") * 100,
                 "count" => $cart->quantity,
                 "code" => $product->mxik,
                 "package_code" => $product->package_code,
