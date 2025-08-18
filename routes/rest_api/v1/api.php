@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AddressController;
 use App\Http\Controllers\RestAPI\v1\auth\CustomerAPIAuthController;
 use App\Http\Controllers\RestAPI\v1\auth\EmailVerificationController;
 use App\Http\Controllers\RestAPI\v1\auth\ForgotPasswordController;
@@ -28,6 +29,7 @@ use App\Http\Controllers\RestAPI\v1\UserLoyaltyController;
 use App\Http\Controllers\RestAPI\v1\UserWalletController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Customer\PaymentController;
+use App\Http\Controllers\DeliveryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -41,6 +43,9 @@ use App\Http\Controllers\Customer\PaymentController;
  */
 
 Route::group(['namespace' => 'RestAPI\v1', 'prefix' => 'v1', 'middleware' => ['api_lang']], function () {
+    Route::get("regions", [AddressController::class, "regions"]);
+    Route::get("districts", [AddressController::class, "districts_api"]);
+    Route::get("delivery-methods", [DeliveryController::class, "delivery_methods"]);
 
     Route::group(['prefix' => 'auth', 'namespace' => 'auth'], function () {
         Route::controller(PassportAuthController::class)->group(function () {

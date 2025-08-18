@@ -29,7 +29,9 @@ use Illuminate\Support\Facades\Validator;
 
 class CustomerController extends Controller
 {
-    use CommonTrait, PdfGenerator, FileManagerTrait;
+    use CommonTrait;
+    use PdfGenerator;
+    use FileManagerTrait;
 
     public function info(Request $request)
     {
@@ -97,7 +99,6 @@ class CustomerController extends Controller
             $this->delete('/profile/' . $user['image']);
             $user->delete();
             return response()->json(['message' => 'Your account deleted successfully'], 200);
-
         } else {
             return response()->json(['message' => 'access_denied!!'], 403);
         }
@@ -184,7 +185,7 @@ class CustomerController extends Controller
         $wishlist = Wishlist::where('customer_id', $request->user()->id)->where('product_id', $request->product_id)->first();
 
         if (empty($wishlist)) {
-            $wishlist = new Wishlist;
+            $wishlist = new Wishlist();
             $wishlist->customer_id = $request->user()->id;
             $wishlist->product_id = $request->product_id;
             $wishlist->save();
@@ -209,7 +210,6 @@ class CustomerController extends Controller
         if (!empty($wishlist)) {
             Wishlist::where(['customer_id' => $request->user()->id, 'product_id' => $request->product_id])->delete();
             return response()->json(['message' => translate('successfully removed!')], 200);
-
         }
         return response()->json(['message' => translate('No such data found!')], 404);
     }
@@ -251,8 +251,11 @@ class CustomerController extends Controller
             'address_type' => 'required',
             'address' => 'required',
             'city' => 'required',
-            'zip' => 'required',
-            'country' => 'required',
+            'zip' => [],
+            'country' => [],
+            "region" => ['required', "exists:regions,id"],
+            "district" => ['required', "exists:districts,id"],
+            "delivery_method" => ['required'],
             'phone' => 'required',
             'latitude' => 'required',
             'longitude' => 'required',
@@ -266,12 +269,11 @@ class CustomerController extends Controller
         $zip_restrict_status = getWebConfig(name: 'delivery_zip_code_area_restriction');
         $country_restrict_status = getWebConfig(name: 'delivery_country_restriction');
 
-        if ($country_restrict_status && !self::delivery_country_exist_check($request->input('country'))) {
-            return response()->json(['message' => translate('Delivery_unavailable_for_this_country')], 403);
-
-        } elseif ($zip_restrict_status && !self::delivery_zipcode_exist_check($request->input('zip'))) {
-            return response()->json(['message' => translate('Delivery_unavailable_for_this_zip_code_area')], 403);
-        }
+        /* if ($country_restrict_status && !self::delivery_country_exist_check($request->input('country'))) { */
+        /*     return response()->json(['message' => translate('Delivery_unavailable_for_this_country')], 403); */
+        /* } elseif ($zip_restrict_status && !self::delivery_zipcode_exist_check($request->input('zip'))) { */
+        /*     return response()->json(['message' => translate('Delivery_unavailable_for_this_zip_code_area')], 403); */
+        /* } */
 
         $user = Helpers::getCustomerInformation($request);
 
@@ -282,13 +284,17 @@ class CustomerController extends Controller
             'address_type' => $request->address_type,
             'address' => $request->address,
             'city' => $request->city,
-            'zip' => $request->zip,
-            'country' => $request->country,
+            'zip' => "000000",
+            'country' => "Uzbekistan",
             'phone' => $request->phone,
             'email' => $request->email,
             'latitude' => $request->latitude,
             'longitude' => $request->longitude,
             'is_billing' => $request->is_billing,
+            "region_id" => $request->region,
+            "district_id" => $request->district,
+            "delivery_method" => $request->delivery_method,
+            "region" => $request->region,
             'created_at' => now(),
             'updated_at' => now(),
         ];
@@ -588,7 +594,7 @@ class CustomerController extends Controller
 
         foreach ($country_list as $country) {
             if (in_array($country['code'], $stored_countries)) {
-                $countries [] = $country['name'];
+                $countries[] = $country['name'];
             }
         }
 

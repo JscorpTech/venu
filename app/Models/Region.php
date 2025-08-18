@@ -13,5 +13,14 @@ class Region extends Model
     public $fillable = [
         "name",
         "code",
+        "yandex",
+        "bts",
+        "free",
+    ];
+
+    public $casts = [
+        "yandex" => "boolean",
+        "bts" => "boolean",
+        "free" => "boolean",
     ];
 }
