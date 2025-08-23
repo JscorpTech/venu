@@ -38,7 +38,6 @@ ini_set('post_max_size', '200M');
 
 class AppServiceProvider extends ServiceProvider
 {
-
     use AddonHelper;
     use CacheManagerTrait;
     use FileManagerTrait;
@@ -62,10 +61,9 @@ class AppServiceProvider extends ServiceProvider
      *
      * @return void
      */
-
     public function boot(): void
     {
-        if (!in_array(request()->ip(), ['127.0.0.1', '::1']) && env('FORCE_HTTPS')) {
+        if (in_array(request()->host(), ['venu.dev.jscorp.uz', '::1', "venu.felixits.uz", "venu.uz"]) && env('FORCE_HTTPS')) {
             \URL::forceScheme('https');
         }
 
@@ -96,7 +94,7 @@ class AppServiceProvider extends ServiceProvider
                         'company_name' => getWebConfig(name: 'company_name'),
                         'phone' => getWebConfig(name: 'company_phone'),
                         'web_logo' => getWebConfig(name: 'company_web_logo'),
-                        'mob_logo' => getWebConfig(name:'company_mobile_logo'),
+                        'mob_logo' => getWebConfig(name: 'company_mobile_logo'),
                         'fav_icon' => getWebConfig(name: 'company_fav_icon'),
                         'email' => getWebConfig(name: 'company_email'),
                         'about' => Helpers::get_settings($web, 'about_us'),
@@ -107,13 +105,13 @@ class AppServiceProvider extends ServiceProvider
                         'wallet_status' => getWebConfig(name: 'wallet_status'),
                         'loyalty_point_status' => getWebConfig(name: 'loyalty_point_status'),
                         'guest_checkout_status' => getWebConfig(name: 'guest_checkout'),
-                        'digital_product_setting' => getWebConfig(name:'digital_product'),
+                        'digital_product_setting' => getWebConfig(name: 'digital_product'),
                         'language' => getWebConfig(name: 'language'),
                         'publishing_houses' => Schema::hasTable('publishing_houses') ? ProductManager::getPublishingHouseList() : null,
                         'digital_product_authors' => Schema::hasTable('authors') ? ProductManager::getProductAuthorList() : null,
                         'firebase_otp_verification' => $firebaseOTPVerification,
                         'firebase_otp_verification_status' => $firebaseOTPVerificationStatus,
-                        'meta_description' => substr(strip_tags(str_replace('&nbsp;', ' ', (getWebConfig(name: 'about_us') ?? ''))),0,160),
+                        'meta_description' => substr(strip_tags(str_replace('&nbsp;', ' ', (getWebConfig(name: 'about_us') ?? ''))), 0, 160),
                     ];
 
                     if ((!Request::is('admin') && !Request::is('admin/*') && !Request::is('seller/*') && !Request::is('vendor/*')) || Request::is('vendor/auth/registration/*')) {
@@ -227,7 +225,6 @@ class AppServiceProvider extends ServiceProvider
                     Schema::defaultStringLength(191);
                 }
             } catch (\Exception $exception) {
-
             }
         }
 
@@ -255,6 +252,5 @@ class AppServiceProvider extends ServiceProvider
                 ]
             );
         });
-
     }
 }

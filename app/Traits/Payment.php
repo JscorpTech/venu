@@ -44,6 +44,8 @@ trait Payment
 
         $routes = [
             'ssl_commerz' => 'payment/sslcommerz/pay',
+            "click" => "payment/click/pay",
+            'atmos' => 'payment/atmos/pay',
             'stripe' => 'payment/stripe/pay',
             'paymob_accept' => 'payment/paymob/pay',
             'flutterwave' => 'payment/flutterwave-v3/pay',

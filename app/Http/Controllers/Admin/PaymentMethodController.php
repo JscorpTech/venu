@@ -80,7 +80,7 @@ class PaymentMethodController extends Controller
     {
         collect(['status'])->each(fn ($item, $key) => $request[$item] = $request->has($item) ? (int)$request[$item] : 0);
         $validation = [
-            'gateway' => 'required|in:ssl_commerz,payme,sixcash,worldpay,payfast,swish,esewa,maxicash,hubtel,viva_wallet,tap,thawani,moncash,pvit,ccavenue,foloosi,iyzi_pay,xendit,fatoorah,hyper_pay,amazon_pay,paypal,stripe,razor_pay,senang_pay,paytabs,paystack,paymob_accept,paytm,flutterwave,liqpay,bkash,mercadopago,cash_after_service,digital_payment,momo',
+            'gateway' => 'required|in:ssl_commerz,payme,sixcash,worldpay,payfast,swish,esewa,maxicash,hubtel,viva_wallet,tap,thawani,moncash,pvit,ccavenue,foloosi,iyzi_pay,xendit,fatoorah,hyper_pay,amazon_pay,paypal,stripe,razor_pay,senang_pay,paytabs,paystack,paymob_accept,paytm,flutterwave,click,atmos,liqpay,bkash,mercadopago,cash_after_service,digital_payment,momo',
             'mode' => 'required|in:live,test'
         ];
 
@@ -98,6 +98,10 @@ class PaymentMethodController extends Controller
                 "store_id" => "required",
                 "store_password" => "required",
             ];
+        } elseif ($request['gateway'] == "atmos") {
+            $additional_data = [];
+        } elseif ($request['gateway'] == "click") {
+            $additional_data = [];
         } elseif ($request['gateway'] == 'paypal') {
             $additional_data = [
                 'status' => 'required|in:1,0',

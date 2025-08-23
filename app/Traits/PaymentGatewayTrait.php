@@ -22,6 +22,14 @@ trait PaymentGatewayTrait
                 "USD" => "United States Dollar",
                 "UZS" => "O'zbek so'm"
             ],
+            "click" => [
+                "USD" => "United States Dollar",
+                "UZS" => "O'zbek so'm"
+            ],
+            "atmos" => [
+                "USD" => "United States Dollar",
+                "UZS" => "O'zbek so'm"
+            ],
             "bkash" => [
                 "BDT" => "Bangladeshi Taka"
             ],

@@ -538,6 +538,8 @@ enum GlobalConstant
         ['key' => 'paytm', 'value' => 'Paytm'],
         ['key' => 'paytabs', 'value' => 'Pay Tabs'],
         ['key' => 'liqpay', 'value' => 'Liq Pay'],
+        ['key' => 'atmos', 'value' => 'Atmos'],
+        ['key' => 'click', 'value' => 'Click'],
         ['key' => 'mercadopago', 'value' => 'Mercadopago'],
         ['key' => 'bkash', 'value' => 'Bkash'],
         ['key' => 'fatoorah', 'value' => 'Fatoorah'],
@@ -1178,6 +1180,8 @@ enum GlobalConstant
         'paytm',
         'paytabs',
         'liqpay',
+        'click',
+        'atmos',
         'mercadopago',
         'bkash'
     ];

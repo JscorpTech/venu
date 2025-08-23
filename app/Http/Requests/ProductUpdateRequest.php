@@ -19,7 +19,8 @@ class ProductUpdateRequest extends FormRequest
 
     public function __construct(
         private readonly ProductRepositoryInterface $productRepo
-    ) {}
+    ) {
+    }
 
     /**
      * Determine if the user is authorized to make this request.
@@ -47,6 +48,9 @@ class ProductUpdateRequest extends FormRequest
             'name' => 'required',
             'category_id' => 'required',
             'product_type' => 'required',
+            "is_install" => [],
+
+
             'digital_product_type' => 'required_if:product_type,==,digital',
             // 'digital_file_ready' => 'mimes:jpg,jpeg,png,gif,zip,pdf',
             'unit' => 'required_if:product_type,==,physical',
@@ -146,7 +150,7 @@ class ProductUpdateRequest extends FormRequest
                     $databaseColorImages = $product['color_image'] ? json_decode($product['color_image'], true) : [];
 
                     $databaseColorImages = collect($databaseColorImages)
-                        ->filter(fn($item) => !is_null($item['color']))
+                        ->filter(fn ($item) => !is_null($item['color']))
                         ->unique('color')
                         ->values()->toArray();
 

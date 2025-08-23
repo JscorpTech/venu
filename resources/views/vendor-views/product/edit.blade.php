@@ -153,6 +153,23 @@
 
                         <div class="col-md-6 col-lg-4 col-xl-3">
                             <div class="form-group">
+                                <label class="checkbox--item d-flex gap-2 align-items-center">
+                                    <input type="checkbox" name="is_install"
+                                        class="input-no-index-sub-element form-check-input checkbox--input"
+                                       {{ $product->is_install ? 'checked' : '' }}>
+                                    <span class="user-select-none">{{ translate('is_install') }}</span>
+                                    <span data-bs-toggle="tooltip" title="{{ translate('is_install_info') }}">
+                                        <img src="{{ dynamicAsset('public/assets/back-end/img/query.png') }}"
+                                            alt="">
+                                    </span>
+                                </label>
+                            </div>
+                        </div>
+
+
+
+                        <div class="col-md-6 col-lg-4 col-xl-3">
+                            <div class="form-group">
                                 <label class="form-label d-flex justify-content-between gap-2">
                                     <span class="d-flex align-items-center gap-2">
                                         {{ translate('weight') }}
@@ -163,11 +180,6 @@
                                     value="{{ $product->weight }}" placeholder="12" required>
                             </div>
                         </div>
-
-
-
-
-
 
 
                         <div class="col-md-6 col-lg-4 col-xl-3">

@@ -14,13 +14,15 @@
     <div class="form-group">
         <div class="border rounded p-3 d-flex flex-column gap-2">
 
-            @foreach($shipping_method_list as $shippingMethodKey => $shippingMethod)
-            <div class="d-flex gap-2 align-items-center">
-                <input type="radio" name="shipping_method_id" id="shipping_method_id-{{ $shippingMethod['id'] }}" value="{{ $shippingMethod['id'] }}" {{ $shippingMethodKey == 0 ? 'checked':'' }}>
-                <label class="mb-0" for="shipping_method_id-{{ $shippingMethod['id'] }}">
-                    {{ ucfirst($shippingMethod['title']) }} ({{ $shippingMethod['duration'] }}) {{ webCurrencyConverter($shippingMethod['cost']) }}
-                </label>
-            </div>
+            @foreach ($shipping_method_list as $shippingMethodKey => $shippingMethod)
+                <div class="d-flex gap-2 align-items-center">
+                    <input type="radio" name="shipping_method_id" id="shipping_method_id-{{ $shippingMethod['id'] }}"
+                        value="{{ $shippingMethod['id'] }}" {{ $shippingMethodKey == 0 ? 'checked' : '' }}>
+                    <label class="mb-0" for="shipping_method_id-{{ $shippingMethod['id'] }}">
+                        {{ ucfirst($shippingMethod['title']) }} ({{ $shippingMethod['duration'] }})
+                        {{ webCurrencyConverter($shippingMethod['cost']) }}
+                    </label>
+                </div>
             @endforeach
 
             <input type="hidden" class="form-control" value="1" name="shipping_method_exist">
@@ -29,7 +31,7 @@
     </div>
 
     <div class="row d-none">
-        @foreach($productData as $inputKey => $productInputData)
+        @foreach ($productData as $inputKey => $productInputData)
             <div class="col-6">
                 <label>
                     {{ $inputKey }}

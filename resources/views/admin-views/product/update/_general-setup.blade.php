@@ -285,6 +285,21 @@
                 </div>
             </div>
 
+            <div class="col-md-6 col-lg-4 col-xl-3">
+                <div class="form-group">
+                    <label class="checkbox--item d-flex gap-2 align-items-center">
+                        <input type="checkbox" name="is_install" value="1"
+                            class="input-no-index-sub-element form-check-input checkbox--input"
+                            @if ($product->is_install) checked @endif>
+                        <span class="user-select-none">{{ translate('is_install') }}</span>
+                        <span data-bs-toggle="tooltip" title="{{ translate('is_install_info') }}">
+                            <img src="{{ dynamicAsset('public/assets/back-end/img/query.png') }}" alt="">
+                        </span>
+                    </label>
+                </div>
+            </div>
+
+
             <div class="col-md-9">
                 <div class="form-group">
                     <label class="form-label d-flex align-items-center gap-2">
