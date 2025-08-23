@@ -1,4 +1,4 @@
-<?php return array (
+<?php return array(
     'you_will_get_a_mail_soon' => 'Siz tez orada xat olasiz.',
     '(Ex:_$1_if_the_system_default_currency_is_dollar).' => '(Masalan: agar tizimning standart valyutasi dollar bo\'lsa, $1).',
     '(Ex:_$1_if_the_system_default_currency_is_dollar.)' => '(Masalan: agar tizimning standart valyutasi dollar bo\'lsa, $1.)',
@@ -4497,3 +4497,4 @@
     'zip' => 'Zip',
     'zip_code' => 'pochta indeksi',
 );
+
