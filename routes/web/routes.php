@@ -502,6 +502,7 @@ if (!$isGatewayPublished) {
         Route::group(['prefix' => "click", "as" => "click"], function () {
             Route::get("pay", [ClickController::class, "pay"])->name("pay");
             Route::get("webhook", [ClickController::class, "webhook"])->name("webhook");
+            Route::post("webhook", [ClickController::class, "webhook"])->name("webhook");
         });
         // Atmos
         Route::group(['prefix' => "atmos", "as" => "atmos"], function () {
