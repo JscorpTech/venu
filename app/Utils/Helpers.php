@@ -256,8 +256,7 @@ class Helpers
                 }
                 $data = $storage;
             } else {
-                $data = Helpers::set_data_format($data);
-                ;
+                $data = Helpers::set_data_format($data);;
             }
 
             return $data;
@@ -277,8 +276,7 @@ class Helpers
                 }
                 $data = $storage;
             } else {
-                $data = Helpers::set_data_format_for_json_data($data);
-                ;
+                $data = Helpers::set_data_format_for_json_data($data);;
             }
 
             return $data;
@@ -451,7 +449,10 @@ class Helpers
 
     public static function module_permission_check($mod_name)
     {
-        $user_role = auth('admin')->user()->role;
+        $user_role = auth('admin')->user()?->role;
+        if ($user_role == null) {
+            return false;
+        }
         $permission = $user_role->module_access;
         if (isset($permission) && $user_role->status == 1 && in_array($mod_name, (array)json_decode($permission)) == true) {
             return true;
