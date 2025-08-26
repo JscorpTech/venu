@@ -2,9 +2,11 @@
 
 namespace App\Services;
 
+use App\Models\Cart;
 use Exception;
 use GuzzleHttp\Client;
 use Illuminate\Support\Env;
+use Illuminate\Support\Facades\Log;
 
 /**
  * Click payment service
@@ -25,6 +27,7 @@ class ClickService
         if ($this->merchant_id == null or $this->base_url == null) {
             throw new Exception("click uchun kerakli malumotlar topilmadi");
         }
+        $this->client = new Client();
     }
 
     public function generate_link($amount, $id)
@@ -48,17 +51,34 @@ class ClickService
      *     ]
      *  ]
      */
-    public function send_ofd($payment_id, array $items)
+    public function send_ofd($payment, $click_id)
     {
+        $data = json_decode($payment->additional_data);
+        $carts = Cart::where(['customer_id' => $data->customer_id, 'is_checked' => 1])->get();
+        $items = [];
+        foreach ($carts as $cart) {
+            $product = $cart->product;
+            $vat_percent = $product->seller->vat_percent;
+            $amount = currencyConverter($cart->price, "uzs") * 100;
+            $items[] = [
+                "name" => $cart->name,
+                "price" => $amount,
+                "count" => $cart->quantity,
+                "spic" => $product->mxik,
+                "package_code" => $product->package_code,
+                "vat_percent" => $vat_percent,
+                "vat" => $amount / 100 * (int) $vat_percent,
+            ];
+        }
         $payload = [
             "service_id" => $this->service_id,
-            "payment_id" => $payment_id,
+            "payment_id" => $click_id,
             "items" => $items,
         ];
         $response = $this->client->request("POST", "https://api.click.uz/v2/merchant/payment/ofd_data/submit_items", [
             "json" => $payload,
         ]);
         $data = json_decode($response->getBody()->getContents());
-        dd($data);
+        Log::info($data);
     }
 }
