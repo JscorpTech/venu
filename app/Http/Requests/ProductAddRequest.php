@@ -38,6 +38,7 @@ class ProductAddRequest extends Request
             "height" => ["required", "integer"],
             "width" => ["required", "integer"],
             "length" => ["required", "integer"],
+            "is_install" => [],
 
 
             'name' => 'required',

@@ -82,7 +82,8 @@ class ProductController extends BaseController
         private readonly ReviewRepositoryInterface                  $reviewRepo,
         private readonly BannerRepositoryInterface                  $bannerRepo,
         private readonly ProductService                             $productService,
-    ) {}
+    ) {
+    }
 
     /**
      * @param Request|null $request

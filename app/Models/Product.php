@@ -74,6 +74,8 @@ class Product extends Model
         "width",
         "length",
 
+        "is_install",
+
         'user_id',
         'added_by',
         'name',

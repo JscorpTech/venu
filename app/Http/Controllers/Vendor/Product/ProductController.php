@@ -80,7 +80,8 @@ class ProductController extends BaseController
         private readonly DealOfTheDayRepositoryInterface            $dealOfTheDayRepo,
         private readonly VendorRepositoryInterface                  $vendorRepo,
         private readonly ProductService                             $productService,
-    ) {}
+    ) {
+    }
 
     /**
      * @param Request|null $request
@@ -254,6 +255,8 @@ class ProductController extends BaseController
 
     public function update(ProductUpdateRequest $request, ProductService $service, string|int $id): JsonResponse|RedirectResponse
     {
+
+
         if ($request->ajax()) {
             return response()->json([], 200);
         }
@@ -741,7 +744,20 @@ class ProductController extends BaseController
             return back();
         }
 
-        $this->productRepo->addArray(data: $dataArray['products']);
+
+        foreach ($dataArray['products'] as $products_data) {
+            $product = $this->productRepo->add(data: $products_data);
+            foreach (['name', "desc"] as $field_index => $field) {
+                foreach (["uz", "en", "ru"] as $index => $lang) {
+                    if ($field == "desc") {
+                        $key = "description";
+                    } else {
+                        $key = $field;
+                    }
+                    $this->translationRepo->updateData('App\Models\Product', $product->id, $lang, $key, $dataArray['collection'][$field . "_" . $lang]);
+                }
+            }
+        }
         ToastMagic::success($dataArray['message']);
         return back();
     }

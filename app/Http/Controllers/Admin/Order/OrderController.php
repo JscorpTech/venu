@@ -32,6 +32,7 @@ use App\Services\DeliveryManTransactionService;
 use App\Services\DeliveryManWalletService;
 use App\Services\OrderService;
 use App\Services\OrderStatusHistoryService;
+use App\Services\TelegramServices;
 use App\Services\YandexService;
 use App\Traits\CustomerTrait;
 use App\Traits\FileManagerTrait;
@@ -45,6 +46,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Env;
 use Maatwebsite\Excel\Facades\Excel;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Illuminate\Support\Facades\View as PdfView;
@@ -122,16 +124,15 @@ class OrderController extends BaseController
         }
 
         $yandex = new YandexService();
-        try {
-
-            $response = $yandex->canculate((float) $shop->long, (float) $shop->lat, $long, $lat);
-        } catch (\Exception $e) {
-            return [
-                "success" => false,
-                "code" => 1000,
-                "message" => $e->getMessage(),
-            ];
-        }
+        /* try { */
+        /*     $response = $yandex->canculate((float) $shop->long, (float) $shop->lat, $long, $lat); */
+        /* } catch (\Exception $e) { */
+        /*     return [ */
+        /*         "success" => false, */
+        /*         "code" => 1000, */
+        /*         "message" => $e->getMessage(), */
+        /*     ]; */
+        /* } */
 
         if ($delivery_method == "yandex") {
             $items = [];
@@ -167,7 +168,7 @@ class OrderController extends BaseController
                 $lat,
             );
             $courier_id = $yandex_res->id;
-            if ($response->zone_id != "tashkent") {
+            if ($yandex_res->zone_id != "tashkent") {
                 return [
                     "success" => false,
                     "code" => 1001,
@@ -191,13 +192,34 @@ class OrderController extends BaseController
             );
             $courier_id = $bts_res->id;
         } elseif ($delivery_method == "free") {
-        }
+            $message = "<b>🛒 Yangi buyurtma!</b>
+<b>Mijoz:</b> {$address->contact_person_name}
+<b>Telefon:</b> {$address->phone}";
 
+            foreach ($order->details as $detail) {
+                $message .= "\n<b>Maxsulot: </b>{$detail->product->name}\n    <b>Narxi: </b>{$detail->price}\n    <b>Miqdori: </b>{$detail->qty}";
+            }
+            $telegram = new TelegramServices();
+            $telegram->send_message(Env::get("DELIVERY_CHAT_ID"), $message);
+        }
+        foreach ($order->details as $detail) {
+            $product = $detail->product;
+            if ($product->is_install) {
+                $telegram = new TelegramServices(Env::get("MASTER_BOT_TOKEN"));
+                $message = "<b>🛒 Yangi buyurtma!</b>
+<b>Mahsulot:</b> {$product->name}
+<b>Miqdor:</b> {$detail->qty}
+<b>Narx:</b> {$detail->price} USD
+<b>Mijoz:</b> {$address->contact_person_name}
+<b>Telefon:</b> {$address->phone}";
+                $telegram->send_message(Env::get("MASTER_CHAT_ID"), $message);
+            }
+        }
         Delivery::query()->create([
             "order_id" => $order->id,
             "delivery_method" => $address->delivery_method,
-            "price" => $response->price,
-            "zone_id" => $response->zone_id,
+            "price" => 0, // $response->price
+            "zone_id" => 0, // $response->zone_id
             "courier_order_id" => $courier_id,
         ]);
         return [

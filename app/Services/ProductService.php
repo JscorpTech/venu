@@ -19,7 +19,9 @@ class ProductService
 {
     use FileManagerTrait;
 
-    public function __construct(private readonly Color $color) {}
+    public function __construct(private readonly Color $color)
+    {
+    }
 
     public function getProcessedImages(object $request): array
     {
@@ -488,6 +490,8 @@ class ProductService
             "height" => $request['height'],
             "width" => $request['width'],
 
+            "is_install" => $request['is_install'] ?? false,
+
             'added_by' => $addedBy,
             'user_id' => $addedBy == 'admin' ? auth('admin')->id() : auth('seller')->id(),
             'name' => $request['name'][array_search('en', $request['lang'])],
@@ -573,6 +577,7 @@ class ProductService
             "length" => $request['length'],
             "height" => $request['height'],
             "width" => $request['width'],
+            "is_install" => $request['is_install'] ?? false,
 
 
             'name' => $request['name'][array_search('en', $request['lang'])],
@@ -671,7 +676,12 @@ class ProductService
         }
 
         $columnKey = [
-            'name',
+            'name_uz',
+            "name_en",
+            "name_ru",
+            "desc_uz",
+            "desc_en",
+            "desc_ru",
             'category_id',
             'sub_category_id',
             'sub_sub_category_id',
@@ -688,9 +698,21 @@ class ProductService
             'discount_type',
             'current_stock',
             'details',
-            'thumbnail'
+            'thumbnail',
+
+            "height",
+            "width",
+            "length",
+            "weight",
+            "mxik",
+            "package_code",
+            "meta_title",
+            "meta_desc",
+            "product_type",
+            "search_tags",
+            "is_install",
         ];
-        $skip = ['youtube_video_url', 'details', 'thumbnail'];
+        $skip = ['youtube_video_url', 'details', 'thumbnail', "is_install"];
 
         if (count($collections) <= 0) {
             return [
@@ -719,11 +741,11 @@ class ProductService
                     ];
                 }
             }
-            $thumbnail = explode('/', $collection['thumbnail']);
+            /* $thumbnail = explode('/', $collection['thumbnail']); */
 
             $products[] = [
-                'name' => $collection['name'],
-                'slug' => Str::slug($collection['name'], '-') . '-' . Str::random(6),
+                'name' => $collection['name_uz'],
+                'slug' => Str::slug($collection['name_uz'], '-') . '-' . Str::random(6),
                 'category_ids' => json_encode([['id' => (string)$collection['category_id'], 'position' => 1], ['id' => (string)$collection['sub_category_id'], 'position' => 2], ['id' => (string)$collection['sub_sub_category_id'], 'position' => 3]]),
                 'category_id' => $collection['category_id'],
                 'sub_category_id' => $collection['sub_category_id'],
@@ -731,19 +753,19 @@ class ProductService
                 'brand_id' => $collection['brand_id'],
                 'unit' => $collection['unit'],
                 'minimum_order_qty' => $collection['minimum_order_qty'],
-                'refundable' => $collection['refundable'],
+                /* 'refundable' => $collection['refundable'], */
                 'unit_price' => currencyConverter(amount: $collection['unit_price']),
                 'purchase_price' => 0,
-                'tax' => currencyConverter(amount: $collection['tax']),
-                'discount' => $collection['discount_type'] == 'flat' ? currencyConverter(amount: $collection['discount']) : $collection['discount'],
-                'discount_type' => $collection['discount_type'],
+                /* 'tax' => currencyConverter(amount: $collection['tax']), */
+                'discount' => 'flat' == "flat" ? currencyConverter(amount: $collection['discount']) : $collection['discount'],
+                /* 'discount_type' => $collection['discount_type'], */
                 'shipping_cost' => 0,
                 'current_stock' => $collection['current_stock'],
-                'details' => $collection['details'],
+                'details' => $collection['desc_uz'],
                 'video_provider' => 'youtube',
                 'video_url' => $collection['youtube_video_url'],
                 'images' => json_encode(['def.png']),
-                'thumbnail' => $thumbnail[1] ?? $thumbnail[0],
+                'thumbnail' => "", //$thumbnail[1] ?? $thumbnail[0]
                 'status' => $addedBy == 'admin' && $collection['status'] == 1 ? 1 : 0,
                 'request_status' => getWebConfig(name: 'new_product_approval') == 1 ? 0 : 1,
                 'colors' => json_encode([]),
@@ -754,13 +776,22 @@ class ProductService
                 'added_by' => $addedBy,
                 'user_id' => $addedBy == 'admin' ? auth('admin')->id() : auth('seller')->id(),
                 'created_at' => now(),
+
+                "width" => $collection['width'],
+                "height" => $collection['height'],
+                "length" => $collection['length'],
+                "weight" => $collection['weight'],
+                "mxik" => $collection['mxik'],
+                "package_code" => $collection['package_code'],
+                "is_install" => $collection['is_install'] == "1",
             ];
         }
 
         return [
             'status' => true,
             'message' => count($products) . ' - ' . translate('products_imported_successfully'),
-            'products' => $products
+            'products' => $products,
+            "collection" => $collection,
         ];
     }
 

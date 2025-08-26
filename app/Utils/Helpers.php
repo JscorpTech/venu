@@ -295,6 +295,7 @@ class Helpers
     {
         return [
             "payme",
+            "click",
             'ssl_commerz',
             'paypal',
             'stripe',
@@ -307,7 +308,8 @@ class Helpers
             'paytabs',
             'liqpay',
             'mercadopago',
-            'bkash'
+            'bkash',
+            "atmos",
         ];
     }
 

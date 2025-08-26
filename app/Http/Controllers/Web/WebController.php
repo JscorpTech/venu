@@ -522,7 +522,7 @@ class WebController extends Controller
 
     public function getCashOnDeliveryCheckoutComplete(Request $request): View|RedirectResponse|JsonResponse
     {
-        if ($request['payment_method'] != 'cash_on_delivery') {
+        if ($request['payment_method'] != 'cash_on_delivery' && $request['payment_method'] != "transfer") {
             if ($request->ajax()) {
                 return response()->json([
                     'status' => 0,
@@ -531,6 +531,7 @@ class WebController extends Controller
             }
             return back()->with('error', 'Something_went_wrong');
         }
+        $inn = $request['inn'] ?? null;
         $uniqueID = OrderManager::generateUniqueOrderID();
         $orderIds = [];
         $cartGroupIds = CartManager::get_cart_group_ids(request: $request, type: 'checked');
@@ -613,6 +614,7 @@ class WebController extends Controller
                     'transaction_ref' => '',
                     'order_group_id' => $uniqueID,
                     'cart_group_id' => $groupId,
+                    "inn" => $inn,
                     'bring_change_amount' => $request['bring_change_amount'] ?? 0,
                     'bring_change_amount_currency' => session('currency_code'),
                 ];

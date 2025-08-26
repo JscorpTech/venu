@@ -538,6 +538,8 @@ const GATEWAYS_PAYMENT_METHODS = [
     ['key' => 'paytm', 'value' => 'Paytm'],
     ['key' => 'paytabs', 'value' => 'Pay Tabs'],
     ['key' => 'liqpay', 'value' => 'Liq Pay'],
+    ['key' => 'click', 'value' => 'click'],
+    ['key' => 'atmos', 'value' => 'Atmos'],
     ['key' => 'mercadopago', 'value' => 'Mercadopago'],
     ['key' => 'bkash', 'value' => 'Bkash'],
     ['key' => 'fatoorah', 'value' => 'Fatoorah'],

@@ -25,6 +25,7 @@ use App\Http\Controllers\Web\UserWalletController;
 use App\Http\Controllers\Web\WebController;
 use Illuminate\Support\Facades\Route;
 use App\Enums\ViewPaths\Web\Review;
+use App\Http\Controllers\Payment_Methods\AtmosController;
 use App\Http\Controllers\Web\CurrencyController;
 use App\Http\Controllers\Web\PageController;
 use App\Http\Controllers\Web\ReviewController;
@@ -41,6 +42,7 @@ use App\Http\Controllers\Payment_Methods\RazorPayController;
 use App\Http\Controllers\Payment_Methods\SenangPayController;
 use App\Http\Controllers\Payment_Methods\MercadoPagoController;
 use App\Http\Controllers\Payment_Methods\BkashPaymentController;
+use App\Http\Controllers\Payment_Methods\ClickController;
 use App\Http\Controllers\Payment_Methods\PaymeMerchantApiView;
 use App\Http\Controllers\Payment_Methods\PaystackController;
 
@@ -54,7 +56,6 @@ use App\Http\Controllers\Payment_Methods\PaystackController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-
 
 Route::get('/test-log', function () {
     info('Testing Slack logging from Laravel!');
@@ -495,6 +496,18 @@ if (!$isGatewayPublished) {
         Route::group(['prefix' => 'payme', 'as' => 'payme.'], function () {
             Route::get("webhook", [PaymeController::class, "index"])->name("index");
             Route::get("pay", [PaymeController::class, "pay"])->name("pay");
+        });
+
+        // Click
+        Route::group(['prefix' => "click", "as" => "click"], function () {
+            Route::get("pay", [ClickController::class, "pay"])->name("pay");
+            Route::get("webhook", [ClickController::class, "webhook"])->name("webhook");
+        });
+        // Atmos
+        Route::group(['prefix' => "atmos", "as" => "atmos"], function () {
+            Route::get("pay", [AtmosController::class, "pay"])->name("pay");
+            Route::get("webhook", [AtmosController::class, "webhook"])->name("webhook");
+            Route::post("webhook", [AtmosController::class, "webhook"])->name("webhook");
         });
     });
 }

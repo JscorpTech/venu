@@ -410,3 +410,10 @@ Route::group(['namespace' => 'RestAPI\v1', 'prefix' => 'v1', 'middleware' => ['a
 
     Route::post('contact-us', 'GeneralController@contact_store');
 });
+
+
+Route::get("health/", function () {
+    return response()->json([
+        "detail" => "ok",
+    ]);
+});
