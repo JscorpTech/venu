@@ -42,8 +42,7 @@ class ClickController extends Controller
         }
 
         $payment = $this->payment::where(['id' => $request['payment_id']])->where(['is_paid' => 0])->first();
-        $amount =  (int)$payment->payment_amount * 100;
-        $amount = 1000;
+        $amount = currencyConverter((int)$payment->payment_amount, "uzs") * 100;
         $payment->attr_id = PaymentRequest::max("attr_id") + 1;
         $payment->save();
         if (!isset($payment)) {
