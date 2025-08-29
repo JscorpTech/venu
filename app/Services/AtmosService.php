@@ -68,7 +68,7 @@ class AtmosService
             "proxy" => $this->env == "prod" ? null : $this->proxy,
             "handler" => $stack,
         ]);
-        $this->token = $this->token();
+        $this->token = $this->token(false);
     }
 
     /**
@@ -79,7 +79,7 @@ class AtmosService
     public function request(string $method, string $url, $options = [])
     {
         try {
-            $response = $this->client->request($method, $url, $options,);
+            $response = $this->client->request($method, $url, $options, );
             return json_decode($response->getBody()->getContents(), true);
         } catch (ClientException $e) {
             if (!$e->hasResponse()) {
@@ -108,6 +108,7 @@ class AtmosService
             ]);
             $token = $response['access_token'];
             Redis::set($this->cache_key, $token);
+            return $token;
         } catch (ClientException $e) {
             dd($e->getResponse()->getBody()->getContents());
         }
