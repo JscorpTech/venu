@@ -255,7 +255,7 @@ class CustomerController extends Controller
             'country' => [],
             "region" => ['required', "exists:regions,id"],
             "district" => ['required', "exists:districts,id"],
-            "delivery_method" => ['required'],
+            "delivery_method" => [],
             'phone' => 'required',
             'latitude' => 'required',
             'longitude' => 'required',
@@ -293,8 +293,8 @@ class CustomerController extends Controller
             'is_billing' => $request->is_billing,
             "region_id" => $request->region,
             "district_id" => $request->district,
-            "delivery_method" => $request->delivery_method,
-            "region" => $request->region,
+            "delivery_method" => $request->delivery_method ?? "free",
+            /* "region" => $request->region, */
             'created_at' => now(),
             'updated_at' => now(),
         ];
