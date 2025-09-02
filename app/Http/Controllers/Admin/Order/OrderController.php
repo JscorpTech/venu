@@ -125,7 +125,6 @@ class OrderController extends BaseController
 
         $yandex = new YandexService();
         /* try { */
-        /*     $response = $yandex->canculate((float) $shop->long, (float) $shop->lat, $long, $lat); */
         /* } catch (\Exception $e) { */
         /*     return [ */
         /*         "success" => false, */
@@ -146,11 +145,19 @@ class OrderController extends BaseController
                     "quantity" => $order->details()->count(),
                     "title" => $product->name,
                     "size" => [
-                        "height" =>  (float) $product->height,
-                        "width" => (float) $product->width,
-                        "length" => (float) $product->length,
+                        "height" =>  (float) $product->height / 100,
+                        "width" => (float) $product->width / 100,
+                        "length" => (float) $product->length / 100,
                     ],
-                    "weight" => (float) $product->weight,
+                    "weight" => (float) $product->weight / 1000,
+                ];
+            }
+
+            $res = $yandex->canculate((float) $shop->long, (float) $shop->lat, $long, $lat);
+            if ($res->zone_id != "tashkent") {
+                return [
+                    "success" => false,
+                    "code" => 1001,
                 ];
             }
 
@@ -168,12 +175,6 @@ class OrderController extends BaseController
                 $lat,
             );
             $courier_id = $yandex_res->id;
-            if ($yandex_res->zone_id != "tashkent") {
-                return [
-                    "success" => false,
-                    "code" => 1001,
-                ];
-            }
         } elseif ($delivery_method == "bts") {
             $bts = new BtsService();
             $bts_res = $bts->create_order(
