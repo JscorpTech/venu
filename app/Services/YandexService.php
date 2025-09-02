@@ -110,6 +110,7 @@ class YandexService
         return json_decode($response->getBody());
     }
 
+
     /**
      * Narxni hisoblash
      */

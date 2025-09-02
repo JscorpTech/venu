@@ -41,6 +41,8 @@ use App\Listeners\RequestProductRestockListener;
 use App\Listeners\RestockProductNotificationListener;
 use App\Listeners\VendorRegistrationListener;
 use App\Listeners\WithdrawStatusUpdateListener;
+use App\Models\Delivery;
+use App\Observers\DeliveryObserver;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 
 class EventServiceProvider extends ServiceProvider
@@ -120,6 +122,6 @@ class EventServiceProvider extends ServiceProvider
     {
         parent::boot();
 
-        //
+        Delivery::observe(DeliveryObserver::class);
     }
 }
