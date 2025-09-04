@@ -33,8 +33,7 @@ class CustomerAuthController extends Controller
         private readonly LoginSetupRepositoryInterface               $loginSetupRepo,
         private readonly CustomerAuthService                         $customerAuthService,
         private readonly FirebaseService                             $firebaseService,
-    )
-    {
+    ) {
         $this->middleware('guest:customer', ['except' => ['logout']]);
     }
 
@@ -306,7 +305,6 @@ class CustomerAuthController extends Controller
                     'redirect_url' => ''
                 ];
                 Toastr::error(translate('credentials_doesnt_match'));
-
             } elseif ($user['login_hit_count'] >= $maxLoginHit && $user['is_temp_blocked'] == 0) {
                 $this->customerRepo->updateWhere(params: ['id' => $user['id']], data: [
                     'is_temp_blocked' => 1,
@@ -428,7 +426,7 @@ class CustomerAuthController extends Controller
         }
 
         $maxOTPHit = getWebConfig(name: 'maximum_otp_hit') ?? 5;
-        $maxOTPHitTime = getWebConfig(name: 'otp_resend_time') ?? 60;// seconds
+        $maxOTPHitTime = getWebConfig(name: 'otp_resend_time') ?? 60; // seconds
         $tempBlockTime = getWebConfig(name: 'temporary_block_time') ?? 600; // seconds
         $verificationData = $this->phoneOrEmailVerificationRepo->getFirstWhere(params: ['phone_or_email' => $identity]);
         $OTPVerificationData = $this->phoneOrEmailVerificationRepo->getFirstWhere(params: ['phone_or_email' => $identity, 'token' => $request['token']]);
@@ -456,7 +454,7 @@ class CustomerAuthController extends Controller
 
                 $validateBlock = 1;
                 $time = $tempBlockTime - Carbon::parse($verificationData['temp_block_time'])->DiffInSeconds();
-                $errorMsg = translate('Too_many_attempts.') .' '. translate('please_try_again_after_') . CarbonInterval::seconds($time)->cascade()->forHumans();
+                $errorMsg = translate('Too_many_attempts.') . ' ' . translate('please_try_again_after_') . CarbonInterval::seconds($time)->cascade()->forHumans();
             }
             $verificationData = $this->phoneOrEmailVerificationRepo->getFirstWhere(params: ['phone_or_email' => $identity]);
             $this->phoneOrEmailVerificationRepo->updateOrCreate(params: ['phone_or_email' => $identity], value: [
@@ -477,7 +475,7 @@ class CustomerAuthController extends Controller
             $tokenVerifyStatus = false;
             if ($firebaseOTPVerification && $firebaseOTPVerification['status']) {
                 $firebaseVerify = $this->firebaseService->verifyOtp($verificationData['token'], $verificationData['phone_or_email'], $request['token']);
-                $tokenVerifyStatus = (boolean)($firebaseVerify['status'] == 'success');
+                $tokenVerifyStatus = (bool)($firebaseVerify['status'] == 'success');
                 if (!$tokenVerifyStatus) {
                     $verificationData = $this->phoneOrEmailVerificationRepo->getFirstWhere(params: ['phone_or_email' => $identity]);
                     $this->phoneOrEmailVerificationRepo->updateOrCreate(params: ['phone_or_email' => $identity], value: [
@@ -489,7 +487,7 @@ class CustomerAuthController extends Controller
                     return back();
                 }
             } else {
-                $tokenVerifyStatus = (boolean)$OTPVerificationData;
+                $tokenVerifyStatus = (bool)$OTPVerificationData;
             }
 
             if ($tokenVerifyStatus) {
@@ -574,7 +572,7 @@ class CustomerAuthController extends Controller
                 $data[] = session('tempCustomerInfo');
             }
             $this->customerRepo->updateOrCreate(params: ['phone' => base64_decode($request['identity'])], data: $data);
-            $user = $this->customerRepo->getFirstWhere(params: ['email' => $request['email']]);
+            $user = $this->customerRepo->getFirstWhere(params: ['phone' => base64_decode($request->input("identity"))]);
             auth('customer')->login($user);
             Toastr::success(translate('Update_successfully'));
             return redirect()->route('home');
@@ -621,8 +619,8 @@ class CustomerAuthController extends Controller
                 $new_token->save();
             }
 
-            $phone_verification = getLoginConfig(key:'phone_verification');
-            $email_verification = getLoginConfig(key:'email_verification');
+            $phone_verification = getLoginConfig(key: 'phone_verification');
+            $email_verification = getLoginConfig(key: 'email_verification');
             if ($phone_verification && !$user->is_phone_verified) {
                 SMSModule::sendCentralizedSMS($user['phone'], $newTokenGenerate);
             }
