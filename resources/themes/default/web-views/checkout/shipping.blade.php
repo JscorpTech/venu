@@ -188,9 +188,6 @@
                                                                 </option>
                                                             </select>
                                                         </div>
-
-
-
                                                         <div class="col-12">
                                                             <div class="form-group">
                                                                 <label>{{ translate('delivery_method') }}
@@ -358,6 +355,7 @@
         data-value="{{ $defaultLocation ? $defaultLocation['lng'] : '151.2195' }}"></span>
     <span id="route-action-checkout-function" data-route="checkout-details"></span>
     <span id="system-country-restrict-status" data-value="{{ $country_restrict_status }}"></span>
+    <span id="customer_id" data-value="{{ auth('customer')->id() }}"></span>
 @endsection
 
 @push('script')

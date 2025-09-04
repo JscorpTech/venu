@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Payment_Methods;
 
 use App\Http\Controllers\Controller;
 use App\Models\PaymentRequest;
+use App\Models\ShippingAddress;
 use App\Models\User;
 use App\Services\ClickService;
 use App\Traits\Processor;
@@ -41,9 +42,19 @@ class ClickController extends Controller
             return response()->json($this->response_formatter(GATEWAYS_DEFAULT_400, null, $this->error_processor($validator)), 400);
         }
 
+
         $payment = $this->payment::where(['id' => $request['payment_id']])->where(['is_paid' => 0])->first();
-        $amount = currencyConverter((int)$payment->payment_amount, "uzs") * 100;
+
+
+        $data = json_decode($payment->additional_data);
+        $address = ShippingAddress::query()->find($data->address_id);
+        $delivery_price = carts_delivery_price($address->delivery_method, $data->customer_id, $address->longitude, $address->latitude, $address->district_id);
+        $amount =  (currencyConverter((int)$payment->payment_amount, "uzs")
+            + $delivery_price);
+
+
         $payment->attr_id = PaymentRequest::max("attr_id") + 1;
+        $payment->delivery_price = $delivery_price;
         $payment->save();
         if (!isset($payment)) {
             return response()->json($this->response_formatter(GATEWAYS_DEFAULT_204), 200);

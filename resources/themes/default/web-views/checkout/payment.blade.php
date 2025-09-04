@@ -394,5 +394,12 @@
 @endsection
 
 @push('script')
+    <script>
+        document.querySelector("#delivery_price").innerText = new Intl.NumberFormat('uz-UZ', {
+            style: 'currency',
+            currency: 'UZS',
+            minimumFractionDigits: 0
+        }).format(localStorage.getItem("delivery_price") ?? 0);
+    </script>
     <script src="{{ theme_asset(path: 'public/assets/front-end/js/payment.js') }}"></script>
 @endpush

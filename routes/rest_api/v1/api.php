@@ -46,6 +46,7 @@ Route::group(['namespace' => 'RestAPI\v1', 'prefix' => 'v1', 'middleware' => ['a
     Route::get("regions", [AddressController::class, "regions"]);
     Route::get("districts", [AddressController::class, "districts_api"]);
     Route::get("delivery-methods", [DeliveryController::class, "delivery_methods"]);
+    Route::post("calculate", [DeliveryController::class, "calculate"]);
 
     Route::group(['prefix' => 'auth', 'namespace' => 'auth'], function () {
         Route::controller(PassportAuthController::class)->group(function () {

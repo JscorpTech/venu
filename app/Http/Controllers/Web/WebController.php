@@ -79,8 +79,7 @@ class WebController extends Controller
         private ProductCompare                                $compare,
         private readonly RobotsMetaContentRepositoryInterface $robotsMetaContentRepo,
         private readonly ProductService                       $productService,
-    ) {
-    }
+    ) {}
 
     public function maintenance_mode(): View|RedirectResponse
     {
@@ -1447,12 +1446,12 @@ class WebController extends Controller
 
                         if ($sellerShippingCount > 0 && $shippingMethod == 'inhouse_shipping' && $inhouseShippingMsgCount < 1) {
                             $cartShipping = CartShipping::where('cart_group_id', $cart->cart_group_id)->first();
-                            if (!isset($cartShipping)) {
-                                $response['status'] = 0;
-                                $response['errorType'] = 'empty-shipping';
-                                $response['redirect'] = route('shop-cart');
-                                $message[] = translate('select_shipping_method');
-                            }
+                            /* if (!isset($cartShipping)) { */
+                            /*     $response['status'] = 0; */
+                            /*     $response['errorType'] = 'empty-shipping'; */
+                            /*     $response['redirect'] = route('shop-cart'); */
+                            /*     $message[] = translate('select_shipping_method'); */
+                            /* } */
                             $inhouseShippingMsgCount++;
                         } elseif ($sellerShippingCount > 0 && $shippingMethod != 'inhouse_shipping') {
                             $cartShipping = CartShipping::where('cart_group_id', $cart->cart_group_id)->first();

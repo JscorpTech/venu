@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\AtmosTransaction;
 use App\Models\Cart;
 use App\Models\PaymentRequest;
+use App\Models\ShippingAddress;
 use App\Models\User;
 use App\Services\AtmosService;
 use App\Services\ClickService;
@@ -48,7 +49,14 @@ class AtmosController extends Controller
         }
 
         $payment = $this->payment::where(['id' => $request['payment_id']])->where(['is_paid' => 0])->first();
-        $amount =  currencyConverter((int)$payment->payment_amount, 'uzs') * 100;
+
+
+        $data = json_decode($payment->additional_data);
+        $address = ShippingAddress::query()->find($data->address_id);
+        $delivery_price = carts_delivery_price($address->delivery_method, $data->customer_id, $address->longitude, $address->latitude, $address->district_id);
+        $amount =  (currencyConverter((int)$payment->payment_amount, "uzs")
+            + $delivery_price) * 100;
+
         $payment->attr_id = PaymentRequest::max("attr_id") + 1;
         $payment->save();
         if (!isset($payment)) {

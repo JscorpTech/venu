@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Payment_Methods;
 
 use App\Models\PaymentRequest;
+use App\Models\ShippingAddress;
 use App\Models\User;
 use App\Services\PaymeService;
 use App\Traits\Processor;
@@ -48,11 +49,16 @@ class PaymeController extends Controller
         }
 
         $payment = $this->payment::where(['id' => $request['payment_id']])->where(['is_paid' => 0])->first();
-        $amount =  (int)$payment->payment_amount * 100;
+        $data = json_decode($payment->additional_data);
+        $address = ShippingAddress::query()->find($data->address_id);
+        $delivery_price = carts_delivery_price($address->delivery_method, $data->customer_id, $address->longitude, $address->latitude, $address->district_id);
+        $amount =  (currencyConverter((int)$payment->payment_amount, "uzs")
+            + $delivery_price) * 100;
         $order = Order::query()->create([
             "amount" => currencyConverter($amount, 'uzs'),
         ]);
         $payment->order_id = $order->id;
+        $payment->delivery_price = $delivery_price;
         $payment->save();
         if (!isset($payment)) {
             return response()->json($this->response_formatter(GATEWAYS_DEFAULT_204), 200);

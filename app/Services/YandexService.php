@@ -119,8 +119,10 @@ class YandexService
         float $sender_adddress_lat,
         float $receive_adddress_long,
         float $receive_adddress_lat,
+        array $items = [],
     ) {
         $payload = [
+            "items" => $items,
             "route_points" => [
                 [
                     'id' => 1,

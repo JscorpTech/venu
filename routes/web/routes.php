@@ -25,6 +25,7 @@ use App\Http\Controllers\Web\UserWalletController;
 use App\Http\Controllers\Web\WebController;
 use Illuminate\Support\Facades\Route;
 use App\Enums\ViewPaths\Web\Review;
+use App\Http\Controllers\DeliveryController;
 use App\Http\Controllers\Payment_Methods\AtmosController;
 use App\Http\Controllers\Web\CurrencyController;
 use App\Http\Controllers\Web\PageController;

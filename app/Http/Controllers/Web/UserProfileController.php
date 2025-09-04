@@ -54,10 +54,7 @@ class UserProfileController extends Controller
         private readonly RobotsMetaContentRepositoryInterface      $robotsMetaContentRepo,
         private readonly RestockProductRepositoryInterface         $restockProductRepo,
         private readonly RestockProductCustomerRepositoryInterface $restockProductCustomerRepo,
-    )
-    {
-
-    }
+    ) {}
 
     public function user_profile(Request $request)
     {
@@ -78,7 +75,6 @@ class UserProfileController extends Controller
         $country_restrict_status = getWebConfig(name: 'delivery_country_restriction');
         $customerDetail = User::where('id', auth('customer')->id())->first();
         return view(VIEW_FILE_NAMES['user_account'], compact('customerDetail'));
-
     }
 
     public function getUserProfileUpdate(CustomerProfileUpdateRequest $request): RedirectResponse
@@ -325,11 +321,9 @@ class UserProfileController extends Controller
     {
         if (auth('customer')->check()) {
             return view('web-views.users-profile.account-payment');
-
         } else {
             return redirect()->route('home');
         }
-
     }
 
     public function account_order(Request $request)
@@ -417,7 +411,6 @@ class UserProfileController extends Controller
         $rating_percentage = $rating_count != 0 ? ($vendorRattingStatusPositive * 100) / $rating_count : 0;
 
         return view(VIEW_FILE_NAMES['seller_info'], compact('avg_rating', 'product_count', 'rating_count', 'order', 'rating_percentage'));
-
     }
 
     public function account_order_details_delivery_man_info(Request $request)
@@ -638,7 +631,6 @@ class UserProfileController extends Controller
         } else {
             return redirect()->back();
         }
-
     }
 
     public function track_order(): View
@@ -715,14 +707,12 @@ class UserProfileController extends Controller
                 Toastr::error(translate('invalid_Order_Id_or_phone_Number'));
                 return redirect()->route('track-order.index', ['order_id' => $request['order_id'], 'phone_number' => $request['phone_number']]);
             }
-
         } else {
             $order = Order::where('id', $request['order_id'])->first();
             if ($order && $order->is_guest) {
                 $orderDetails = Order::where('id', $request['order_id'])->whereHas('shippingAddress', function ($query) use ($request) {
                     $query->where('phone', $request['phone_number']);
                 })->first();
-
             } elseif ($user->phone == $request['phone_number']) {
                 $orderDetails = Order::where('id', $request['order_id'])->whereHas('details', function ($query) {
                     $query->where('customer_id', auth('customer')->id());
@@ -760,7 +750,6 @@ class UserProfileController extends Controller
         } else {
             return redirect()->route('track-order.index')->with('Error', translate('invalid_Order_Id_or_phone_Number'));
         }
-
     }
 
     public function order_cancel($id)

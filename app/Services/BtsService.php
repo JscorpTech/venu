@@ -65,6 +65,19 @@ class BtsService
         return $token;
     }
 
+
+    public function calculate($senderCityId, $receiverCityId, $weight)
+    {
+        $payload = [
+            "senderCityId" => $senderCityId,
+            "receiverCityId" => $receiverCityId,
+            "weight" => $weight,
+            "senderDelivery" => 1,
+            "receiverDelivery" => 1
+        ];
+        return $this->request('post', 'v1%2Forder%2Fcalculate', $payload);
+    }
+
     public function create_order(
         int $orderId,
         int $senderCityId,

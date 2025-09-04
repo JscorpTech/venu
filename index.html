@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+        <h1>salom</h1>
+    <script>
+
+
+const data = {
+  full_name: "Shohbozbek Turgunov",
+  phone: "+355513838",
+  trucks_id: 1,
+  description: "Shartnoma bo‘yicha sinov buyurtma"
+};
+
+fetch('http://127.0.0.1:8001/api/test', {
+  method: 'POST',
+  headers: {
+    'Accept': 'application/json',
+    'Content-Type': 'application/json',
+  },
+  body: JSON.stringify(data)
+})
+.then(response => {
+  if (!response.ok) {
+    throw new Error(`HTTP error! status: ${response.status}`);
+  }
+  return response.json();
+})
+.then(result => console.log(result))
+.catch(error => console.error(error));
+
+
+        </script>
+</body>
+</html>
