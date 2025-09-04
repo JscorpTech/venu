@@ -17,7 +17,7 @@ class DistrictListResource extends JsonResource
         return [
             "id" => $this->id,
             "name" => $this->name,
-            "code" => $this->code,
+            "code" => (int)$this->code,
         ];
     }
 }
