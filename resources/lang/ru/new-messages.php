@@ -4493,5 +4493,9 @@ return [
 	"z_to_a_order" => "Заказ от А до Я",
 	"zip" => "Почтовый индекс",
 	"zip_code" => "Почтовый индекс",
+<<<<<<< Updated upstream
 	"Enter_your_email" => "Enter your email",
+=======
+	"Resend_OTP" => "Resend OTP",
+>>>>>>> Stashed changes
 ];
