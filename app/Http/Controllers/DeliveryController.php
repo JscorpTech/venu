@@ -49,7 +49,7 @@ class DeliveryController extends Controller
                 "code" => "bts",
             ];
         }
-        if ($request->free) {
+        if ($region->free) {
             $delivery_methods[] = [
                 "title" => "Bepul yetkazib berish",
                 "code" => "free",
