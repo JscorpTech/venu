@@ -12,6 +12,8 @@
 */
 
 use App\Http\Controllers\AddressController;
+use App\Http\Controllers\Admin\Order\OrderController;
 use Illuminate\Support\Facades\Route;
 
 Route::get("address/districts/", [AddressController::class, "districts"]);
+Route::post("delivery", [OrderController::class, "updateDelivery"])->name("delivery-status");
