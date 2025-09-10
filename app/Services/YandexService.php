@@ -136,7 +136,6 @@ class YandexService
         ];
 
         try {
-
             $response = $this->client->request("POST", "check-price", [
                 "json" => $payload,
             ]);

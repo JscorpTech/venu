@@ -31,7 +31,8 @@ use Illuminate\Support\Facades\Validator;
 
 class PaymentController extends Controller
 {
-    use Payment, PaymentGatewayTrait;
+    use Payment;
+    use PaymentGatewayTrait;
 
     public function payment(Request $request): JsonResponse|Redirector|RedirectResponse
     {
@@ -133,7 +134,7 @@ class PaymentController extends Controller
         }
     }
 
-    function getRegisterNewCustomerAPIProcess($request)
+    public function getRegisterNewCustomerAPIProcess($request)
     {
         $newCustomerRegister = [];
         $shippingAddress = ShippingAddress::where(['customer_id' => $request['guest_id'], 'is_guest' => 1, 'id' => $request->input('address_id')])->first();
@@ -174,7 +175,7 @@ class PaymentController extends Controller
     }
 
 
-    function getRegisterNewCustomer($request, $address, $shippingId = null, $billingId = null): array
+    public function getRegisterNewCustomer($request, $address, $shippingId = null, $billingId = null): array
     {
         return [
             'name' => $address['contact_person_name'],
@@ -202,7 +203,7 @@ class PaymentController extends Controller
 
     public function web_payment_success(Request $request)
     {
-        if($request->flag == 'success') {
+        if ($request->flag == 'success') {
             if (session()->has('payment_mode') && session('payment_mode') == 'app') {
                 return response()->json(['message' => 'Payment succeeded'], 200);
             } else {
@@ -211,22 +212,21 @@ class PaymentController extends Controller
                 session()->forget('newCustomerRegister');
                 return view(VIEW_FILE_NAMES['order_complete'], compact('isNewCustomerInSession'));
             }
-        }else{
-            if(session()->has('payment_mode') && session('payment_mode') == 'app'){
+        } else {
+            if (session()->has('payment_mode') && session('payment_mode') == 'app') {
                 return response()->json(['message' => 'Payment failed'], 403);
-            }else{
-                Toastr::error(translate('Payment_failed').'!');
+            } else {
+                Toastr::error(translate('Payment_failed') . '!');
                 return redirect(url('/'));
             }
         }
-
     }
 
     public function getCustomerPaymentRequest(Request $request, $orderAdditionalData = []): mixed
     {
         $additionalData = [
             'business_name' => getWebConfig(name: 'company_name'),
-            'business_logo' => getStorageImages(path: getWebConfig('company_web_logo'), type:'shop'),
+            'business_logo' => getStorageImages(path: getWebConfig('company_web_logo'), type: 'shop'),
             'payment_mode' => $request->has('payment_platform') ? $request['payment_platform'] : 'web',
         ];
 
