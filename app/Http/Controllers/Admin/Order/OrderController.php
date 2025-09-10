@@ -40,6 +40,7 @@ use App\Traits\PdfGenerator;
 use App\Utils\OrderManager;
 use Devrabiul\ToastMagic\Facades\ToastMagic;
 use Carbon\Carbon;
+use GuzzleHttp\Exception\RequestException;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\JsonResponse;
@@ -77,8 +78,7 @@ class OrderController extends BaseController
         private readonly OrderStatusHistoryRepositoryInterface           $orderStatusHistoryRepo,
         private readonly OrderTransactionRepository                      $orderTransactionRepo,
         private readonly LoyaltyPointTransactionRepositoryInterface      $loyaltyPointTransactionRepo,
-    ) {
-    }
+    ) {}
 
     /**
      * @param Request|null $request
@@ -153,7 +153,7 @@ class OrderController extends BaseController
                 ];
             }
 
-            $res = $yandex->canculate((float) $shop->long, (float) $shop->lat, $long, $lat);
+            $res = $yandex->canculate((float) $shop->long, (float) $shop->lat, $long, $lat, $items);
             if ($res->zone_id != "tashkent") {
                 return [
                     "success" => false,
@@ -161,20 +161,29 @@ class OrderController extends BaseController
                 ];
             }
 
-            $yandex_res = $yandex->create(
-                $items,
-                $shop->name,
-                $shop->contact,
-                $address->contact_person_name,
-                $address->phone,
-                $shop->address,
-                $shop->long,
-                $shop->lat,
-                $address->address,
-                $long,
-                $lat,
-            );
-            $courier_id = $yandex_res->id;
+            try {
+
+                $yandex_res = $yandex->create(
+                    $items,
+                    $shop->name,
+                    $shop->contact,
+                    $address->contact_person_name,
+                    $address->phone,
+                    $shop->address,
+                    $shop->long,
+                    $shop->lat,
+                    $address->address,
+                    $long,
+                    $lat,
+                );
+                $courier_id = $yandex_res->id;
+            } catch (RequestException $e) {
+                return response()->json([
+                    "success" => false,
+                    "code" => 1000,
+                    "message" => json_decode($e->getResponse()->getBody()->getContents())->message
+                ]);
+            }
         } elseif ($delivery_method == "bts") {
             $bts = new BtsService();
             $bts_res = $bts->create_order(

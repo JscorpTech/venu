@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Payment_Methods;
 
 use App\Models\Cart;
 use App\Models\PaymentRequest;
+use Illuminate\Support\Facades\Log;
 use JscorpTech\Payme\Enums\ErrorEnum;
 use JscorpTech\Payme\Exceptions\PaymeException;
 use JscorpTech\Payme\Views\PaymeApiView;
@@ -42,6 +43,10 @@ class PaymeMerchantApiView extends PaymeApiView
         return $this->success(["allow" => true, "detail" => [
             "receipt_type" => 0,
             "items" => $items,
+            "shipping" => [ //доставка, необязательное поле
+                "title" => "Доставка",
+                "price" => $payment_request->delivery_price * 100,
+            ],
         ]]);
     }
 }
