@@ -37,7 +37,7 @@ class PaymeMerchantApiView extends PaymeApiView
                 "price" => currencyConverter($cart->price, "uzs") * 100,
                 "count" => $cart->quantity,
                 "code" => $product->mxik,
-                "package_code" => $product->package_code,
+                "package_code" => (string) $product->package_code,
                 "vat_percent" => (string) $vat_percent,
             ];
         }
@@ -46,7 +46,7 @@ class PaymeMerchantApiView extends PaymeApiView
             "price" => $payment_request->delivery_price * 100,
             "count" => 1,
             "code" => 10107002001000000,
-            "package_code" => 1209885,
+            "package_code" => (string) 1209885,
             "vat_percent" => (string) $vat_percent,
         ];
         return $this->success(["allow" => true, "detail" => [
