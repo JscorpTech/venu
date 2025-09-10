@@ -41,8 +41,8 @@ function shipping_method_select(get_value) {
     $('#phone').val(shipping_value.phone);
     $('#address').val(shipping_value.address);
     $('#city').val(shipping_value.city);
-    $('#select2-zip-container').val(shipping_value.zip).selectpicker('refresh');
-    $('#zip').val(shipping_value.zip);
+    // $('#select2-zip-container').val(shipping_value.zip).selectpicker('refresh');
+    // $('#zip').val(shipping_value.zip);
     // $('#country').val().selectpicker('refresh');
     $('#address_type').val(shipping_value.address_type);
     let update_address = `<input type="hidden" name="shipping_method_id" id="shipping_method_id" value="${shipping_method_id}">
