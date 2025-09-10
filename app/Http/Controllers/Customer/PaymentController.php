@@ -83,6 +83,9 @@ class PaymentController extends Controller
         }
 
         if (in_array($request['payment_request_from'], ['app'])) {
+            if ($request->has("delivery_method")) {
+                ShippingAddress::query()->where(['id' => $request->input("address_id")])->update(["delivery_method" => $request->input("delivery_method")]);
+            }
             $shippingMethod = getWebConfig(name: 'shipping_method');
             $physicalProductExist = false;
             foreach ($carts as $cart) {
