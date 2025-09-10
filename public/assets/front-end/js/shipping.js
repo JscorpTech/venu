@@ -1,89 +1,89 @@
 "use strict";
 
-// $(document).ready(function() {
-//     let activeId = $('.select_shipping_address.active').attr('id');
-//     if(activeId){
-//         let shipping_value = $('.selected_' + activeId).val();
-//         shipping_method_select(shipping_value)
-//     }
-//
-//     let billingsActiveId = $('.select_billing_address.active').attr('id');
-//     if(billingsActiveId){
-//         let billing_value = $('.selected_' + billingsActiveId).val();
-//         billing_method_select(billing_value)
-//     }
-//
-//     try {
-//         initializePhoneInput(".phone-input-with-country-picker-3", ".country-picker-phone-number-3");
-//     } catch (error) {}
-//
-//     try {
-//         initializePhoneInput(".phone-input-with-country-picker-2", ".country-picker-phone-number-2");
-//     } catch (error) {}
-// })
-//
-// let messageUpdateThisAddress = $('#message-update-this-address').data('text');
-// const addressItems = document.querySelectorAll('.select_shipping_address');
-// addressItems.forEach(item => {
-//     item.addEventListener('click', function () {
-//         const selectedAddressId = item.id;
-//         let shipping_value = $('.selected_' + selectedAddressId).val();
-//         $('.select_shipping_address').removeClass('active');
-//         $('#'+selectedAddressId).addClass('active')
-//         shipping_method_select(shipping_value)
-//     });
-// });
+$(document).ready(function() {
+    let activeId = $('.select_shipping_address.active').attr('id');
+    if (activeId) {
+        let shipping_value = $('.selected_' + activeId).val();
+        shipping_method_select(shipping_value)
+    }
 
-// function shipping_method_select(get_value) {
-//     let shipping_method_id = $('.select_shipping_address.active input[name="shipping_method_id"]').val()
-//     let shipping_value = JSON.parse(get_value);
-//     $('#name').val(shipping_value.contact_person_name);
-//     $('#phone').val(shipping_value.phone);
-//     $('#address').val(shipping_value.address);
-//     $('#city').val(shipping_value.city);
-//     $('#select2-zip-container').val(shipping_value.zip).selectpicker('refresh');
-//     $('#zip').val(shipping_value.zip);
-//     $('#country').val(shipping_value.country).selectpicker('refresh');
-//     $('#address_type').val(shipping_value.address_type);
-//     let update_address = `<input type="hidden" name="shipping_method_id" id="shipping_method_id" value="${shipping_method_id}">
-//             <input type="checkbox" name="update_address" id="update_address">`+ messageUpdateThisAddress;
-//     $('#save_address_label').html(update_address);
-// }
+    let billingsActiveId = $('.select_billing_address.active').attr('id');
+    if (billingsActiveId) {
+        let billing_value = $('.selected_' + billingsActiveId).val();
+        billing_method_select(billing_value)
+    }
 
-// const addressItemsBilling = document.querySelectorAll('.select_billing_address');
-// addressItemsBilling.forEach(item => {
-//     item.addEventListener('click', function() {
-//         const selectedBillingAddressId = item.id;
-//         let billing_value = $('.selected_' + selectedBillingAddressId).val();
-//         $('.select_billing_address').removeClass('active');
-//         $('#' + selectedBillingAddressId).addClass('active')
-//         billing_method_select(billing_value);
-//         console.log(billing_value)
-//     });
-// });
+    try {
+        initializePhoneInput(".phone-input-with-country-picker-3", ".country-picker-phone-number-3");
+    } catch (error) { }
 
-// function billing_method_select(get_billing_value) {
-//
-//     let billing_value = JSON.parse(get_billing_value);
-//     console.log(billing_value.zip)
-//     let billing_method_id = $('.select_billing_address.active input[name="billing_method_id"]').val()
-//     $('#billing_contact_person_name').val(billing_value.contact_person_name);
-//     $('#billing_phone').val(billing_value.phone);
-//     $('#billing_address').val(billing_value.address);
-//     $('#billing_city').val(billing_value.city);
-//     $('#billing_zip').val(billing_value.zip).selectpicker('refresh');
-//     $('#billing_country').val(billing_value.country).selectpicker('refresh');
-//     $('#billing_address_type').val(billing_value.address_type);
-//     let update_address_billing = `
-//                 <input type="hidden" name="billing_method_id" id="billing_method_id" value="${billing_method_id}">
-//                 <input type="checkbox" name="update_billing_address" id="update_billing_address">`+ messageUpdateThisAddress;
-//     $('#save-billing-address-label').html(update_address_billing);
-// }
-//
-// $('.add-another-address').on('click', function() {
-//     $('#sh-0').prop('checked', true);
-//     $("#collapseThree").collapse();
-// })
+    try {
+        initializePhoneInput(".phone-input-with-country-picker-2", ".country-picker-phone-number-2");
+    } catch (error) { }
+})
+
+let messageUpdateThisAddress = $('#message-update-this-address').data('text');
+const addressItems = document.querySelectorAll('.select_shipping_address');
+addressItems.forEach(item => {
+    item.addEventListener('click', function() {
+        const selectedAddressId = item.id;
+        let shipping_value = $('.selected_' + selectedAddressId).val();
+        $('.select_shipping_address').removeClass('active');
+        $('#' + selectedAddressId).addClass('active')
+        shipping_method_select(shipping_value)
+    });
+});
+
+function shipping_method_select(get_value) {
+    // let shipping_method_id = $('.select_shipping_address.active input[name="shipping_method_id"]').val()
+    // let shipping_value = JSON.parse(get_value);
+    // $('#name').val(shipping_value.contact_person_name);
+    // $('#phone').val(shipping_value.phone);
+    // $('#address').val(shipping_value.address);
+    // $('#city').val(shipping_value.city);
+    // $('#select2-zip-container').val(shipping_value.zip).selectpicker('refresh');
+    // $('#zip').val(shipping_value.zip);
+    // $('#country').val(shipping_value.country).selectpicker('refresh');
+    // $('#address_type').val(shipping_value.address_type);
+    // let update_address = `<input type="hidden" name="shipping_method_id" id="shipping_method_id" value="${shipping_method_id}">
+    //         <input type="checkbox" name="update_address" id="update_address">`+ messageUpdateThisAddress;
+    // $('#save_address_label').html(update_address);
+}
+
+const addressItemsBilling = document.querySelectorAll('.select_billing_address');
+addressItemsBilling.forEach(item => {
+    item.addEventListener('click', function() {
+        const selectedBillingAddressId = item.id;
+        let billing_value = $('.selected_' + selectedBillingAddressId).val();
+        $('.select_billing_address').removeClass('active');
+        $('#' + selectedBillingAddressId).addClass('active')
+        billing_method_select(billing_value);
+        console.log(billing_value)
+    });
+});
+
+function billing_method_select(get_billing_value) {
+
+    let billing_value = JSON.parse(get_billing_value);
+    console.log(billing_value.zip)
+    let billing_method_id = $('.select_billing_address.active input[name="billing_method_id"]').val()
+    $('#billing_contact_person_name').val(billing_value.contact_person_name);
+    $('#billing_phone').val(billing_value.phone);
+    $('#billing_address').val(billing_value.address);
+    $('#billing_city').val(billing_value.city);
+    $('#billing_zip').val(billing_value.zip).selectpicker('refresh');
+    $('#billing_country').val(billing_value.country).selectpicker('refresh');
+    $('#billing_address_type').val(billing_value.address_type);
+    let update_address_billing = `
+                <input type="hidden" name="billing_method_id" id="billing_method_id" value="${billing_method_id}">
+                <input type="checkbox" name="update_billing_address" id="update_billing_address">`+ messageUpdateThisAddress;
+    $('#save-billing-address-label').html(update_address_billing);
+}
+
+$('.add-another-address').on('click', function() {
+    $('#sh-0').prop('checked', true);
+    $("#collapseThree").collapse();
+})
 
 let defaultLatitudeAddressValue = $('#default-latitude-address').data('value');
 let defaultLongitudeAddressValue = $('#default-longitude-address').data('value');
