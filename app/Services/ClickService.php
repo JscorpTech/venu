@@ -56,6 +56,7 @@ class ClickService
         $data = json_decode($payment->additional_data);
         $carts = Cart::where(['customer_id' => $data->customer_id, 'is_checked' => 1])->get();
         $items = [];
+        $vat_percent = 0;
         foreach ($carts as $cart) {
             $product = $cart->product;
             $vat_percent = $product->seller->vat_percent;
@@ -70,6 +71,16 @@ class ClickService
                 "vat" => $amount / 100 * (int) $vat_percent,
             ];
         }
+        $items[] = [
+            "name" => "yetkazib berish",
+            "price" => $payment->delivery_price,
+            "count" => 1,
+            "spic" => 10112006002000000,
+            "package_code" => 1209779,
+            "vat_percent" => $vat_percent,
+            "vat" => $payment->delivery_price / 100 * (int) $vat_percent,
+        ];
+
         $payload = [
             "service_id" => $this->service_id,
             "payment_id" => $click_id,

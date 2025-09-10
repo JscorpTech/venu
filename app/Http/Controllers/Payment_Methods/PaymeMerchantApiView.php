@@ -28,6 +28,7 @@ class PaymeMerchantApiView extends PaymeApiView
         $data = json_decode($payment_request->additional_data);
         $carts = Cart::where(['customer_id' => $data->customer_id, 'is_checked' => 1])->get();
         $items = [];
+        $vat_percent = 0;
         foreach ($carts as $cart) {
             $product = $cart->product;
             $vat_percent = $product->seller->vat_percent;
@@ -40,13 +41,17 @@ class PaymeMerchantApiView extends PaymeApiView
                 "vat_percent" => $vat_percent,
             ];
         }
+        $items[] = [
+            "title" => "yetkazib berish",
+            "price" => $payment_request->delivery_price * 100,
+            "count" => 1,
+            "code" => 10112006002000000,
+            "package_code" => 1209779,
+            "vat_percent" => $vat_percent,
+        ];
         return $this->success(["allow" => true, "detail" => [
             "receipt_type" => 0,
             "items" => $items,
-            "shipping" => [ //доставка, необязательное поле
-                "title" => "Доставка",
-                "price" => $payment_request->delivery_price * 100,
-            ],
         ]]);
     }
 }

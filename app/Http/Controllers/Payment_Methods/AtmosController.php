@@ -68,10 +68,9 @@ class AtmosController extends Controller
         $items = [];
         foreach ($carts as $cart) {
             $product = $cart->product;
-            $items[] = ['ofd_code' => $product->mxik, 'name' => $product->name,  'amount' => $amount];
+            $items[] = ['ofd_code' => $product->mxik, 'name' => $product->name,  'amount' => currencyConverter($cart->price, "uzs") * 100];
         }
-
-
+        $items[] = ['ofd_code' => 10112006002000000, 'name' => "Yetkazib berish",  'amount' => $delivery_price * 100];
 
         $trans_id = $service->create_ofd($amount, $payment->attr_id, $items)['transaction_id'];
         AtmosTransaction::query()->create([
