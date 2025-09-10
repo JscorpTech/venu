@@ -93,10 +93,10 @@
                                                                 <label>{{ translate('phone') }}
                                                                     <span class="text-danger">*</span>
                                                                 </label>
-                                                                <input type="tel"
-                                                                    class="form-control phone-input-with-country-picker-3"
-                                                                    id="phone"
-                                                                    {{ $shippingAddresses->count() == 0 ? 'required' : '' }}>
+                                                                <!-- <input type="tel" -->
+                                                                <!--     class="form-control phone-input-with-country-picker-3" -->
+                                                                <!--     id="phone" -->
+                                                                <!--     {{ $shippingAddresses->count() == 0 ? 'required' : '' }}> -->
                                                                 <input type="hidden" id="shipping_phone_view"
                                                                     class="country-picker-phone-number-3 w-50"
                                                                     name="phone" readonly>
