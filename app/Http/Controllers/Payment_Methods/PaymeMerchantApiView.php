@@ -38,7 +38,7 @@ class PaymeMerchantApiView extends PaymeApiView
                 "count" => $cart->quantity,
                 "code" => $product->mxik,
                 "package_code" => $product->package_code,
-                "vat_percent" => $vat_percent,
+                "vat_percent" => (string) $vat_percent,
             ];
         }
         $items[] = [
@@ -47,7 +47,7 @@ class PaymeMerchantApiView extends PaymeApiView
             "count" => 1,
             "code" => 10107002001000000,
             "package_code" => 1209885,
-            "vat_percent" => $vat_percent,
+            "vat_percent" => (string) $vat_percent,
         ];
         return $this->success(["allow" => true, "detail" => [
             "receipt_type" => 0,
