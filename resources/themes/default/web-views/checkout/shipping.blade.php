@@ -95,11 +95,11 @@
                                                                 </label>
                                                                 <input type="tel"
                                                                     class="form-control phone-input-with-country-picker-3"
-                                                                    id="phone"
+                                                                    id="country"
                                                                     {{ $shippingAddresses->count() == 0 ? 'required' : '' }}>
                                                                 <input type="hidden" id="shipping_phone_view"
                                                                     class="country-picker-phone-number-3 w-50"
-                                                                    name="phone" readonly>
+                                                                    name="phone" readonly id="phone">
                                                             </div>
                                                         </div>
                                                         @if (!auth('customer')->check())
