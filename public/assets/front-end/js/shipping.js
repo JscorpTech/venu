@@ -35,19 +35,19 @@ addressItems.forEach(item => {
 });
 
 function shipping_method_select(get_value) {
-    // let shipping_method_id = $('.select_shipping_address.active input[name="shipping_method_id"]').val()
-    // let shipping_value = JSON.parse(get_value);
-    // $('#name').val(shipping_value.contact_person_name);
+    let shipping_method_id = $('.select_shipping_address.active input[name="shipping_method_id"]').val()
+    let shipping_value = JSON.parse(get_value);
+    $('#name').val(shipping_value.contact_person_name);
     // $('#phone').val(shipping_value.phone);
-    // $('#address').val(shipping_value.address);
-    // $('#city').val(shipping_value.city);
-    // $('#select2-zip-container').val(shipping_value.zip).selectpicker('refresh');
-    // $('#zip').val(shipping_value.zip);
-    // $('#country').val(shipping_value.country).selectpicker('refresh');
-    // $('#address_type').val(shipping_value.address_type);
-    // let update_address = `<input type="hidden" name="shipping_method_id" id="shipping_method_id" value="${shipping_method_id}">
-    //         <input type="checkbox" name="update_address" id="update_address">`+ messageUpdateThisAddress;
-    // $('#save_address_label').html(update_address);
+    $('#address').val(shipping_value.address);
+    $('#city').val(shipping_value.city);
+    $('#select2-zip-container').val(shipping_value.zip).selectpicker('refresh');
+    $('#zip').val(shipping_value.zip);
+    $('#country').val(shipping_value.country).selectpicker('refresh');
+    $('#address_type').val(shipping_value.address_type);
+    let update_address = `<input type="hidden" name="shipping_method_id" id="shipping_method_id" value="${shipping_method_id}">
+            <input type="checkbox" name="update_address" id="update_address">`+ messageUpdateThisAddress;
+    $('#save_address_label').html(update_address);
 }
 
 const addressItemsBilling = document.querySelectorAll('.select_billing_address');
