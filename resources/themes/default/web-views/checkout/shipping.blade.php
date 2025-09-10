@@ -391,7 +391,6 @@
     <script src="{{ theme_asset(path: 'public/assets/front-end/js/shipping.js') }}"></script>
 
     @include('layouts.admin.partials._script-partials')
-    <script src="{{ theme_asset('public/assets/js/checkout.js') }}"></script>
 
 
 
@@ -401,3 +400,4 @@
             defer></script>
     @endif
 @endpush
+<!-- <script src="{{ theme_asset('public/assets/js/checkout.js') }}"></script> -->
