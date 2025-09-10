@@ -75,8 +75,8 @@ class ClickService
             "name" => "yetkazib berish",
             "price" => $payment->delivery_price,
             "count" => 1,
-            "spic" => 10112006002000000,
-            "package_code" => 1209779,
+            "spic" => 10107002001000000,
+            "package_code" => 1209885,
             "vat_percent" => $vat_percent,
             "vat" => $payment->delivery_price / 100 * (int) $vat_percent,
         ];

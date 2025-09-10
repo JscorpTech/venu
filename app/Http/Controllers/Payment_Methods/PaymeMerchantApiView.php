@@ -45,8 +45,8 @@ class PaymeMerchantApiView extends PaymeApiView
             "title" => "yetkazib berish",
             "price" => $payment_request->delivery_price * 100,
             "count" => 1,
-            "code" => 10112006002000000,
-            "package_code" => 1209779,
+            "code" => 10107002001000000,
+            "package_code" => 1209885,
             "vat_percent" => $vat_percent,
         ];
         return $this->success(["allow" => true, "detail" => [
