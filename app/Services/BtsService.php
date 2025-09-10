@@ -106,6 +106,8 @@ class BtsService
             "receiverCityId" => $receiverCityId,
             "receiverPhone" => $receiverPhone,
             "is_test" => $this->is_test,
+            "senderDelivery" => 1,
+            "receiverDelivery" => 1,
             ...$options
         ];
         $instance = Bts::query()->where(['order_id' => $orderId]);
