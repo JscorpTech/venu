@@ -9,6 +9,9 @@ if (!function_exists('carts_delivery_price')) {
     function carts_delivery_price($delivery_method, $customer_id, $long, $lat, $district_id = null)
     {
         $carts = Cart::where(['customer_id' => $customer_id, 'is_checked' => 1])->get();
+        if (count($carts) <= 0) {
+            throw new \Exception("cart mavjud emas");
+        }
         $shop = $carts[0]->product->seller->shop;
 
         if ($delivery_method == "yandex") {
