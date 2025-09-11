@@ -20,7 +20,14 @@ class DeliveryController extends Controller
         if ($validator->fails()) {
             return response()->json($validator->errors());
         }
-        $price = carts_delivery_price($request->input("delivery_method"), $request->input("customer_id"), $request->input("long"), $request->input("lat"), $request->input("district"));
+        try {
+            $price = carts_delivery_price($request->input("delivery_method"), $request->input("customer_id"), $request->input("long"), $request->input("lat"), $request->input("district"));
+        } catch (\Exception $e) {
+            return response()->json([
+                "detail" => "error",
+                "message" => $e->getMessage(),
+            ], 400);
+        }
         return response()->json([
             "detail" => "OK",
             "price" => $price,

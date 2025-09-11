@@ -89,7 +89,7 @@ class ClickService
         $response = $this->client->request("POST", "https://api.click.uz/v2/merchant/payment/ofd_data/submit_items", [
             "json" => $payload,
         ]);
-        $data = json_decode($response->getBody()->getContents());
+        $data = json_decode($response->getBody()->getContents(), true);
         Log::info($data);
     }
 }
