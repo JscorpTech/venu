@@ -30,14 +30,16 @@ if (!function_exists('carts_delivery_price')) {
                 ];
             }
             $yandex = new YandexService();
-            return (int)$yandex->canculate($shop->long, $shop->lat, $long, $lat, $items)->price;
+            $price = (int)$yandex->canculate($shop->long, $shop->lat, $long, $lat, $items)->price;
+            return ($price / 100) * 5 + $price;
         } elseif ($delivery_method == "bts") {
             $weight = 0;
             foreach ($carts as $cart) {
                 $weight += $cart->product->weight * $cart->quantity;
             }
             $bts = new BtsService();
-            return (int) $bts->calculate($shop->district->code, District::query()->find($district_id)->code, $weight / 1000)['summaryPrice'];
+            $price = (int) $bts->calculate($shop->district->code, District::query()->find($district_id)->code, $weight / 1000)['summaryPrice'];
+            return ($price / 100) * 5 + $price;
         } else {
             return 0;
         }
