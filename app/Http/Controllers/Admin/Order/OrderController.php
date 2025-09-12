@@ -203,8 +203,14 @@ class OrderController extends BaseController
             $courier_id = $bts_res->id;
         } elseif ($delivery_method == "free") {
             $message = "<b>🛒 Yangi buyurtma!</b>
-<b>Mijoz:</b> {$address->contact_person_name}
-<b>Telefon:</b> {$address->phone}";
+<b>👨‍🦰 Mijoz</b>
+<b>Ism Familiya: </b>{$address->contact_person_name}
+<b>Telefon:</b> {$address->phone}
+<b>Manzil:</b> {$address->address}";
+            $message .= "\n<b>🏪 Do'kon</b>
+<b>Nomi: </b> {$shop->name}
+<b>Telefon: </b> {$shop->contact}
+<b>Manzil: </b> {$shop->address}";
 
             foreach ($order->details as $detail) {
                 $message .= "\n<b>Maxsulot: </b>{$detail->product->name}\n    <b>Narxi: </b>{$detail->price}\n    <b>Miqdori: </b>{$detail->qty}";
