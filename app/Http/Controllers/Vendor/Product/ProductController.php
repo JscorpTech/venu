@@ -730,8 +730,7 @@ class ProductController extends BaseController
 
     public function getBulkImportView(): View
     {
-        return view(Product::BULK_IMPORT[VIEW]);
-    }
+        return view(Product::BULK_IMPORT[VIEW}
 
     public function importBulkProduct(Request $request, ProductService $service): RedirectResponse
     {
@@ -745,7 +744,7 @@ class ProductController extends BaseController
         foreach ($dataArray['products'] as $products_data) {
             $product = $this->productRepo->add(data: $products_data);
             foreach (['name', "desc"] as $field_index => $field) {
-                foreach (["uz", "en", "ru"] as $index => $lang) {
+                foreach (["uz", "ru"] as $index => $lang) {
                     if ($field == "desc") {
                         $key = "description";
                     } else {

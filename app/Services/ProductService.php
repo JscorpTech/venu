@@ -781,7 +781,7 @@ class ProductService
                 "weight" => $collection['weight'],
                 "mxik" => $collection['mxik'],
                 "meta_title" => $collection['meta_title'],
-                "meta_desc" => $collection['meta_desc'],
+                "meta_description" => $collection['meta_desc'],
                 "product_type" => $collection['product_type'],
                 "search_tags" => $collection['search_tags'],
                 "package_code" => $collection['package_code'],
