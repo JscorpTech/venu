@@ -19,9 +19,7 @@ class ProductService
 {
     use FileManagerTrait;
 
-    public function __construct(private readonly Color $color)
-    {
-    }
+    public function __construct(private readonly Color $color) {}
 
     public function getProcessedImages(object $request): array
     {
@@ -782,6 +780,10 @@ class ProductService
                 "length" => $collection['length'],
                 "weight" => $collection['weight'],
                 "mxik" => $collection['mxik'],
+                "meta_title" => $collection['meta_title'],
+                "meta_desc" => $collection['meta_desc'],
+                "product_type" => $collection['product_type'],
+                "search_tags" => $collection['search_tags'],
                 "package_code" => $collection['package_code'],
                 "is_install" => $collection['is_install'] == "1",
             ];

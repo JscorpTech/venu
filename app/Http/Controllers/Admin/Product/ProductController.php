@@ -82,8 +82,7 @@ class ProductController extends BaseController
         private readonly ReviewRepositoryInterface                  $reviewRepo,
         private readonly BannerRepositoryInterface                  $bannerRepo,
         private readonly ProductService                             $productService,
-    ) {
-    }
+    ) {}
 
     /**
      * @param Request|null $request
@@ -663,7 +662,20 @@ class ProductController extends BaseController
             return back();
         }
 
-        $this->productRepo->addArray(data: $dataArray['products']);
+        foreach ($dataArray['products'] as $products_data) {
+            $product = $this->productRepo->add(data: $products_data);
+            foreach (['name', "desc"] as $field_index => $field) {
+                foreach (["uz", "en", "ru"] as $index => $lang) {
+                    if ($field == "desc") {
+                        $key = "description";
+                    } else {
+                        $key = $field;
+                    }
+                    $this->translationRepo->updateData('App\Models\Product', $product->id, $lang, $key, $dataArray['collection'][$field . "_" . $lang]);
+                }
+            }
+        }
+        /* $this->productRepo->addArray(data: $dataArray['products']); */
         ToastMagic::success($dataArray['message']);
         return back();
     }

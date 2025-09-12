@@ -80,8 +80,7 @@ class ProductController extends BaseController
         private readonly DealOfTheDayRepositoryInterface            $dealOfTheDayRepo,
         private readonly VendorRepositoryInterface                  $vendorRepo,
         private readonly ProductService                             $productService,
-    ) {
-    }
+    ) {}
 
     /**
      * @param Request|null $request
@@ -255,8 +254,6 @@ class ProductController extends BaseController
 
     public function update(ProductUpdateRequest $request, ProductService $service, string|int $id): JsonResponse|RedirectResponse
     {
-
-
         if ($request->ajax()) {
             return response()->json([], 200);
         }

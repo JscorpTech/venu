@@ -9,13 +9,11 @@ use App\Models\PaymentRequest;
 use App\Models\ShippingAddress;
 use App\Models\User;
 use App\Services\AtmosService;
-use App\Services\ClickService;
 use App\Traits\Processor;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
-use JscorpTech\Payme\Models\Order;
 
 class AtmosController extends Controller
 {
