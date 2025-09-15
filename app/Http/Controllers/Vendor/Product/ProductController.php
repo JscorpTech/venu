@@ -744,6 +744,20 @@ class ProductController extends BaseController
 
         foreach ($dataArray['products'] as $products_data) {
             $product = $this->productRepo->add(data: $products_data);
+            $tagIds = [];
+            if ($request->tags != null) {
+                $tags = explode(",", $products_data['search_tags']);
+            }
+            if (isset($tags)) {
+                foreach ($tags as $value) {
+                    $tag = $this->tag->firstOrNew(
+                        ['tag' => trim($value)]
+                    );
+                    $tag->save();
+                    $tagIds[] = $tag->id;
+                }
+            }
+            $product->tags()->sync($tagIds);
             foreach (['name', "desc"] as $field_index => $field) {
                 foreach (["uz", "ru"] as $index => $lang) {
                     if ($field == "desc") {
