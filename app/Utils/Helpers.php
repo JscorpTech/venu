@@ -362,7 +362,7 @@ class Helpers
         $current = \session('system_default_currency_info');
         if (session()->has('system_default_currency_info') == false || $default != $current['id']) {
             $id = getWebConfig(name: 'system_default_currency');
-            $currency = Currency::find($id);
+            $currency = Currency::find(8);
             session()->put('system_default_currency_info', $currency);
             session()->put('currency_code', $currency->code);
             session()->put('currency_symbol', $currency->symbol);

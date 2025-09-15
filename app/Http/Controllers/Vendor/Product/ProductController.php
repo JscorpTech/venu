@@ -80,7 +80,8 @@ class ProductController extends BaseController
         private readonly DealOfTheDayRepositoryInterface            $dealOfTheDayRepo,
         private readonly VendorRepositoryInterface                  $vendorRepo,
         private readonly ProductService                             $productService,
-    ) {}
+    ) {
+    }
 
     /**
      * @param Request|null $request
@@ -730,8 +731,8 @@ class ProductController extends BaseController
 
     public function getBulkImportView(): View
     {
-        return view(Product::BULK_IMPORT[VIEW}
-
+        return view(Product::BULK_IMPORT[VIEW]);
+    }
     public function importBulkProduct(Request $request, ProductService $service): RedirectResponse
     {
         $dataArray = $service->getImportBulkProductData(request: $request, addedBy: 'seller');
