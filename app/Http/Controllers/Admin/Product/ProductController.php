@@ -34,6 +34,7 @@ use App\Http\Controllers\BaseController;
 use App\Http\Requests\Admin\ProductDenyRequest;
 use App\Http\Requests\ProductAddRequest;
 use App\Http\Requests\ProductUpdateRequest;
+use App\Models\Tag;
 use App\Repositories\DigitalProductPublishingHouseRepository;
 use App\Services\ProductService;
 use App\Traits\FileManagerTrait;
@@ -664,6 +665,20 @@ class ProductController extends BaseController
 
         foreach ($dataArray['products'] as $products_data) {
             $product = $this->productRepo->add(data: $products_data);
+            $tagIds = [];
+            if ($request->tags != null) {
+                $tags = explode(",", $products_data['search_tags']);
+            }
+            if (isset($tags)) {
+                foreach ($tags as $value) {
+                    $tag = Tag::query()->firstOrNew(
+                        ['tag' => trim($value)]
+                    );
+                    $tag->save();
+                    $tagIds[] = $tag->id;
+                }
+            }
+            $product->tags()->sync($tagIds);
             foreach (['name', "desc"] as $field_index => $field) {
                 foreach (["uz", "ru"] as $index => $lang) {
                     if ($field == "desc") {
