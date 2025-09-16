@@ -223,7 +223,17 @@ class OrderController extends BaseController
             if ($product->is_install) {
                 $telegram = new TelegramServices(Env::get("MASTER_BOT_TOKEN"));
                 $message = "<b>🛒 Yangi buyurtma!</b>
-<b>Mahsulot:</b> {$product->name}
+<b>👨‍🦰 Mijoz</b>
+<b>Ism Familiya: </b>{$address->contact_person_name}
+<b>Telefon:</b> {$address->phone}
+<b>Manzil:</b> {$address->address}
+
+<b>🏪 Do'kon</b>
+<b>Nomi: </b> {$shop->name}
+<b>Telefon: </b> {$shop->contact}
+<b>Manzil: </b> {$shop->address}
+
+<b>📦 Mahsulot:</b> {$product->name}
 <b>Miqdor:</b> {$detail->qty}
 <b>Narx:</b> {$detail->price} USD
 <b>Mijoz:</b> {$address->contact_person_name}
