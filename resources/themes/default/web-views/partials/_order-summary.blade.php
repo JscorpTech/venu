@@ -123,7 +123,7 @@
             <hr class="my-2">
             <div class="d-flex justify-content-between">
                 <span class="cart_title text-primary font-weight-bold">{{ translate('total') }}</span>
-                <span class="cart_value">
+                <span class="cart_value" id="total_price">
                     {{ webCurrencyConverter(amount: $subTotal + $totalTax + $totalShippingCost - $coupon_dis - $totalDiscountOnProduct - $orderWiseShippingDiscount) }}
                 </span>
             </div>
@@ -162,8 +162,8 @@
 <div class="bottom-sticky3 bg-white p-3 shadow-sm w-100 d-lg-none">
     <div class="d-flex justify-content-center align-items-center fs-14 mb-2">
         <div class="product-description-label fw-semibold text-capitalize">{{ translate('total_price') }} :</div>
-        &nbsp; <strong
-            class="text-base">{{ webCurrencyConverter(amount: $subTotal + $totalTax + $totalShippingCost - $coupon_dis - $totalDiscountOnProduct - $orderWiseShippingDiscount) }}</strong>
+        &nbsp; <strong class="text-base"
+            id="total_price_2">{{ webCurrencyConverter(amount: $subTotal + $totalTax + $totalShippingCost - $coupon_dis - $totalDiscountOnProduct - $orderWiseShippingDiscount) }}</strong>
     </div>
     <a data-route="{{ Route::currentRouteName() }}"
         class="btn btn--primary btn-block proceed_to_next_button text-capitalize {{ $cart->count() <= 0 ? 'custom-disabled' : '' }} action-checkout-function">{{ translate('proceed_to_checkout') }}</a>
