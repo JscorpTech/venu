@@ -64,8 +64,8 @@ async function updateDeliveryPrice() {
             currency: 'UZS',
             minimumFractionDigits: 0
         }).format(res.price);
-        $("total_price").text($("#total_price").text() * 1 + res.price);
-        $("total_price_2").text($("#total_price_w").text() * 1 + res.price);
+        $("#total_price").text($("#total_price").text() * 1 + res.price);
+        $("#total_price_2").text($("#total_price_w").text() * 1 + res.price);
     })
 }
 document.addEventListener("DOMContentLoaded", function(e) {
