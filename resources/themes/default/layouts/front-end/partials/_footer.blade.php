@@ -205,24 +205,6 @@
                                     @endforeach
                                 </ul>
                             </div>
-                            <div class="col-sm-5 footer-padding-bottom offset-max-sm--1 pb-3 pb-sm-0">
-                                <div class="mb-2">
-                                    <h6 class="text-uppercase mobile-fs-12 font-semi-bold footer-header text-center text-sm-start">{{ translate('newsletter') }}</h6>
-                                    <div
-                                        class="text-center text-sm-start mobile-fs-12">{{ translate('subscribe_to_our_new_channel_to_get_latest_updates') }}</div>
-                                </div>
-                                <div class="text-nowrap mb-4 position-relative">
-                                    <form action="{{ route('subscription') }}" method="post">
-                                        @csrf
-                                        <input type="email" name="subscription_email"
-                                               class="form-control subscribe-border text-align-direction p-12px"
-                                               placeholder="{{ translate('your_Email_Address') }}" required>
-                                        <button class="subscribe-button" type="submit">
-                                            {{ translate('subscribe') }}
-                                        </button>
-                                    </form>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>

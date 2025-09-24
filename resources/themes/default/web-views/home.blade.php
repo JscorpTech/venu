@@ -16,6 +16,9 @@
     <link rel="stylesheet" href="{{theme_asset(path: 'public/assets/front-end/css/home.css')}}"/>
     <link rel="stylesheet" href="{{ theme_asset(path: 'public/assets/front-end/css/owl.carousel.min.css') }}">
     <link rel="stylesheet" href="{{ theme_asset(path: 'public/assets/front-end/css/owl.theme.default.min.css') }}">
+    <meta name="yandex-verification" content="f0ff0f420dff80f0" />
+    <meta name="google-site-verification" content="onQY4wdd4B5pMzaHs6qBN0VDSxNxq4-I65aPd7aR8FE" />
+    <link data-react-helmet="true" rel="canonical" href="https://venu.uz"/>
 @endpush
 
 @section('content')

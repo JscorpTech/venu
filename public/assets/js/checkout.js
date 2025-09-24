@@ -64,8 +64,14 @@ async function updateDeliveryPrice() {
             currency: 'UZS',
             minimumFractionDigits: 0
         }).format(res.price);
-        $("#total_price").text($("#total_price").text() * 1 + res.price);
-        $("#total_price_2").text($("#total_price_w").text() * 1 + res.price);
+        let price = $("#orginal_total_price").text().replace(/,/g, "").replace(/UZS/g, "") * 1 + res.price;
+        price = new Intl.NumberFormat('uz-UZ', {
+            style: 'currency',
+            currency: 'UZS',
+            minimumFractionDigits: 0
+        }).format(price)
+        $("#total_price").text(price);
+        $("#total_price_2").text(price);
     })
 }
 document.addEventListener("DOMContentLoaded", function(e) {

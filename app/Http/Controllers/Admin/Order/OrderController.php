@@ -206,11 +206,14 @@ class OrderController extends BaseController
 <b>👨‍🦰 Mijoz</b>
 <b>Ism Familiya: </b>{$address->contact_person_name}
 <b>Telefon:</b> {$address->phone}
-<b>Manzil:</b> {$address->address}";
-            $message .= "\n<b>🏪 Do'kon</b>
+<b>Manzil:</b> {$address->address}
+<b><a href='https://yandex.uz/maps/10335/tashkent/?ll={$long}%2C{$lat}&z=16.42'>Yandex</a></b>";
+            $message .= "\n\n<b>🏪 Do'kon</b>
 <b>Nomi: </b> {$shop->name}
 <b>Telefon: </b> {$shop->contact}
-<b>Manzil: </b> {$shop->address}";
+<b>Manzil: </b> {$shop->address}
+<b><a href='https://yandex.uz/maps/10335/tashkent/?ll={$shop->long}%2C{$shop->lat}&z=16.42'>Yandex</a></b>\n";
+
 
             foreach ($order->details as $detail) {
                 $message .= "\n<b>Maxsulot: </b>{$detail->product->name}\n    <b>Narxi: </b>{$detail->price}\n    <b>Miqdori: </b>{$detail->qty}";
@@ -222,16 +225,18 @@ class OrderController extends BaseController
             $product = $detail->product;
             if ($product->is_install) {
                 $telegram = new TelegramServices(Env::get("MASTER_BOT_TOKEN"));
-                $message = "<b>🛒 Yangi buyurtma!</b>
+                $message = "<b>🛒 Yangi buyurtma!</b>\n
 <b>👨‍🦰 Mijoz</b>
 <b>Ism Familiya: </b>{$address->contact_person_name}
 <b>Telefon:</b> {$address->phone}
 <b>Manzil:</b> {$address->address}
+<b><a href='https://yandex.uz/maps/10335/tashkent/?ll={$long}%2C{$lat}&z=16.42'>Yandex</a></b>
 
 <b>🏪 Do'kon</b>
 <b>Nomi: </b> {$shop->name}
 <b>Telefon: </b> {$shop->contact}
 <b>Manzil: </b> {$shop->address}
+<b><a href='https://yandex.uz/maps/10335/tashkent/?ll={$shop->long}%2C{$shop->lat}&z=16.42'>Yandex</a></b>
 
 <b>📦 Mahsulot:</b> {$product->name}
 <b>Miqdor:</b> {$detail->qty}

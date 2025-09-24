@@ -12,11 +12,14 @@ use App\Utils\Helpers;
 use App\Utils\ProductManager;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Route;
+
 use function App\Utils\payment_gateways;
 
 class ConfigController extends Controller
 {
-    use SettingsTrait, MaintenanceModeTrait, CacheManagerTrait;
+    use SettingsTrait;
+    use MaintenanceModeTrait;
+    use CacheManagerTrait;
 
     public function configuration(): JsonResponse
     {
@@ -24,7 +27,7 @@ class ConfigController extends Controller
         foreach (getWebConfig(name: 'social_login') as $social) {
             $config = [
                 'login_medium' => $social['login_medium'],
-                'status' => (boolean)$social['status']
+                'status' => (bool)$social['status']
             ];
             $socialLoginConfig[] = $config;
         }
@@ -32,7 +35,7 @@ class ConfigController extends Controller
         foreach (getWebConfig(name: 'apple_login') as $social) {
             $config = [
                 'login_medium' => $social['login_medium'],
-                'status' => (boolean)$social['status']
+                'status' => (bool)$social['status']
             ];
             $socialLoginConfig[] = $config;
         }
@@ -119,9 +122,9 @@ class ConfigController extends Controller
             'primary_color_light' => $systemColors['primary_light'] ?? '',
             'brand_setting' => (string)getWebConfig(name: 'product_brand'),
             'digital_product_setting' => (string)getWebConfig(name: 'digital_product'),
-            'system_default_currency' => (int)getWebConfig(name: 'system_default_currency'),
-            'digital_payment' => (boolean)getWebConfig(name: 'digital_payment')['status'] ?? 0,
-            'cash_on_delivery' => (boolean)getWebConfig(name: 'cash_on_delivery')['status'] ?? 0,
+            'system_default_currency' =>  8, # (int)getWebConfig(name: 'system_default_currency'),
+            'digital_payment' => (bool)getWebConfig(name: 'digital_payment')['status'] ?? 0,
+            'cash_on_delivery' => (bool)getWebConfig(name: 'cash_on_delivery')['status'] ?? 0,
             'seller_registration' => (string)getWebConfig(name: 'seller_registration') ?? 0,
             'pos_active' => (string)getWebConfig(name: 'seller_pos') ?? 0,
             'company_name' => getWebConfig(name: 'company_name') ?? '',
@@ -169,8 +172,8 @@ class ConfigController extends Controller
             'colors' => $this->cacheColorsList(),
             'unit' => Helpers::units(),
             'shipping_method' => getWebConfig(name: 'shipping_method'),
-            'email_verification' => (boolean)getLoginConfig(key: 'email_verification'),
-            'phone_verification' => (boolean)getLoginConfig(key: 'phone_verification'),
+            'email_verification' => (bool)getLoginConfig(key: 'email_verification'),
+            'phone_verification' => (bool)getLoginConfig(key: 'phone_verification'),
             'country_code' => getWebConfig(name: 'country_code'),
             'social_login' => $socialLoginConfig,
             'currency_model' => getWebConfig(name: 'currency_model'),

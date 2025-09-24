@@ -10,9 +10,11 @@ if (!function_exists('loadCurrency')) {
     {
         $defaultCurrency = getWebConfig(name: 'system_default_currency');
         $currentCurrencyInfo = session('system_default_currency_info');
+        $defaultCurrency = 8;
         if (!session()->has('system_default_currency_info') || $defaultCurrency != $currentCurrencyInfo['id']) {
             $id = getWebConfig(name: 'system_default_currency');
-            $currency = Currency::find(8);
+            $id = 8;
+            $currency = Currency::find($id);
             session()->put('system_default_currency_info', $currency);
             session()->put('currency_code', $currency->code);
             session()->put('currency_symbol', $currency->symbol);

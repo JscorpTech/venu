@@ -169,6 +169,14 @@
         class="btn btn--primary btn-block proceed_to_next_button text-capitalize {{ $cart->count() <= 0 ? 'custom-disabled' : '' }} action-checkout-function">{{ translate('proceed_to_checkout') }}</a>
 </div>
 
+
+<span style="display: none;" id="orginal_total_price">
+
+
+                    {{ webCurrencyConverter(amount: $subTotal + $totalTax + $totalShippingCost - $coupon_dis - $totalDiscountOnProduct - $orderWiseShippingDiscount) }}
+
+</span>
+
 @push('script')
     <script>
         "use strict";

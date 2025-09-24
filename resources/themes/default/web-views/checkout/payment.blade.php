@@ -400,6 +400,15 @@
             currency: 'UZS',
             minimumFractionDigits: 0
         }).format(localStorage.getItem("delivery_price") ?? 0);
+        let price = $("#total_price").text().replace(/,/g, "").replace(/UZS/g, "") * 1 + localStorage.getItem("delivery_price") * 1 ?? 0;
+        price = new Intl.NumberFormat('uz-UZ', {
+            style: 'currency',
+            currency: 'UZS',
+            minimumFractionDigits: 0
+        }).format(price)
+        $("#total_price").text(price);
+        $("#total_price_2").text(price);
     </script>
+
     <script src="{{ theme_asset(path: 'public/assets/front-end/js/payment.js') }}"></script>
 @endpush

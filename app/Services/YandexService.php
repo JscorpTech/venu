@@ -126,10 +126,16 @@ class YandexService
             "route_points" => [
                 [
                     'id' => 1,
+                    "point_id" => 1,
+                    "type" => "source",
+                    "visit_order" => 1,
                     'coordinates' => [$sender_adddress_long, $sender_adddress_lat],
                 ],
                 [
                     'id' => 2,
+                    "point_id" => 2,
+                    "type" => "destination",
+                    "visit_order" => 2,
                     'coordinates' => [$receive_adddress_long, $receive_adddress_lat],
                 ],
             ],

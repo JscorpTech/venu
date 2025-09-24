@@ -30,6 +30,7 @@ use App\Exports\RestockProductListExport;
 use App\Http\Controllers\BaseController;
 use App\Http\Requests\ProductAddRequest;
 use App\Http\Requests\ProductUpdateRequest;
+use App\Models\Tag;
 use App\Repositories\DigitalProductPublishingHouseRepository;
 use App\Repositories\TranslationRepository;
 use App\Services\ProductService;
@@ -80,8 +81,7 @@ class ProductController extends BaseController
         private readonly DealOfTheDayRepositoryInterface            $dealOfTheDayRepo,
         private readonly VendorRepositoryInterface                  $vendorRepo,
         private readonly ProductService                             $productService,
-    ) {
-    }
+    ) {}
 
     /**
      * @param Request|null $request
@@ -745,12 +745,12 @@ class ProductController extends BaseController
         foreach ($dataArray['products'] as $products_data) {
             $product = $this->productRepo->add(data: $products_data);
             $tagIds = [];
-            if ($request->tags != null) {
+            if (isset($products_data['search_tags']) != null) {
                 $tags = explode(",", $products_data['search_tags']);
             }
             if (isset($tags)) {
                 foreach ($tags as $value) {
-                    $tag = $this->tag->firstOrNew(
+                    $tag = Tag::query()->firstOrNew(
                         ['tag' => trim($value)]
                     );
                     $tag->save();

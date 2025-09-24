@@ -1,7 +1,6 @@
 @extends('layouts.admin.app')
 
 @section('title', translate('product_Preview'))
-
 @section('content')
     <div class="content container-fluid text-start">
         <div class="d-flex align-items-center justify-content-between flex-wrap gap-10 mb-3">

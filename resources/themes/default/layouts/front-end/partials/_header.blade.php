@@ -178,7 +178,7 @@
                             </div>
                         </div>
                     @else
-                        <div class="dropdown">
+                        <div class="dropdown" >
                             <a class="navbar-tool {{ Session::get('direction') === 'rtl' ? 'mr-md-3' : 'ml-md-3' }}"
                                 type="button" data-toggle="dropdown" aria-haspopup="true" href="#"
                                 rel="nofollow" aria-expanded="false">
@@ -194,13 +194,13 @@
                                     </div>
                                 </div>
                             </a>
-                            <div class="text-align-direction dropdown-menu __auth-dropdown dropdown-menu-{{ Session::get('direction') === 'rtl' ? 'left' : 'right' }}"
+                            <div style="max-width: 500px !important" class="text-align-direction dropdown-menu __auth-dropdown dropdown-menu-{{ Session::get('direction') === 'rtl' ? 'left' : 'right' }}"
                                 aria-labelledby="dropdownMenuButton">
                                 <a class="dropdown-item" href="{{ route('customer.auth.login') }}">
                                     <i class="fa fa-sign-in mr-2"></i> {{ translate('sign_in') }}
                                 </a>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="{{ route('customer.auth.sign-up') }}">
+                                <a class="dropdown-item"href="{{ route('customer.auth.sign-up') }}">
                                     <i class="fa fa-user-circle mr-2"></i>{{ translate('sign_up') }}
                                 </a>
                             </div>
