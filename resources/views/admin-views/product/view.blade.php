@@ -58,15 +58,14 @@
                             <div class="row align-items-baseline g-2">
                                 <div class="col-md-8">
                                     <div class="position-relative nav--tab-wrapper mb-2">
-                                        <ul class="nav nav-pills nav--tab lang_tab" id="pills-tab" role="tablist">
-                                            @foreach($languages as $language)
+                                        <ul class="nav nav-pills nav--tab lang_tab text-capitalize" id="pills-tab"
+                                            role="tablist">
+                                            @foreach ($languages as $language)
                                                 <li class="nav-item" role="presentation">
-                                                    <a class="nav-link {{$language == $defaultLanguage? 'active':''}}"
-                                                        href="javascript:"
-                                                        data-bs-toggle="pill"
-                                                        role="tab"
-                                                        id="{{$language}}-link"
-                                                        >
+                                                    <a class="nav-link {{ $language == $defaultLanguage ? 'active' : '' }}"
+                                                    id="{{ $language }}-link" data-bs-toggle="pill"
+                                                    href="#{{ $language }}-form" role="tab"
+                                                    aria-controls="{{ $language }}-form" aria-selected="true">
                                                         {{ getLanguageName($language).'('.strtoupper($language).')' }}
                                                     </a>
                                                 </li>

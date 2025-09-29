@@ -53,7 +53,7 @@ class PaymeController extends Controller
         $data = json_decode($payment->additional_data);
         $address = ShippingAddress::query()->find($data->address_id);
         $delivery_price = carts_delivery_price($address->delivery_method, $data->customer_id, $address->longitude, $address->latitude, $address->district_id);
-        $amount =  (currencyConverter(Helpers::convert_currency_to_usd($payment->payment_amount), "uzs")
+        $amount =  (currencyConverter($payment->payment_amount, "uzs")
             + $delivery_price) * 100;
         $order = Order::query()->create([
             "amount" => $amount,

@@ -765,7 +765,7 @@ class ProductController extends BaseController
                     } else {
                         $key = $field;
                     }
-                    $this->translationRepo->updateData('App\Models\Product', $product->id, $lang, $key, $dataArray['collection'][$field . "_" . $lang]);
+                    $this->translationRepo->updateData('App\Models\Product', $product->id, $lang, $key, $products_data[$field . "_" . $lang]);
                 }
             }
         }
