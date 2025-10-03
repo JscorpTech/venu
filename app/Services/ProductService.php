@@ -674,12 +674,8 @@ class ProductService
         }
 
         $columnKey = [
-            'name_uz',
-            "name_en",
-            "name_ru",
-            "desc_uz",
-            "desc_en",
-            "desc_ru",
+            "name",
+            "desc",
             'category_id',
             'sub_category_id',
             'sub_sub_category_id',
@@ -742,12 +738,9 @@ class ProductService
             /* $thumbnail = explode('/', $collection['thumbnail']); */
 
             $products[] = [
-                "name" => $collection['name_en'],
-                "details" => $collection['desc_en'],
-                'name_uz' => $collection['name_uz'],
-                'name_en' => $collection['name_en'],
-                'name_ru' => $collection['name_ru'],
-                'slug' => Str::slug($collection['name_uz'], '-') . '-' . Str::random(6),
+                "name" => $collection['name'],
+                "details" => $collection['desc'],
+                'slug' => Str::slug($collection['name'], '-') . '-' . Str::random(6),
                 'category_ids' => json_encode([['id' => (string)$collection['category_id'], 'position' => 1], ['id' => (string)$collection['sub_category_id'], 'position' => 2], ['id' => (string)$collection['sub_sub_category_id'], 'position' => 3]]),
                 'category_id' => $collection['category_id'],
                 'sub_category_id' => $collection['sub_category_id'],
@@ -763,9 +756,6 @@ class ProductService
                 /* 'discount_type' => $collection['discount_type'], */
                 'shipping_cost' => 0,
                 'current_stock' => $collection['current_stock'],
-                'desc_uz' => $collection['desc_uz'],
-                'desc_en' => $collection['desc_en'],
-                'desc_ru' => $collection['desc_ru'],
                 'video_provider' => 'youtube',
                 'video_url' => $collection['youtube_video_url'],
                 'images' => json_encode(['def.png']),

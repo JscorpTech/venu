@@ -238,7 +238,7 @@
                                             }
                                         }
                                         ?>
-                                    <div class="{{ $language != 'en'? 'd-none':''}} lang-form" id="{{ $language}}-form">
+                                    <div class="{{ $language != 'ru'? 'd-none':''}} lang-form" id="{{ $language}}-form">
                                         <div class="d-flex">
                                             <h2 class="mb-2 pb-1 text-gulf-blue">{{ $translate[$language]['name']??$product['name']}}</h2>
                                         </div>

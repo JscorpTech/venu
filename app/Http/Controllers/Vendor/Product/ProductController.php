@@ -81,7 +81,8 @@ class ProductController extends BaseController
         private readonly DealOfTheDayRepositoryInterface            $dealOfTheDayRepo,
         private readonly VendorRepositoryInterface                  $vendorRepo,
         private readonly ProductService                             $productService,
-    ) {}
+    ) {
+    }
 
     /**
      * @param Request|null $request
@@ -758,16 +759,16 @@ class ProductController extends BaseController
                 }
             }
             $product->tags()->sync($tagIds);
-            foreach (['name', "desc"] as $field_index => $field) {
-                foreach (["uz", "ru"] as $index => $lang) {
-                    if ($field == "desc") {
-                        $key = "description";
-                    } else {
-                        $key = $field;
-                    }
-                    $this->translationRepo->updateData('App\Models\Product', $product->id, $lang, $key, $products_data[$field . "_" . $lang]);
-                }
-            }
+            /* foreach (['name', "desc"] as $field_index => $field) { */
+            /*     foreach (["uz", "ru"] as $index => $lang) { */
+            /*         if ($field == "desc") { */
+            /*             $key = "description"; */
+            /*         } else { */
+            /*             $key = $field; */
+            /*         } */
+            /*         $this->translationRepo->updateData('App\Models\Product', $product->id, $lang, $key, $products_data[$field . "_" . $lang]); */
+            /*     } */
+            /* } */
         }
         ToastMagic::success($dataArray['message']);
         return back();

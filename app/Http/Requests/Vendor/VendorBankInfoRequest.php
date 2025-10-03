@@ -11,7 +11,7 @@ class VendorBankInfoRequest extends FormRequest
      *
      * @return bool
      */
-    public function authorize():bool
+    public function authorize(): bool
     {
         return true;
     }
@@ -21,13 +21,14 @@ class VendorBankInfoRequest extends FormRequest
      *
      * @return array
      */
-    public function rules():array
+    public function rules(): array
     {
         return [
             'bank_name' => 'required',
             'branch' => 'required',
             'holder_name' => 'required',
             'account_no' => 'required',
+            'inn' => ["required", "integer"],
         ];
     }
 }

@@ -32,14 +32,18 @@ class PaymeMerchantApiView extends PaymeApiView
         foreach ($carts as $cart) {
             $product = $cart->product;
             $vat_percent = $product->seller->vat_percent;
-            $items[] = [
-                "title" => $cart->name,
-                "price" => currencyConverter($cart->price, "uzs") * 100,
-                "count" => $cart->quantity,
-                "code" => $product->mxik,
-                "package_code" => (string) $product->package_code,
-                "vat_percent" => (int) $vat_percent,
-            ];
+            $items[] = array_merge([
+                "title"         => $cart->name,
+                "price"         => currencyConverter($cart->price, "uzs") * 100,
+                "count"         => $cart->quantity,
+                "code"          => $product->mxik,
+                "package_code"  => (string) $product->package_code,
+                "vat_percent"   => (int) $vat_percent,
+            ], $product->seller->inn ? [
+                "commission_info" => [
+                    "tin" => $product->seller->inn,
+                ],
+            ] : []);
         }
         $items[] = [
             "title" => "yetkazib berish",

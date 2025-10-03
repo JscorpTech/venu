@@ -500,15 +500,15 @@ if (!$isGatewayPublished) {
         });
 
         // Click
-        Route::group(['prefix' => "click", "as" => "click"], function () {
+        Route::group(['prefix' => "click", "as" => "click."], function () {
             Route::get("pay", [ClickController::class, "pay"])->name("pay");
-            Route::get("webhook", [ClickController::class, "webhook"])->name("webhook");
+            Route::get("webhook", [ClickController::class, "webhook"])->name("webhook-get");
             Route::post("webhook", [ClickController::class, "webhook"])->name("webhook");
         });
         // Atmos
         Route::group(['prefix' => "atmos", "as" => "atmos"], function () {
             Route::get("pay", [AtmosController::class, "pay"])->name("pay");
-            Route::get("webhook", [AtmosController::class, "webhook"])->name("webhook");
+            Route::get("webhook", [AtmosController::class, "webhook"])->name("webhook-get");
             Route::post("webhook", [AtmosController::class, "webhook"])->name("webhook");
         });
     });

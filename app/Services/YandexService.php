@@ -71,8 +71,12 @@ class YandexService
         float $receive_adddress_long,
         float $receive_adddress_lat,
     ) {
+        $taxi_class = $this->taxi_class($items);
         $payload = [
             "items" => $items,
+            "requirements" => [
+                "taxi_class" => $taxi_class,
+            ],
             "route_points" => [
                 [
                     'id' => 1,
@@ -110,6 +114,23 @@ class YandexService
         return json_decode($response->getBody());
     }
 
+    /**
+     * Get Taxi class from items
+     */
+    public function taxi_class(array $items)
+    {
+        $weight = 0;
+        $taxi_class = "courier";
+        foreach ($items as $item) {
+            $weight += $item['weight'];
+        }
+        if ($weight > 10 && $weight <= 30) {
+            $taxi_class = "express";
+        } elseif ($weight > 30) {
+            $taxi_class = "cargo";
+        }
+        return $taxi_class;
+    }
 
     /**
      * Narxni hisoblash
@@ -121,6 +142,7 @@ class YandexService
         float $receive_adddress_lat,
         array $items = [],
     ) {
+        $taxi_class = $this->taxi_class($items);
         $payload = [
             "items" => $items,
             "route_points" => [
@@ -139,6 +161,9 @@ class YandexService
                     'coordinates' => [$receive_adddress_long, $receive_adddress_lat],
                 ],
             ],
+            "requirements" => [
+                "taxi_class" => $taxi_class,
+            ]
         ];
 
         try {

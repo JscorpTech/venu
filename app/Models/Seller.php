@@ -43,6 +43,7 @@ class Seller extends Authenticatable
 
     protected $fillable = [
         "vat_percent",
+        "inn",
         'f_name',
         'l_name',
         'country_code',

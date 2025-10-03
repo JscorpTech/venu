@@ -106,6 +106,7 @@ class VendorService
             'branch' => $request['branch'],
             'holder_name' => $request['holder_name'],
             'account_no' => $request['account_no'],
+            'inn' => $request['inn'],
         ];
     }
     public function getAddData(object $request): array

@@ -49,6 +49,11 @@
                                                 <span>:</span>
                                                 <strong class="right pl-4">{{$vendor->account_no ?? translate('no_data_found')}}</strong>
                                             </li>
+                                            <li>
+                                                <span class="__w-100px">{{translate('INN')}}</span>
+                                                <span>:</span>
+                                                <strong class="right pl-4">{{$vendor->inn ?? translate('no_data_found')}}</strong>
+                                            </li>
                                         </ul>
                                     </div>
                                 </div>
