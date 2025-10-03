@@ -25,24 +25,6 @@
             </div>
 
             <div>
-                @php($currency_model = getWebConfig(name: 'currency_model'))
-                @if ($currency_model == 'multi_currency')
-                    <div class="topbar-text dropdown disable-autohide mr-4">
-                        <a class="topbar-link dropdown-toggle" href="#" data-toggle="dropdown">
-                            <span>{{ session('currency_code') }} {{ session('currency_symbol') }}</span>
-                        </a>
-                        <ul
-                            class="text-align-direction dropdown-menu dropdown-menu-{{ Session::get('direction') === 'rtl' ? 'right' : 'left' }} min-width-160px">
-                            @foreach (\App\Models\Currency::where('status', 1)->get() as $key => $currency)
-                                <li class="dropdown-item cursor-pointer get-currency-change-function"
-                                    data-code="{{ $currency['code'] }}">
-                                    {{ $currency->name }}
-                                </li>
-                            @endforeach
-                        </ul>
-                    </div>
-                @endif
-
                 <div class="topbar-text dropdown disable-autohide  __language-bar text-capitalize">
                     <a class="topbar-link dropdown-toggle" href="#" data-toggle="dropdown">
                         @foreach ($web_config['language'] as $data)
